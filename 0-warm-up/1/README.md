@@ -5,7 +5,7 @@
 |---|---|
 |난이도|1|
 |점수|1|
-|출처|https://programmers.co.kr/learn/courses/30/lessons/43238|
+|출처|https://dcom.club|
 
 ## 문제 설명
 사용자에게 숫자 n을 입력 받아 n단을 출력하는 코드를 작성해주세요.
