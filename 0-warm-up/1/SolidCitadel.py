@@ -1,5 +1,4 @@
 n = int(input())
 
-if 1 <= n and n <= 9:
-    for i in range(min(n, 3)):
-        print(f"{n} * {i+1} = {n*(i+1)}")
+for i in range(1, 4):
+    print(f"{n} * {i} = {n*i}")
