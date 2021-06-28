@@ -11,10 +11,12 @@ while True:
         if stones[i] == 0:
             count_zero += 1
         else:
-            if count_zero > max_zero:
-                max_zero = count_zero
             count_zero = 0
             stones[i] -= 1
+
+        # update max
+        if count_zero > max_zero:
+            max_zero = count_zero
 
     # if k zeros in a row, you should jump k+1
     if max_zero >= k:
