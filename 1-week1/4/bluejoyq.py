@@ -28,10 +28,11 @@ else:
     
     init(1,0,N-1)
     result = 12312312412
-    for i in range(N - K):
+    for i in range(N - K + 1):
         left = i 
-        right = i + K 
-        tmp = get_max(1, left, right, 0, N)
+        right = i + K - 1
+        tmp = get_max(1, left, right, 0, N - 1)
+        #print(left,right, tmp)
         result = min(result, tmp)
     print(result)
     #[2 ,4 ,5 ,3 ,2 ,1 ,4 ,2 ,5, 1]
