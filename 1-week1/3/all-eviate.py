@@ -1,49 +1,34 @@
-n = int(input(""))
-nums = input("").split()
-for i in range(n):
-    nums[i] = int(nums[i])
-ops = input("").split()
-for i in range(4):
-    ops[i] = int(ops[i])
+import itertools
 
-stack = []
-history = []
-
-def calc(ind, a, b):
-    if ind == 0:
-        return a+b
-    elif ind == 1:
-        return a-b
-    elif ind == 2:
-        return a*b
-    elif ind == 3:
-        if a >= 0:
-            return a//b
-        else:
-            return -((-a)//b)
-
-_ops = ops[:]
-for i, v in enumerate(ops):
-    if v == 0:
-        pass
-    else:
-        _ops[i] -= 1
-        stack.append((1, _ops, calc(i, nums[0], nums[1])))
-        _ops = ops[:]
-
-while stack:
-    d, o, n = stack.pop()
-    if not any(o):
-        history.append(n)
-    else:
-        _ops = o[:]
-        for i, v in enumerate(o):
-            if v == 0:
-                pass
+def cal(h, o, n):
+    res = n[0]
+    for i in range(0,len(o)):
+        if o[i] == '0':
+            res += n[i+1]
+        elif o[i] == '1':
+            res -= n[i+1]
+        elif o[i] == '2':
+            res *= n[i+1]
+        elif o[i] == '3':
+            if res < 0:
+                res = -((-res)//n[i+1])
             else:
-                _ops[i] = _ops[i] - 1
-                stack.append((d+1, _ops, calc(i, n, nums[d+1])))
-                _ops = o[:]
+                res = res//n[i+1]
+    h.append(res)
+
+n = int(input())
+nums = list(map(int, input().split()))
+ops = list(map(int, input().split()))
+perm = []
+for i in range(0, 4):
+    for j in range(0, ops[i]):
+        perm.append(str(i))
+perm = list(map(''.join, itertools.permutations(perm, len(perm))))
+history = []
+perm_set = set(perm)
+perm = list(perm_set)
+for i in range(0, len(perm)):
+    cal(history, perm[i], nums)
 
 print(max(history))
 print(min(history))
