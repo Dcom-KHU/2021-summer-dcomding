@@ -2,27 +2,33 @@ n, k = map(int, input().split())
 stones = list(map(int, input().split()))
 
 
-count_zero = 0
-max_zero = 0
-member = 0
+# if k == n, success member is max(stones)
+# if k == 1, success member is min(stones)
+max_stone = max(stones)
+min_stone = min(stones)
 
-while True:
-    for i in range(n):
-        if stones[i] == 0:
-            count_zero += 1
+count = 0
+member = max_stone
+
+for i in range(max_stone, min_stone-1, -1):
+    count = 0
+    valid = True
+
+    for stone in stones:
+        # if stone < member, stone will be zero
+        if stone < i:
+            count += 1
         else:
-            count_zero = 0
-            stones[i] -= 1
+            count = 0
 
-        # update max
-        if count_zero > max_zero:
-            max_zero = count_zero
-
-    # if k zeros in a row, you should jump k+1
-    if max_zero >= k:
-        break
+        # if k zeros in a row, you should jump k+1
+        if count >= k:
+            valid = False
+            break
 
     # success member
-    member += 1
+    if valid == True:
+        member = i
+        break
 
 print(member)
