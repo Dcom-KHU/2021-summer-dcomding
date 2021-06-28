@@ -17,7 +17,10 @@ def calc(ind, a, b):
     elif ind == 2:
         return a*b
     elif ind == 3:
-        return int(a/b)
+        if a >= 0:
+            return a//b
+        else:
+            return -((-a)//b)
 
 _ops = ops[:]
 for i, v in enumerate(ops):
