@@ -2,23 +2,27 @@ n = int(input())
 money = list(map(int, input().split()))
 
 
-max_val = [0 for i in range(n)]
+# dp : d[i] = max(d[i-2] + money[i], d[i-1])
+d = [0 for i in range(n)]
+max1 = 0
+max2 = 0
 
-# recursive
-def steal(val, idx, head):
-    # head neighbor tail
-    if not(head == 0 and idx == n-1):
-        val += money[idx]
+# include first
+d[0] = money[0]
+d[1] = money[0]
 
-        # update max
-        if val > max_val[head]:
-            max_val[head] = val
+for i in range(2, n-1):
+    d[i] = max(d[i-2] + money[i], d[i-1])
 
-            # steal more in non-neighbor
-            for i in range(2, n-idx):
-                steal(val, idx+i, head)
+max1 = d[n-2]
 
-for i in range(n):
-    steal(0, i, i)
+# not include first
+d[0] = 0
+d[1] = money[1]
 
-print(max(max_val))
+for i in range(2, n):
+    d[i] = max(d[i-2] + money[i], d[i-1])
+
+max2 = d[n-1]
+
+print(max(max1, max2))
