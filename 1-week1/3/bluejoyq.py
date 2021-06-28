@@ -1,4 +1,5 @@
 import sys
+import math
 MAX = sys.maxsize
 N = int(input())
 values = list(map(int, input().split()))
@@ -29,7 +30,7 @@ def find_max_min(now, cur):
         elif cal_idx == 2:
             nxt = cur * now_val
         else:
-            nxt = cur // now_val
+            nxt = math.ceil(cur / now_val)
         find_max_min(now + 1 , nxt)
         cals[cal_idx] += 1
 find_max_min(1, cur)
