@@ -2,7 +2,7 @@
 #include <algorithm>
 using namespace std;
 
-int n,k,stones[200020], rangeMaxTree[1<<21], pnt=1;
+int n,k,stones[200020], rangeMaxTree[1<<20], pnt=1;
 
 void update(int node, int value){
 	node += pnt;
