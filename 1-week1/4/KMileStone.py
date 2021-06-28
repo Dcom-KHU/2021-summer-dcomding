@@ -2,33 +2,38 @@ n, k = map(int, input().split())
 stones = list(map(int, input().split()))
 
 
-# if k == n, success member is max(stones)
 # if k == 1, success member is min(stones)
-max_stone = max(stones)
-min_stone = min(stones)
-
+# if k == n, success member is max(stones)
+left = min(stones)
+right = max(stones)
 count = 0
-member = max_stone
+member = right
 
-for i in range(max_stone, min_stone-1, -1):
+# binary search
+while left <= right:
+    mid = (left + right) // 2
     count = 0
     valid = True
 
+    # check mid member
     for stone in stones:
-        # if stone < member, stone will be zero
-        if stone < i:
+        # if stone < member, stone will be zero before passing
+        if stone < mid:
             count += 1
         else:
             count = 0
 
-        # if k zeros in a row, you should jump k+1
+        # fail : if k zeros in a row, you should jump k+1
+        # should check less member
         if count >= k:
             valid = False
+            right = mid-1
             break
 
-    # success member
+    # success
+    # should check more member
     if valid == True:
-        member = i
-        break
+        member = mid
+        left = mid+1
 
 print(member)
