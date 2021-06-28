@@ -31,7 +31,7 @@ def find_max_min(now, cur):
             nxt = cur * now_val
         else:
             if cur < 0:
-                nxt = - math.floor(cur / abs(now_val))
+                nxt = - math.floor(abs(cur) / now_val)
             else:
                 nxt = math.floor(cur / now_val)
         find_max_min(now + 1 , nxt)
