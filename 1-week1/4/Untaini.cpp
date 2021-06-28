@@ -2,13 +2,12 @@
 #include <algorithm>
 using namespace std;
 
-int n,k,stones[200020], rangeMaxTree[1<<20], pnt=1;
+int n,k,stones[200020], rangeMaxTree[1<<19], pnt=1;
 
 void update(int node, int value){
 	node += pnt;
 	rangeMaxTree[node] = value;
-	while(node/2){
-		node/=2;
+	while(node/=2){
 		rangeMaxTree[node] = max(rangeMaxTree[node*2], rangeMaxTree[node*2+1]);
 	}
 }
