@@ -2,11 +2,10 @@ n, k = input("").split()
 n = int(n)
 k = int(k)
 cards = input("").split()
-cards.sort()
-l = len(cards)
-for i in range(l):
+for i in range(n):
     cards[i] = int(cards[i])
-t = 1
+cards.sort()
+t = 1 #turns
 if k < n:
     while(t <= k):
         if t%2 == 1:
@@ -14,10 +13,13 @@ if k < n:
         else:
             del cards[-1]
         t += 1
+
     result = 0
+    
     for card in cards:
         result += card
         
     print(result)
+    
 else:
     print(0)
