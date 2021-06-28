@@ -9,4 +9,5 @@ for i in range(1, numOfTurns + 1):
         cards = cards[:-1]
 
 print(sum(cards))
+
 # print(cards)
