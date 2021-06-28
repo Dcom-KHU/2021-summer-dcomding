@@ -2,7 +2,7 @@
 #include <algorithm>
 using namespace std;
 
-int n, numList[12], operatorCntList[4], minResult=1<<31-1, maxResult;
+int n, numList[12], operatorCntList[4], minResult=(1<<31)-1, maxResult=1<<31;
 
 void operateFunc(int cnt, int prevResult){
 	if(cnt==n){
