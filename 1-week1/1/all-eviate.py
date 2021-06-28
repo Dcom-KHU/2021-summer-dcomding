@@ -14,11 +14,10 @@ if k < n:
         else:
             del cards[-1]
         t += 1
+    result = 0
+    for card in cards:
+        result += card
+        
+    print(result)
 else:
     print(0)
-
-result = 0
-for card in cards:
-    result += card
-
-print(result)
