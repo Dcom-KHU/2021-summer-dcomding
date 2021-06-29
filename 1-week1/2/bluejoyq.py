@@ -7,5 +7,5 @@ moves[1] = [0,1,2]
 
 for i in range(2,N):
     [bef_now, bef_sub, bef_main] = moves[i - 1]
-    moves[i] = [bef_now + 1, bef_main, bef_sub + bef_main + 1]
+    moves[i] = [bef_now + bef_sub, bef_main + bef_now, bef_sub + bef_main + 1]
 print(sum([(i+1) * moves[N-1][i] for i in range(3)]))
