@@ -1,16 +1,17 @@
 from operator import add, sub, mul
-from itertools import permutations
+
+mydiv = lambda x, y: x//y if x>0 else -(abs(x)//y)
 
 n = int(input())
 arr = list(map(int, input().split(' ')))
 a, b, c, d = map(int, input().split(' '))
 
-maxi, mini = -10**9, 10**9
-for ops in permutations([add]*a + [sub]*b + [mul]*c + [lambda x, y: x//y if x>0 else -(abs(x)//y)]*d):
-    s = arr[0]
-    for i, op in zip(arr[1:], ops):
-        s = op(s, i)
-    maxi, mini = max(s, maxi), min(s, mini)
-    
+maxi = arr[0]
+for i, op in zip(arr[1:], [sub]*b + [mydiv]*d + [add]*a + [mul]*c):
+    maxi = op(maxi, i)
 print(maxi)
+
+mini = arr[0]
+for i, op in zip(arr[1:], [add]*a + [mydiv]*d + [sub]*b + [mul]*c if d else [mul]*c + [add]*a + [mydiv]*d + [sub]*b):
+    mini = op(mini, i)
 print(mini)
