@@ -1,16 +1,20 @@
-from operator import add, sub, mul
-from itertools import permutations
+maxi, mini = -10**9, 10**9
+def fn(num, i, a, b, c, d):
+    global maxi, mini
+    if not a+b+c+d:
+        maxi, mini = max(maxi, num), min(mini, num)
+    else:
+        if a:
+            fn(num+arr[i], i+1, a-1, b, c, d)
+        if b:
+            fn(num-arr[i], i+1, a, b-1, c, d)
+        if c:
+            fn(num*arr[i], i+1, a, b, c-1, d)
+        if d:
+            fn(int(num/arr[i]),i+1, a, b, c, d-1)
 
 n = int(input())
-arr = list(map(int, input().split(' ')))
-a, b, c, d = map(int, input().split(' '))
-
-maxi, mini = -10**9, 10**9
-for ops in permutations([add]*a + [sub]*b + [mul]*c + [lambda x, y: int(x/y)]*d):
-    s = arr[0]
-    for i, op in zip(arr[1:], ops):
-        s = op(s, i)
-    maxi, mini = max(s, maxi), min(s, mini)
-
+arr = list(map(int, input().split()))
+fn(arr[0], 1, *map(int, input().split()))
 print(maxi)
 print(mini)
