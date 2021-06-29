@@ -26,6 +26,7 @@ else:
         return max(get_max(idx * 2, left, right, start, mid), get_max(idx*2 + 1,left,right, mid+1, end))
     
     
+    
     init(1,0,N-1)
     result = 12312312412
     for i in range(N - K + 1):
