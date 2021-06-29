@@ -16,7 +16,7 @@ def can_work(people):
 
 
 left = 1
-right = n + 1
+right = 200000001
 max_people = 0
 
 while left <= right:
