@@ -3,15 +3,15 @@ from decimal import Decimal as d
 
 input()
 numList = list(map(int, input().split()))
-add, div, mult, div = map(int, input().split())
-num = add + div + mult + div
+add, minus, mult, div = map(int, input().split())
+num = add + minus + mult + div
 sumList = []
 
 operatorList = []
 for i in range(0, add):
     operatorList.append('+')
     
-for i in range(0, div):
+for i in range(0, minus):
     operatorList.append('-')
     
 for i in range(0, mult):
@@ -35,10 +35,6 @@ def calc(numList, operatorCases):
         
         for j in operatorCase:
             
-            if (sum > 10 ** 9 or sum < -10 ** 9):
-                index+=1
-                continue
-            
             if (j == '+'):
                 sum = d(sum) + d(numList[index])
                 
@@ -58,14 +54,6 @@ def calc(numList, operatorCases):
                     sum = d(sum) // d(numList[index])
                     
             index+=1
-                
-        if (sum > max and sum <= 10 ** 9):
-            max = sum
-            print(f'max = {operatorCase} \n sum = {sum}')
-            
-        if (sum < min and sum >= -10 ** 9):
-            min = sum
-            print(f'min = {operatorCase} \n sum = {sum}')
             
     return max, min
 
