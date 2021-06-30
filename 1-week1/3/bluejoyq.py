@@ -2,16 +2,17 @@ import sys
 import math
 
 def solve():
+    global max_result, min_result
     MAX = sys.maxsize
+    max_result = -MAX
+    min_result = MAX
     N = int(input())
     values = list(map(int, input().split()))
     cals = list(map(int, input().split()))
-    max_result = -MAX
-    min_result = MAX
-
     cur = values[0]
 
-    def find_max_min(N,values,cals, max_result, min_result, now, cur):
+    def find_max_min(N,values,cals, now, cur):
+        global max_result, min_result
         if now == N:
             max_result = max(max_result, cur)
             min_result = min(min_result, cur)
@@ -35,8 +36,10 @@ def solve():
                     nxt = - math.floor(abs(cur) / now_val)
                 else:
                     nxt = math.floor(cur / now_val)
-            find_max_min(N,values,cals, max_result, min_result,now + 1 , nxt)
+            find_max_min(N,values,cals,now + 1 , nxt)
             cals[cal_idx] += 1
-    find_max_min(N,values,cals, max_result, min_result,1, cur)
+    find_max_min(N,values,cals, 1, cur)
     print(max_result)
     print(min_result)
+    
+solve()
