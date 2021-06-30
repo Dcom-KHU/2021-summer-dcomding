@@ -21,4 +21,4 @@ int main() {
 	
 	printf("%d", max(selLastNote[n][0], exceptLastNote[n-1][0]));
 	return 0;
-}
+} 
