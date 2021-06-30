@@ -1,9 +1,8 @@
 def solve():
     N, K = map(int, input().split())
-    values = list(map(int, input().split()))
     MAX = 10001
-    nums = [0] * MAX
-    for value in values: # N 한번
+    nums = [0] * MAX # 각 숫자들의 빈도를 기록
+    for value in map(int, input().split()): # N 한번
         nums[value] += 1
     
     back = K//2
