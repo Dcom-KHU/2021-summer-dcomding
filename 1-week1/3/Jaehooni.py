@@ -41,15 +41,23 @@ def calc(numList, operatorCases):
                 sum = d(sum) * d(numList[index])
                 
             else:
-                sum = d(float(sum)) // d(numList[index])
+                if (sum < 0):
+                    sum = -sum
+                    sum = d(float(sum)) // d(numList[index])
+                    sum = -sum
+                    
+                else:
+                    sum = d(float(sum)) // d(numList[index])
                 
             index+=1
                 
         if (sum > max):
             max = sum
+            # print(f'max = {operatorCase} \n sum = {sum}')
             
         if (sum < min):
             min = sum
+            # print(f'min = {operatorCase} \n sum = {sum}')
             
     return max, min
 
