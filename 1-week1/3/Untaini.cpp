@@ -35,4 +35,4 @@ int main() {
 	operateFunc(1,numList[0]);
 	printf("%d\n%d",maxResult,minResult);
 	return 0;
-}
+} 
