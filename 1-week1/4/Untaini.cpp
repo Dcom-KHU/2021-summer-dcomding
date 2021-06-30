@@ -69,5 +69,5 @@ int main(){
 	
 	//도착지점에서의 구간 최댓값을 구하면 원하는 결과를 얻을 수 있음
 	printf("%d",getRangeMax(n-k+1,n));
-	return 0;
+	return 0; 
 }
