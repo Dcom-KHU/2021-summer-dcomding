@@ -1,4 +1,5 @@
 from itertools import permutations
+import numpy as np
 def calculate(a, b, ch):
     if ch == '+':
         return a+b
@@ -22,13 +23,13 @@ for count, sym in zip(symbol_counts, SYM):
         symbols.append(sym)
         
 for syms in permutations(symbols, n-1):
-    temp = calculate(nums[0], nums[1], syms[0])
+    temp = np.int64(calculate(nums[0], nums[1], syms[0]))
     for i in range(2, n):
-        temp = calculate(temp, nums[i], syms[i-1])
+        temp = np.int64(calculate(temp, nums[i], syms[i-1]))
     if temp > MAX:
         MAX = temp
         # print('MAX:', syms)
-    if temp < MIN:
+    elif temp < MIN:
         MIN = temp
         # print('MIN:', syms)
 print(MAX)
