@@ -22,15 +22,23 @@ for i in range(0, div):
     
 operatorCases = list(set((permutations(operatorList, num))))
 
+print(numList)
+print(operatorCases)
+
 def calc(numList, operatorCases):
-    max = -2**31
-    min = 2**31
+    max = -1000000001
+    min = 1000000001
     
     for operatorCase in operatorCases:
         index = 1
         sum = numList[0]
         
         for j in operatorCase:
+            
+            if (sum > 10 ** 9 or sum < -10 ** 9):
+                index+=1
+                continue
+            
             if (j == '+'):
                 sum = d(sum) + d(numList[index])
                 
@@ -48,16 +56,16 @@ def calc(numList, operatorCases):
                     
                 else:
                     sum = d(sum) // d(numList[index])
-                
+                    
             index+=1
                 
-        if (sum > max):
+        if (sum > max and sum <= 10 ** 9):
             max = sum
-            # print(f'max = {operatorCase} \n sum = {sum}')
+            print(f'max = {operatorCase} \n sum = {sum}')
             
-        if (sum < min):
+        if (sum < min and sum >= -10 ** 9):
             min = sum
-            # print(f'min = {operatorCase} \n sum = {sum}')
+            print(f'min = {operatorCase} \n sum = {sum}')
             
     return max, min
 
