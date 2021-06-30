@@ -7,6 +7,7 @@ def solve():
     for value in values: # N 한번
         nums[value] += 1
     
+    
     front = math.ceil(K / 2)
     back = K//2
     #print(front, back)
