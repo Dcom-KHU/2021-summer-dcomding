@@ -22,6 +22,9 @@ for i in range(0, div):
     
 operatorCases = list(set((permutations(operatorList, num))))
 
+print(numList)
+print(operatorCases)
+
 def calc(numList, operatorCases):
     max = -1000000001
     min = 1000000001
@@ -51,6 +54,12 @@ def calc(numList, operatorCases):
                     sum = d(sum) // d(numList[index])
                     
             index+=1
+            
+        if (sum > max):
+            max = sum
+            
+        if (sum < min):
+            min = sum
             
     return max, min
 
