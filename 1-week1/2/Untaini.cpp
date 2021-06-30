@@ -15,4 +15,4 @@ int main() {
 	hanoi(n,1,3,2);
 	printf("%lld",result);
 	return 0;
-}
+} 
