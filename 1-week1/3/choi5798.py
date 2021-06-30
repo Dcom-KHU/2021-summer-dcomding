@@ -28,7 +28,7 @@ for syms in permutations(symbols, n-1):
     if temp > MAX:
         MAX = temp
         # print('MAX:', syms)
-    if temp < MIN:
+    elif temp < MIN:
         MIN = temp
         # print('MIN:', syms)
 print(MAX)
