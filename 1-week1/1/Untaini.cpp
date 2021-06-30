@@ -30,4 +30,4 @@ int main(){
 	
 	printf("%lld", sumResult);
 	return 0;
-}
+} 
