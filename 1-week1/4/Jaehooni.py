@@ -26,7 +26,6 @@ people = 1
 while True:
     
     if (jump(stonesNumber) <= maxDistance):
-        print(stonesNumber)
         people += 1
         
     else:
