@@ -22,9 +22,6 @@ for i in range(0, div):
     
 operatorCases = list(set((permutations(operatorList, num))))
 
-print(numList)
-print(operatorCases)
-
 def calc(numList, operatorCases):
     max = -1000000001
     min = 1000000001
