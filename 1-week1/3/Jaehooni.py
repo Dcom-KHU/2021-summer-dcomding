@@ -41,7 +41,7 @@ def calc(numList, operatorCases):
                 sum = d(sum) * d(numList[index])
                 
             else:
-                sum = d(float(sum)) / d(numList[index])
+                sum = d(float(sum)) // d(numList[index])
                 
             index+=1
                 
