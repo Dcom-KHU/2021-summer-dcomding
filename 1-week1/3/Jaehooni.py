@@ -43,11 +43,11 @@ def calc(numList, operatorCases):
             else:
                 if (sum < 0):
                     sum = -sum
-                    sum = d(float(sum)) // d(numList[index])
+                    sum = d(sum) // d(numList[index])
                     sum = -sum
                     
                 else:
-                    sum = d(float(sum)) // d(numList[index])
+                    sum = d(sum) // d(numList[index])
                 
             index+=1
                 
