@@ -1,12 +1,18 @@
-length, maxDistance = map(int, input().split())
-stonesNumber = list(map(int,input().split()))
+import heapq
 
+f = open("input.txt", 'r')
+f2 = open("input2.txt", 'r')
+length, maxDistance = map(int, f2.read().split())
+stonesNumber = list(map(int, f.read().split()))
+f.close()
+f2.close()
+min_in_max_nums = float('inf')
 
-entireMin = max(stonesNumber[0:maxDistance+1])
-
-for i in range(0, len(stonesNumber) - maxDistance):
-    if (stonesNumber[i] == entireMin and stonesNumber[maxDistance + 1] < entireMin):
-        entireMin = stonesNumber[maxDistance + 1]
+for i in range(0, len(stonesNumber)-maxDistance+1):
+    max_heap = []
+    for j in range(i, i+maxDistance):
+        heapq.heappush(max_heap, (-stonesNumber[j], stonesNumber[j]))
+    
+    min_in_max_nums = min(min_in_max_nums, heapq.heappop(max_heap)[1])
         
-        
-print(entireMin + 1)
+print(min_in_max_nums)
