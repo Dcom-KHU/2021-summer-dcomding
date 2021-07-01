@@ -12,6 +12,7 @@ def calculate(a, b, ch):
 n = int(input())
 nums = list(map(int, input().split()))
 symbol_counts = list(map(int, input().split()))
+check = []
 
 SYM = ['+', '-', '*', '/']
 MAX = -1000000001
@@ -22,6 +23,10 @@ for count, sym in zip(symbol_counts, SYM):
         symbols.append(sym)
         
 for syms in permutations(symbols, n-1):
+    if syms in check:
+        continue
+    else:
+        check.append(syms)
     temp = calculate(nums[0], nums[1], syms[0])
     for i in range(2, n):
         temp = calculate(temp, nums[i], syms[i-1])
