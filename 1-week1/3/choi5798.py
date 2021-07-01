@@ -24,29 +24,27 @@ def helper(prefix, ws):
 def perms(symbols):
     yield from helper((), Counter(symbols))
 
-for i in perms('+++--'):
-    print(i)
-# n = int(input())
-# nums = list(map(int, input().split()))
-# symbol_counts = list(map(int, input().split()))
-# check = []
+n = int(input())
+nums = list(map(int, input().split()))
+symbol_counts = list(map(int, input().split()))
+check = []
 
-# SYM = ['+', '-', '*', '/']
-# MAX = -1000000001
-# MIN = 1000000001
-# symbols = []
-# for count, sym in zip(symbol_counts, SYM):
-#     for j in range(count):
-#         symbols.append(sym)
+SYM = ['+', '-', '*', '/']
+MAX = -1000000001
+MIN = 1000000001
+symbols = []
+for count, sym in zip(symbol_counts, SYM):
+    for j in range(count):
+        symbols.append(sym)
         
-# for syms in perms(symbols):
-#     temp = calculate(nums[0], nums[1], syms[0])
-#     for i in range(2, n):
-#         temp = calculate(temp, nums[i], syms[i-1])
-#     if temp > MAX:
-#         MAX = temp
-#     if temp < MIN:
-#         MIN = temp
+for syms in perms(symbols):
+    temp = calculate(nums[0], nums[1], syms[0])
+    for i in range(2, n):
+        temp = calculate(temp, nums[i], syms[i-1])
+    if temp > MAX:
+        MAX = temp
+    if temp < MIN:
+        MIN = temp
 
-# print(MAX)
-# print(MIN)
+print(MAX)
+print(MIN)
