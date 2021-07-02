@@ -1,20 +1,25 @@
 n, k = list(map(int, input().split()))
 stones = list(map(int, input().split()))
-dcom = 0
-now = -1
-jump = 1
-while True:
-    if now + jump < n:
-        if stones[now+jump] > 0:
-            now += jump
-            stones[now] -= 1
-            jump = 1
-        elif jump < k:
-            jump += 1
+MIN = 1
+MAX = max(stones)
+answer = 0
+def check(stones, k, mid):
+    cnt=0
+    for i in range(len(stones)):
+        if stones[i] < mid:
+            cnt+=1
+            if cnt >= k:
+                return False
         else:
-            break
+            cnt = 0
+    return True
+
+while MIN <= MAX:
+    mid = (MIN + MAX) // 2
+    if check(stones, k, mid):
+        MIN = mid + 1
+        if answer < mid:
+            answer = mid
     else:
-        dcom += 1
-        now = -1
-        jump = 1
-print(dcom)
+        MAX = mid - 1
+print(answer)
