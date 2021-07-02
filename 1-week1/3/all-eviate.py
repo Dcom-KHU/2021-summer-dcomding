@@ -27,7 +27,7 @@ perm = list(map(''.join, itertools.permutations(perm, len(perm))))
 history = []
 perm_set = set(perm)
 perm = list(perm_set)
-for i in range(0, len(perm)):
+for i in range(len(perm)):
     cal(history, perm[i])
 
 print(max(history))
