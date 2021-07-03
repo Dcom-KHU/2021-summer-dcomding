@@ -54,6 +54,8 @@ int main(){
 		ans = p_num;
 
 	}
+	cout << ans;
+	return 0;
 	
 }
 
