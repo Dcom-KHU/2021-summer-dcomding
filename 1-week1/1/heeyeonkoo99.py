@@ -8,8 +8,8 @@ temp.sort()
 temp=deque(temp)
 for idx in range(1,k+1):
     if idx%2==1:
-        temp.remove(min(temp))
+        temp.popleft()
     else:
-        temp.remove(max(temp))
+        temp.pop()
 
 print(sum(temp))
