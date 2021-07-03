@@ -16,23 +16,32 @@ dp[i] = max(dp[i-1],dp[i-2]+map[i])
 
 int map[MAX];
 int dp[MAX];
-
+int n;
+void print_dp(){
+	for(int i = 0; i < n; i++){
+		cout << dp[i] << endl;
+	}
+}
 int main(){
-	int n;
+
 	cin >> n;
 	for(int i = 0; i < n; i++){
 		cin >> map[i];
 	}
-	dp[0] = 1;
-	dp[1] = max(dp[0],map[1]);
+	dp[0] = map[0];
+	dp[1] = max(dp[0], map[1]);
+	for(int i = 2; i < n-1; i++){
+		dp[i] = max(dp[i-1],dp[i-2]+map[i]);
+	}
+	int ans1 = dp[n-2];//마지막 제외
+	
+	dp[0] = 0;
+	dp[1] = map[1];
 	for(int i = 2; i < n; i++){
 		dp[i] = max(dp[i-1],dp[i-2]+map[i]);
 	}
-	if(dp[1] == dp[0]){
-		dp[n-1] -= dp[0];
-	}
+	int ans2 = dp[n-1];//첫번째 제외
 	
-	cout << dp[n-1];
-	
+	cout << max(ans1, ans2);
 	return 0;
 }
