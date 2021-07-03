@@ -1,43 +1,42 @@
 directionLists = []
 sumList = []
+
 for i in range(1, 21):
     directionLists.append([])
+    sumList.append(0)
 
 directionLists[0].append(3)
-sumList.append(3)
+sumList[0] = 3
 
 
-def calc(directionLists, number):
-    sum = 0
+def makeList(directionLists, number):
     startPoint = 1
 
-    if (len(directionLists[number-2]) == 0):
-        calc(directionLists, number-1)
+    if (number == 1):
+        pass
 
-    for i in directionLists[number-2]:
-        middlePoint = 6
-        middlePoint -= startPoint
-        middlePoint -= i
+    else:
+        if (len(directionLists[number-2]) == 0):
+            makeList(directionLists, number-1)
 
-        directionLists[number-1].append(middlePoint)
-        directionLists[number-1].append(i)
+        for i in directionLists[number-2]:
+            middlePoint = 6 - (startPoint + i)
 
-        sum += middlePoint
-        sum += i
+            directionLists[number-1].append(middlePoint)
+            directionLists[number-1].append(i)
+            sumList[number-1] += (middlePoint + i)
 
-        startPoint = i
-
-    sumList.append(sum)
+            startPoint = i
 
 
-def printSum(number):
-    sum = 0
-    for i in range(0, number):
-        sum += sumList[i]
+def calc(number):
+    if (number == 1):
+        return 3
 
-    print(sum)
+    return sumList[number - 1] + calc(number-1)
 
 
 a = int(input())
-calc(directionLists, a)
-printSum(a)
+
+makeList(directionLists, a)
+print(calc(a))
