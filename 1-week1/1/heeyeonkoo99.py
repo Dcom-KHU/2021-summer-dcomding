@@ -1,11 +1,12 @@
 #1주차 수업-1
+
 n,k=map(int,input().split())
 temp=list(map(int,input().split()))
-idx=0
-while idx!=k:
+
+for idx in range(1,k+1):
     if idx%2==0:
         temp.remove(min(temp))
     else:
         temp.remove(max(temp))
-    idx+=1
+
 print(sum(temp))
