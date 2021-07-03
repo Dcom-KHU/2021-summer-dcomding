@@ -11,9 +11,14 @@ stone이 2억, n이 20만이기 때문에
 
 더 좋은 방법이 있을까?
 
+ans를 어떻게 업데이트 할 것인가?
+성공했다면 ans 갱신
+아니라면 출력
+
 */
 int n, k;
 vector<int> stones;
+int ans = 1;
 int main(){
 	cin >> n >> k;
 	stones.resize(n);
@@ -21,8 +26,8 @@ int main(){
 		cin >> stones[i];
 		pq.push(stones[i]);
 	}
+	int ans = pq.top();
 	int p_num = 0;
-	int result = 0;
 	for(int i = 0; i < n; i++){
 		if(pq.top() == p_num){
 			
@@ -32,18 +37,21 @@ int main(){
 			p_num = pq.top();
 			pq.pop();
 		}
-		int tmp = 0;
+		
+		int temp = 0;
 		for(int j = 0; j < n; j++){
 			if(stones[j]  <= p_num){
-				tmp++;
-				if(tmp > k){
-					cout << p_num - 1;
+				temp++;
+				if(temp > k){
+					cout << ans;
 					return 0;
 				}
 			}else{
-				tmp = 0;
+				temp = 0;
 			}
 		}
+		
+		ans = p_num;
 
 	}
 	
