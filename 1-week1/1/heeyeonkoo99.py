@@ -2,7 +2,7 @@
 import sys
 n,k=map(int,sys.stdin.readline().split())
 temp=list(map(int,sys.stdin.readline().split()))
-
+temp.sort()
 for idx in range(1,k+1):
     if idx%2==1:
         temp.remove(min(temp))
