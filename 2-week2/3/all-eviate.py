@@ -26,6 +26,7 @@ routes = []
 
 
 nav(n, tickets, now, route, routes)
+routes = list(set([tuple(route) for route in routes]))
 for x in range(1, n + 2):
     min = 11
     nam = ''
