@@ -5,9 +5,9 @@ char str[1001];
 int len, result;
 
 bool checkCorrectBracket(int startPos){
-	int bracketCnt[3][2] = {};
-	for(int cnt = startPos; (cnt+1)%len!=startPos; ++cnt){
-		char curLetter = str[cnt%len];
+	int bracketCnt[3][2] = {}, pos=startPos;
+	do{
+		char curLetter = str[pos%len];
 		int selBracket = curLetter/40-1;
 		switch(curLetter){
 			case '(': case '[': case '{': 
@@ -19,7 +19,8 @@ bool checkCorrectBracket(int startPos){
 					return false;
 				break;
 		}
-	}
+		pos=(pos+1)%len;
+	}while(pos!=startPos);
 	
 	bool result = true;
 	for(int cnt=0; cnt<3; ++cnt)
