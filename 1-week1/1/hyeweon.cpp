@@ -65,4 +65,4 @@ int main()
 	}
 
 	cout << sum - min_sum - max_sum << endl;
-}
+} 
