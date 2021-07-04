@@ -31,6 +31,6 @@ int main() {
 		if(checkCorrectBracket(cnt))
 			++result;
 		
-	printf("%d",result);
+	printf("%d",len==1?0:result);
 	return 0;
 }
