@@ -24,7 +24,7 @@ int main()
 		}
 	}
 
-	for (int i = 2; i < n;) {
+	for (int i = 2; i < n + 1;) {
 		if (money[i] > money[i - 1] + money[i + 1]) {
 			sum2 += money[i];
 			i += 3;
