@@ -21,7 +21,7 @@ def solution():
                 except:
                     is_valid = False
                     break
-        if is_valid and not len(check):
+        if is_valid:
             answer += 1
         s.append(s.popleft())
     
