@@ -1,3 +1,13 @@
+import copy
+def nav(n, tickets, now, froute, routes):
+    for stop in tickets[now]:
+        ticopy = copy.deepcopy(tickets)
+        croute = froute + [stop]
+        ticopy[now].remove(stop)
+        nav(n, ticopy, stop, croute, routes)
+        if len(croute) == n + 1:
+            routes.append(croute)
+
 n = int(input(""))
 
 #save tickets into dictionary (values in list)
@@ -12,16 +22,23 @@ for i in range(n):
 #initialise
 now = 'DCOM'
 route = ['DCOM']
+routes = []
 
-for i in range(n):
-    maxlen = 11
-    next = ''
-    for stop in tickets[now]: #look for next stop in dictionary of current room
-        if len(stop) < maxlen:
-            maxlen = len(stop)
-            next = stop
-    tickets[now].remove(next) #use the ticket (remove from dictionary)
-    route.append(next) #save the route
-    now = next #move current location
+
+nav(n, tickets, now, route, routes)
+for x in range(1, n + 2):
+    min = 11
+    nam = ''
+    for y in range(len(routes)):
+        if len(routes[y][x]) < min:
+            min = len(routes[y][x])
+            nam = routes[y][x]
+    for r in range(len(routes)-1, -1, -1):
+        if routes[r][x] != nam:
+            routes.remove(routes[r])
+    if len(routes) == 1:
+        break
+route = routes[0]
+    
 
 print(' '.join(route))
