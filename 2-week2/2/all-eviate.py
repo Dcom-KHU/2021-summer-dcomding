@@ -1,3 +1,40 @@
+def mat(sc, ind): #recursive function
+    if sc[ind] == '(':
+        if sc[ind+1] == ')': #if the next one matches a pair,
+            sc.remove(sc[ind+1]) #remove the pair from string
+            sc.remove(sc[ind])
+            return True #and return True
+        else: #if the next one does not match,
+            mat(sc, ind+1) #call this function again from the 'next' index
+            if sc[ind+1] == ')': #after all the recursion, if it matches,
+                sc.remove(sc[ind+1]) #do the same thing
+                sc.remove(sc[ind])
+                return True
+    elif sc[ind] == '{':
+        if sc[ind+1] == '}':
+            sc.remove(sc[ind+1])
+            sc.remove(sc[ind])
+            return True
+        else:
+            mat(sc, ind+1)
+            if sc[ind+1] == '}':
+                sc.remove(sc[ind+1])
+                sc.remove(sc[ind])
+                return True
+    elif sc[ind] == '[':
+        if sc[ind+1] == ']':
+            sc.remove(sc[ind+1])
+            sc.remove(sc[ind])
+            return True
+        else:
+            mat(sc, ind+1)
+            if sc[ind+1] == ']':
+                sc.remove(sc[ind+1])
+                sc.remove(sc[ind])
+                return True
+    else: #if match fails,
+        return False #return False
+    
 s = list(input(""))
 count = 0
 
@@ -11,42 +48,11 @@ for i in range(len(s)): #number of rotation are bound to length of s
     complete = True #initialising complete flag
 
     while sc: #start verifying for a single rotation case
-        pair = False #flag for finding a correct pair
-        mid = lc // 2 #start searching pairs from the middle
-        
-        if sc[mid] == '(':
-            mp = mid + 1 #searching for matcing pair in odd indeces
-            if sc[mp] == ')': #if middle pair matches,
-                sc.remove(sc[mp]) #remove the pair
-                sc.remove(sc[mid])
-                lc -= 2 #deduct the length by 2
-                pair = True #raise flag to continue verification
-                break
-        elif sc[mid] == '{':
-            mp = mid + 1
-            if sc[mp] == '}':
-                sc.remove(sc[mp])
-                sc.remove(sc[mid])
-                lc -= 2
-                pair = True
-                break
-        elif sc[mid] == '[':
-            mp = mid + 1
-            if sc[mp] == ']':
-                sc.remove(sc[mp])
-                sc.remove(sc[mid])
-                lc -= 2
-                pair = True
-                break
-        else: #if the middle point of this rotation does not start with opening, it's wrong.
-            complete = False
-            break
+        if not mat(sc, 0): #if match finding function returns False (match finding failed)
+            complete = False #abort the complete flag
+            break #escape the while loop
 
-        if pair:
-            continue
-        else: #if the middle pair does not match, it's wrong
-            complete = False
-            break
-    if complete: #if this rotation survived while loop with complete flag, count this rotation
-        count += 1
+    if complete: #if this rotation survived from while loop with complete flag,
+        count += 1 #count this rotation
+
 print(count)
