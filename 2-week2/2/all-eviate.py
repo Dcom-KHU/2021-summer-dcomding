@@ -1,67 +1,38 @@
-def mat(sc, ind): #recursive function
-    if sc[ind] == '(':
-        if sc[ind+1] == ')': #if the next one matches a pair,
-            sc.remove(sc[ind+1]) #remove the pair from string
-            sc.remove(sc[ind])
-            return True #and return True
-        else: #if the next one does not match,
-            if ind < len(sc) - 2:
-                mat(sc, ind+1) #call this function again from the 'next' index
-                if sc[ind+1] == ')': #after all the recursion, if it matches,
-                    sc.remove(sc[ind+1]) #do the same thing
-                    sc.remove(sc[ind])
-                    return True
-            else:
-                return False
-    elif sc[ind] == '{':
-        if sc[ind+1] == '}':
-            sc.remove(sc[ind+1])
-            sc.remove(sc[ind])
-            return True
-        else:
-            if ind < len(sc) - 2:
-                mat(sc, ind+1)
-                if sc[ind+1] == '}':
-                    sc.remove(sc[ind+1])
-                    sc.remove(sc[ind])
-                    return True
-            else:
-                return False
-    elif sc[ind] == '[':
-        if sc[ind+1] == ']':
-            sc.remove(sc[ind+1])
-            sc.remove(sc[ind])
-            return True
-        else:
-            if ind < len(sc) - 2:
-                mat(sc, ind+1)
-                if sc[ind+1] == ']':
-                    sc.remove(sc[ind+1])
-                    sc.remove(sc[ind])
-                    return True
-            else:
-                return False
-    else: #if match fails,
-        return False #return False
-    
 s = list(input(""))
 count = 0
+l = len(s)
 
-for i in range(len(s)): #number of rotation are bound to length of s
-    s.append(s[0])
-    s.remove(s[0])
+if l % 2 == 1: #if length is not even, print 0
+    print(0)
+else:
+    for i in range(l): #number of rotation are bound to length of s
+        s.append(s[0])
+        s.remove(s[0])
 
-    sc = s[:] #copy string for deleting elements
-    lc = len(sc) #limiting verification index
+        s = s[:] #copy string for deleting elements
+        stack = [] #initialising stack
+        complete = True #initialising complete flag
 
-    complete = True #initialising complete flag
+        for a in range(0, l):
+            if not any(stack): #if stack is empty,
+                if s[a] == ']' or s[a] == '}' or s[a] == ')': #check if the element is closing
+                    complete = False #if it is, break from this rotation
+                    break
+                else:
+                    stack.append(s[a])
+            else: #if stack is not empty,
+                if s[a] == ']' and stack[-1] == '[': #see if it can pop
+                    stack.pop()
+                elif s[a] == '}' and stack[-1] == '{':
+                    stack.pop()
+                elif s[a] == ')' and stack[-1] == '(':
+                    stack.pop()
+                else: #if it cannot, add current element to the stack
+                    stack.append(s[a])
+        if any(stack): #if stack is empty in the end, this rotation is valid
+            complete = False
 
-    while sc: #start verifying for a single rotation case
-        if not mat(sc, 0): #if match finding function returns False (match finding failed)
-            complete = False #abort the complete flag
-            break #escape the while loop
+        if complete: #if this rotation survived from while loop with complete flag,
+            count += 1 #count this rotation
 
-    if complete: #if this rotation survived from while loop with complete flag,
-        count += 1 #count this rotation
-
-print(count)
+    print(count)
