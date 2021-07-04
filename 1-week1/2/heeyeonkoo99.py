@@ -1,7 +1,7 @@
 #1주차 수업-2
 import sys
 
-global movement=[]
+movement=[]
 answer=0
 def hanoi_top(n,a,b,c):
     if n==1:
