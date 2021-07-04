@@ -28,6 +28,7 @@ int main() {
                 break;
             }
         }
+        if (skip == n) break;
         skip = 0;
     } while (next);
     cout << people;
