@@ -3,10 +3,6 @@ using namespace std;
 
 int main()
 {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-
 	int n, k;
 	cin >> n >> k;
 
@@ -37,6 +33,14 @@ int main()
 			max_index = i;
 	}
 
+	if (max_array[max_index] < card[max_n]) {
+		max_array[max_index] = card[max_n];
+		for (int j = 0; j < max_n; j++) {
+			if (max_array[j] < max_array[max_index])
+				max_index = j;
+		}
+	}
+
 	for (int i = min_n; i < n; i++) {
 		if (min_array[min_index] > card[i]) {
 			min_array[min_index] = card[i];
@@ -45,9 +49,6 @@ int main()
 					min_index = j;
 			}
 		}
-	}
-
-	for (int i = max_n; i < n; i++) {
 		if (max_array[max_index] < card[i]) {
 			max_array[max_index] = card[i];
 			for (int j = 0; j < max_n; j++) {
