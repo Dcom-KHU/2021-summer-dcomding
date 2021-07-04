@@ -4,21 +4,26 @@ for i in range(n):
     stones[i] = int(stones[i])
 
 m = 0 #members
+mn = min(stones)
+mx = max(stones)
 able = True
 
-while able:
+while mn <= mx:
+    md = (mn + mx)//2
     skip = 0
-    j = 0
-    for j in range(n):
-        if stones[j] == 0:
+    mdv = True
+    for i in range(n):
+        if stones[i] < md:
             skip += 1
             if skip >= k:
-                able = False
+                mdv = False
                 break
         else:
-            stones[j] -= 1
             skip = 0
-    if skip < k:
-        m += 1
+    if mdv:
+        m = md
+        mn = md + 1
+    else:
+        mx = md - 1
 
 print(m)
