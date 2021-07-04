@@ -11,7 +11,8 @@ int main() {
         cin >> stones[i];
     }
     k--;
-    while (next) {
+    do
+    {
         people++;
         for (int i = 0; i < n; i++)
         {
@@ -28,7 +29,7 @@ int main() {
                 break;
             }
         }
-    }
+    } while (next);
     cout << people;
     return 0;
 }
