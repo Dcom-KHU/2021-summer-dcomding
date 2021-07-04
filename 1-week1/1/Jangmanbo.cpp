@@ -1,18 +1,25 @@
 #include <iostream>
 using namespace std;
 
-void insertionSort(int arr[], int size) {
-    int i, j, key;
+void quickSort(int i, int j, int arr[])
+{
+    if (i >= j) return;
+    int pivot = arr[(i + j) / 2];
+    int left = i;
+    int right = j;
 
-    for (i = 1; i < size; i++) {
-        key = arr[i];
-        j = i - 1;
-        while (j >= 0 && arr[j] > key) {
-            arr[j + 1] = arr[j];
-            j--;
+    while (left <= right)
+    {
+        while (arr[left] < pivot) left++;
+        while (arr[right] > pivot) right--;
+        if (left <= right)
+        {
+            swap(arr[left], arr[right]);
+            left++; right--;
         }
-        arr[j + 1] = key;
     }
+    quickSort(i, right, arr);
+    quickSort(left, j, arr);
 }
 
 int main() {
@@ -24,7 +31,7 @@ int main() {
     {
         cin >> num[i];
     }
-    insertionSort(num, n);
+    quickSort(0, n - 1, num);
     start = (k - 1) / 2 + 1;
     end = start + (n - k);
     for (int i = start; i < end; i++)
