@@ -33,7 +33,7 @@ int main()
 			max_index = i;
 	}
 
-	if (max_array[max_index] < card[max_n]) {
+	if (max_n!=min_n && max_array[max_index] < card[max_n]) {
 		max_array[max_index] = card[max_n];
 		for (int j = 0; j < max_n; j++) {
 			if (max_array[j] < max_array[max_index])
