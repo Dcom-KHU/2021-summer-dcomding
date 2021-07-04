@@ -25,10 +25,10 @@ int main() {
             }
             else {
                 next = false;
-                skip = 0;
                 break;
             }
         }
+        skip = 0;
     } while (next);
     cout << people;
     return 0;
