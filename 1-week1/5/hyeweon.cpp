@@ -13,7 +13,7 @@ int main()
 	money[n] = money[0];
 	money[n+1] = money[1];
 
-	for (int i = 1; i < n;) {
+	for (int i = 1; i < n + 1;) {
 		if (money[i] > money[i - 1] + money[i + 1]) {
 			sum1 += money[i];
 			i += 3;
@@ -24,7 +24,7 @@ int main()
 		}
 	}
 
-	for (int i = 2; i < n + 1;) {
+	for (int i = 2; i < n + 2;) {
 		if (money[i] > money[i - 1] + money[i + 1]) {
 			sum2 += money[i];
 			i += 3;
