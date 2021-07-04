@@ -2,16 +2,16 @@
 using namespace std;
 
 int N;
-int min = 1000000000;
-int max = -1000000000;
+int Min = 1000000000;
+int Max = -1000000000;
 int num[11];
 
 void cal(int result, int sum, int sub, int mul, int div, int index) {
 	if (index == N) {
-		if (result < min)
-			min = result;
-		if (result > max)
-			max = result;
+		if (result < Min)
+			Min = result;
+		if (result > Max)
+			Max = result;
 	}
 	if (sum > 0) {
 		cal(result + num[index], sum - 1, sub, mul, div, index + 1);
@@ -37,6 +37,6 @@ int main()
 
 	cal(num[0], sum, sub, mul, div, 1);
 	
-	cout << max << endl;
-	cout << min << endl;
+	cout << Max << endl;
+	cout << Min << endl;
 }
