@@ -20,7 +20,11 @@ bool checkCorrectBracket(int startPos){
 				break;
 		}
 	}
-	return true;
+	
+	bool result = true;
+	for(int cnt=0; cnt<3; ++cnt)
+		result &= (bracketCnt[cnt][0] == bracketCnt[cnt][1]);
+	return result;
 }
 
 int main() {
