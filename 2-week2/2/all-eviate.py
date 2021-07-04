@@ -5,33 +5,42 @@ def mat(sc, ind): #recursive function
             sc.remove(sc[ind])
             return True #and return True
         else: #if the next one does not match,
-            mat(sc, ind+1) #call this function again from the 'next' index
-            if sc[ind+1] == ')': #after all the recursion, if it matches,
-                sc.remove(sc[ind+1]) #do the same thing
-                sc.remove(sc[ind])
-                return True
+            if ind < len(sc) - 2:
+                mat(sc, ind+1) #call this function again from the 'next' index
+                if sc[ind+1] == ')': #after all the recursion, if it matches,
+                    sc.remove(sc[ind+1]) #do the same thing
+                    sc.remove(sc[ind])
+                    return True
+            else:
+                return False
     elif sc[ind] == '{':
         if sc[ind+1] == '}':
             sc.remove(sc[ind+1])
             sc.remove(sc[ind])
             return True
         else:
-            mat(sc, ind+1)
-            if sc[ind+1] == '}':
-                sc.remove(sc[ind+1])
-                sc.remove(sc[ind])
-                return True
+            if ind < len(sc) - 2:
+                mat(sc, ind+1)
+                if sc[ind+1] == '}':
+                    sc.remove(sc[ind+1])
+                    sc.remove(sc[ind])
+                    return True
+            else:
+                return False
     elif sc[ind] == '[':
         if sc[ind+1] == ']':
             sc.remove(sc[ind+1])
             sc.remove(sc[ind])
             return True
         else:
-            mat(sc, ind+1)
-            if sc[ind+1] == ']':
-                sc.remove(sc[ind+1])
-                sc.remove(sc[ind])
-                return True
+            if ind < len(sc) - 2:
+                mat(sc, ind+1)
+                if sc[ind+1] == ']':
+                    sc.remove(sc[ind+1])
+                    sc.remove(sc[ind])
+                    return True
+            else:
+                return False
     else: #if match fails,
         return False #return False
     
