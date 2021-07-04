@@ -21,7 +21,7 @@ n=int(sys.stdin.readline())
 hanoi_top(n,1,2,3)
 
 for i in movement:
-    answer+=i[1]
+    answer+=i[1] 
     
 #print(len(movement)) =>이동횟수
 print(answer)
