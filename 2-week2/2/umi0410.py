@@ -35,8 +35,5 @@ def verify(brace:str):
 
 # print(verify("()"))
 # print(verify("() (())()()[({[]})]"))
-print(solution("[](){}"))
-print(solution("}]()[{"))
-print(solution("[)(]"))
-print(solution("}}}"))
+print(solution(input()))
 # print(solution("]][["))
