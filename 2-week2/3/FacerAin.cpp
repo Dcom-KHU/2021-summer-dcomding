@@ -17,6 +17,7 @@ bool comp(const vector<string>& v1, const vector<string>& v2){
 	}
 	return v1[1] < v2[1];
 }
+
 bool DFS(string club, int visit_num){
 	answer.push_back(club);
 	if(visit_num == n){
@@ -39,13 +40,14 @@ int main(){
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
 	cin >> n;
+	ticket_v.resize(n);
 	for(int i = 0; i < n; i++){
 		string s1, s2;
 		cin >> s1 >> s2;
 		vector<string> temp_v(2);
 		temp_v[0] = s1;
 		temp_v[1] = s2;
-		ticket_v.push_back(temp_v);
+		ticket_v[i] = temp_v;
 	}
 	sort(ticket_v.begin(),ticket_v.end(),comp);
 	
