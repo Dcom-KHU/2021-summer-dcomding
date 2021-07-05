@@ -28,4 +28,4 @@ def solution(s):
         if check(rotated_s):
             answer+=1
     return answer
-print(s)
+print(solution(s))
