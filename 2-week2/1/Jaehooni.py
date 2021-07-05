@@ -3,7 +3,7 @@ from functools import reduce
 # 역순으로 주어졌으니 다시 역순으로 치환해서 값을 받음
 bit_list = list(map(int, input().split()))[::-1]
 
-# 실제 계산할 때 쓰이지 않는 체크 비트들을 제외하기 위함
+# 실제 계산할 때 쓰이지 않는 체크 비트들의 인덱스들 담아둠
 not_real_value = [-8, -4, -2, -1]
 
 # 각 검증 비트들의 계산 요소들을 구함
