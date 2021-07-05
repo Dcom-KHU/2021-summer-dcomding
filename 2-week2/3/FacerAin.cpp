@@ -5,6 +5,7 @@
 단순 DFS/BFS로는 풀 수 없다
 백트래킹 사용할 것
 간선의 개수(티켓의 수)와 노드의 수(동아리의 수)가 크지 않으므로 사용가능
+
 */
 using namespace std;
 vector<vector<string>> ticket_v;
@@ -41,6 +42,7 @@ int main(){
 
 	cin >> n;
 	ticket_v.resize(n);
+	answer.reserve(n);
 	for(int i = 0; i < n; i++){
 		string s1, s2;
 		cin >> s1 >> s2;
