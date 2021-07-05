@@ -1,12 +1,14 @@
-import copy
+from copy import deepcopy
+
 def nav(n, tickets, now, froute, routes):
-    for stop in tickets[now]:
-        ticopy = copy.deepcopy(tickets)
-        croute = froute + [stop]
-        ticopy[now].remove(stop)
-        nav(n, ticopy, stop, croute, routes)
-        if len(croute) == n + 1:
-            routes.append(croute)
+    if now in tickets:
+        for stop in tickets[now]:
+            ticopy = deepcopy(tickets)
+            croute = froute + [stop]
+            ticopy[now].remove(stop)
+            nav(n, ticopy, stop, croute, routes)
+            if len(croute) == n + 1:
+                routes.append(croute)
 
 n = int(input(""))
 
@@ -29,9 +31,9 @@ nav(n, tickets, now, route, routes)
 routes = list(set([tuple(route) for route in routes]))
 for x in range(1, n + 2):
     min = 11
-    nam = ''
+    nam = '~'
     for y in range(len(routes)):
-        if len(routes[y][x]) < min:
+        if len(routes[y][x]) < min and routes[y][x] < nam:
             min = len(routes[y][x])
             nam = routes[y][x]
     for r in range(len(routes)-1, -1, -1):
