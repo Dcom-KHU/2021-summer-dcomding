@@ -33,7 +33,7 @@ for x in range(1, n + 2):
     min = 11
     nam = '~'
     for y in range(len(routes)):
-        if len(routes[y][x]) < min and routes[y][x] < nam:
+        if len(routes[y][x]) <= min and routes[y][x] < nam:
             min = len(routes[y][x])
             nam = routes[y][x]
     for r in range(len(routes)-1, -1, -1):
