@@ -1,4 +1,4 @@
-from copy import deepcopy
+from copy import deepcopy #deepcopy to save previous state of recursion
 
 def nav(n, tickets, now, froute, routes):
     if now in tickets:
@@ -33,8 +33,10 @@ for x in range(1, n + 2):
     min = 11
     nam = '~'
     for y in range(len(routes)):
-        if len(routes[y][x]) <= min and routes[y][x] < nam:
+        if len(routes[y][x]) < min:
             min = len(routes[y][x])
+            nam = routes[y][x]
+        elif len(routes[y][x]) == min and routes[y][x] < nam:
             nam = routes[y][x]
     for r in range(len(routes)-1, -1, -1):
         if routes[r][x] != nam:
