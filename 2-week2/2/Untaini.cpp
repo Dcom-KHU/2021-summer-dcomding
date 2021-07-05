@@ -1,22 +1,27 @@
 #include <cstdio>
 #include <cstring>
+#include <stack>
+using namespace std;
 
 char str[1010];
 int len, result;
 
 bool checkCorrectBracket(int startPos){
 	int bracketCnt[3] = {}, pos=startPos;
+	stack<int> lastBracket;
 	do{
 		char curLetter = str[pos%len];
 		int selBracket = curLetter/40-1;
 		switch(curLetter){
 			case '(': case '[': case '{': 
 				++bracketCnt[selBracket];
+				lastBracket.push(selBracket);
 				break;
 			case ')': case ']': case '}':
 				--bracketCnt[selBracket];
-				if(bracketCnt[selBracket]<0)
+				if(bracketCnt[selBracket]<0 || lastBracket.top() != selBracket)
 					return false;
+				lastBracket.pop();
 				break;
 		}
 		pos=(pos+1)%len;
