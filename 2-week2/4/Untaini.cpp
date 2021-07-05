@@ -4,8 +4,8 @@
 #include <algorithm>
 using namespace std;
 
-int n, srtPtr, endPtr, selItemCnt, resSrt, resEnd, resRange=10000;
-string items[1010];
+int n, srtPtr, endPtr, selItemCnt, resSrt, resEnd, resRange=1000000;
+string items[100010];
 char itemName[12];
 map<string, int> itemCount;
 int main() {
