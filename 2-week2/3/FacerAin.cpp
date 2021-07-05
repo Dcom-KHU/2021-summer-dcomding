@@ -1,6 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+/*
+단순 DFS/BFS로는 풀 수 없다
+백트래킹 사용할 것
+간선의 개수(티켓의 수)와 노드의 수(동아리의 수)가 크지 않으므로 사용가능
+*/
 using namespace std;
 vector<vector<string>> ticket_v;
 vector<string> answer;
@@ -27,6 +32,7 @@ bool DFS(string club, int visit_num){
 		}
 	}
 	answer.pop_back();
+	return false;
 }
 
 int main(){
