@@ -19,6 +19,8 @@ int main() {
 	
 	while(srtPtr<=endPtr && endPtr<=n){
 		if(selItemCnt<itemCount.size()){
+			if(endPtr == n) break;
+			
 			if(!itemCount[items[endPtr]]) ++selItemCnt;
 			++itemCount[items[endPtr]], ++endPtr;
 		}
