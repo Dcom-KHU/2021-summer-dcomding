@@ -27,10 +27,12 @@ bool comp(string v1, string v2){
 
 bool DFS(string club, int visit_num){
 	answer.push_back(club);
+	//cout << club << endl;
 	if(visit_num == n){
 		return true;
 	}
 	int club_idx = m[club];
+	//cout << club_idx << endl;
 		for(int i = 0; i < ticket_v[club_idx].size(); i++){
 		if(!check_v[club_idx][i]){
 			check_v[club_idx][i] = 1;
@@ -74,8 +76,9 @@ int main(){
 		}
 		ticket_v[m[s1]].push_back(s2);
 		check_v[m[s1]].push_back(0);
-		if(m.find(s2) != m.end()){
+		if(m.find(s2) == m.end()){
 			m.insert({s2, idx});
+			//cout << s2 << idx << endl;
 			idx++;
 			ticket_v.push_back(t_v);
 			check_v.push_back(t_v2);
