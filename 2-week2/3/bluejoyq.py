@@ -30,8 +30,10 @@ def solution():
             break
         
         cur = nxt
-        
-        if not can_go[cur]:
+        try:
+            if not can_go[cur]:
+                raise()
+        except:
             print(cur, end =' ')
             break
 solution()
