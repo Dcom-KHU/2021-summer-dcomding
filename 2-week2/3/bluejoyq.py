@@ -30,7 +30,7 @@ def solution():
         cur_tickets = can_go[cur]
         nxt = cur_tickets.popleft()
         try:
-            if cur_tickets and not check[nxt][end]:
+            if cur_tickets and not check[nxt][cur]:
                 pass
         except:
             cur_tickets.append(nxt)
