@@ -1,4 +1,5 @@
 import sys
+from collections import deque
 input = sys.stdin.readline
 def solution():
     n = int(input())
@@ -16,23 +17,22 @@ def solution():
         '''길이와 사전순을 기준으로 정렬'''
         return (len(tmp), tmp)
     for k in can_go:
-        can_go[k].sort(key = rank)
+        # fix
+        can_go[k] = deque(sorted(can_go[k],key = rank))
 
     cur = 'DCOM'
-    real_nxt_rank = ranks[real_nxt]
     while True:
         print(cur, end =' ')
-        cur_tickets = can_go[cur]
 
-        for i in range(len(cur_tickets)):
-            nxt = cur_tickets[i]
-            if not nxt:
-                continue
-            cur_tickets[i] = 0
-        
-        if not nxt:
+        cur_tickets = can_go[cur]
+        for nxt in cur_tickets:
+            cur_tickets.popleft()
             break
+        
         cur = nxt
-    
+        
+        if not can_go[cur]:
+            print(cur, end =' ')
+            break
 solution()
         
