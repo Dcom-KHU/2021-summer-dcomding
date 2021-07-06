@@ -13,9 +13,8 @@ map lg n
 */
 using namespace std;
 vector<vector<string>> ticket_v;
-vector<vector<int>> check_v;
+vector<vector<bool>> check_v;
 vector<string> answer;
-int check[100005];
 int n;
 map<string, int> m;
 bool comp(string v1, string v2){
@@ -35,11 +34,11 @@ bool DFS(string club, int visit_num){
 	//cout << club_idx << endl;
 		for(int i = 0; i < ticket_v[club_idx].size(); i++){
 		if(!check_v[club_idx][i]){
-			check_v[club_idx][i] = 1;
+			check_v[club_idx][i] = true;
 			if(DFS(ticket_v[club_idx][i], visit_num+1)){
 				return true;
 			}
-			check_v[club_idx][i] = 0;
+			check_v[club_idx][i] = false;
 		}
 	}
 	/*
@@ -67,7 +66,7 @@ int main(){
 		string s1, s2;
 		cin >> s1 >> s2;
 		vector<string> t_v;
-		vector<int> t_v2;
+		vector<bool> t_v2;
 		if(m.find(s1) == m.end()){//키에 없을 때
 			m.insert({s1, idx});
 			idx++;
@@ -75,7 +74,7 @@ int main(){
 			check_v.push_back(t_v2);
 		}
 		ticket_v[m[s1]].push_back(s2);
-		check_v[m[s1]].push_back(0);
+		check_v[m[s1]].push_back(false);
 		if(m.find(s2) == m.end()){
 			m.insert({s2, idx});
 			//cout << s2 << idx << endl;
