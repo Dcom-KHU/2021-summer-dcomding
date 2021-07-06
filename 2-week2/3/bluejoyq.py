@@ -1,5 +1,4 @@
 import sys
-import heapq
 input = sys.stdin.readline
 def solution():
     n = int(input())
@@ -7,48 +6,33 @@ def solution():
     kinds = set()
     
     for i in range(n):
-        a, b = input().split()
-        
+        start, end = input().split()   
         try:
-            can_go[a].append(b)
+            can_go[start].append(end)
         except:
-            can_go[a] = [b]
-        kinds.add(a)
-        kinds.add(b)
-    
+            can_go[start] = [end]
+            
     def rank(tmp):
+        '''길이와 사전순을 기준으로 정렬'''
         return (len(tmp), tmp)
-    kinds = list(kinds)
-    ranks = {}
-    num_of_kinds = len(kinds)
-    visited = [[0] * num_of_kinds for i in range(num_of_kinds)]
-    kinds.sort(key= rank)
-    for i in range(num_of_kinds):
-        ranks[kinds[i]] = i
+    for k in can_go:
+        can_go[k].sort(key = rank)
 
-    findings = []
     cur = 'DCOM'
-    real_nxt ='DCOM'
     real_nxt_rank = ranks[real_nxt]
     while True:
-        bef_rank = ranks[cur]
-        cur_rank, cur = real_nxt_rank,real_nxt
-        visited[bef_rank][cur_rank] = 1
-        print(cur, end=' ')
-        real_nxt = -1
-        real_nxt_rank = 5001
-        try:
-            for nxt in can_go[cur]:
-                nxt_rank= ranks[nxt]
-                if visited[cur_rank][nxt_rank]:
-                    continue
-                if nxt_rank < real_nxt_rank:
-                    real_nxt = nxt
-                    real_nxt_rank = nxt_rank
-            if real_nxt == -1:
-                break
-        except:
+        print(cur, end =' ')
+        cur_tickets = can_go[cur]
+
+        for i in range(len(cur_tickets)):
+            nxt = cur_tickets[i]
+            if not nxt:
+                continue
+            cur_tickets[i] = 0
+        
+        if not nxt:
             break
+        cur = nxt
     
 solution()
         
