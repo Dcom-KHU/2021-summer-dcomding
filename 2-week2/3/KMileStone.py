@@ -33,21 +33,23 @@ while len(route) < n:
         # undo
         tickets[prev].append(next)
 
-        i = 0
-        while i < len(tickets[prev])-1 and tickets[prev][i] == tickets[prev][i+1]:
-            i += 1
-
-        # if all element of tickets[prev] is same, there is only 1 dst
-        # you cannot take another route, more undo
-        if i == len(tickets[prev])-1:
+        # if there is only 1 dst, you cannot take another route
+        # more undo
+        if len(set(tickets[prev])) == 1:
             next = route.pop()
             if route:
                 prev = route[-1]
+
+            # if src == dst, more undo
+            while prev == next:
+                tickets[prev].append(next)
+                next = route.pop()
+                if route:
+                    prev = route[-1]
             valid = False
 
         # take another route
         else:
-            tickets[prev] = tickets[prev][i:] + tickets[prev][:i]
             new_next = tickets[prev].pop(0)
             prev = next
             next = new_next
