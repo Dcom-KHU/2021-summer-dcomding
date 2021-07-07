@@ -1,20 +1,18 @@
 n = int(input())
-tickets = {'self':{}}
+tickets = {'self':[]}
 for i in range(n):
     src, dst = input().split()
     tickets.setdefault(src, [])
     if src != dst:
         tickets[src].append(dst)
     else:
-        tickets['self'].setdefault(dst, 0)
-        tickets['self'][dst] += 1
+        tickets['self'].append(dst)
 
 
 # tickets : {src1:[dst1, dst2, ...], src2:[dst1, dst2, ...], ...}
 # sort dst lists
 for key in tickets:
-    if key != 'self':
-        tickets[key].sort(key=lambda x : 'a' * len(x) + x)
+    tickets[key].sort(key=lambda x : 'a' * len(x) + x)
 
 
 route = ['DCOM']
@@ -22,7 +20,7 @@ prev = 'DCOM'
 next = tickets['DCOM'].pop(0)
 valid = True
 
-while len(route) < n-sum(tickets['self'].values()):
+while len(route) < n-len(tickets['self']):
     # if get None or empty list, no further possible route before use all tickets
     if valid:
         valid = bool(tickets.get(next))
@@ -40,7 +38,7 @@ while len(route) < n-sum(tickets['self'].values()):
 
         # if there is only 1 dst, you cannot take another route
         # more undo
-        if len(set(tickets[prev])) == 1:
+        if len(tickets[prev]) == 1:
             next = route.pop()
             if route:
                 prev = route[-1]
@@ -59,19 +57,18 @@ route.append(next)
 def order(x):
     return 'a' * len(x) + x
 
-for dst in sorted(tickets['self'].keys(), key=lambda x : 'a' * len(x) + x):
+for self in tickets['self']:
     last = 0
     inserted = False
     for i in range(len(route)):
-        if route[i] == dst:
+        if route[i] == self:
             last = i
-            if i < len(route)-1 and order(dst) < order(route[i+1]):
-                route[i:i] = [dst for _ in range(tickets['self'][dst])]
+            if i < len(route)-1 and order(self) < order(route[i+1]):
+                route.insert(i, self)
                 inserted = True
                 break
     if not inserted:
-        route[last:last] = [dst for _ in range(tickets['self'][dst])]
-    print(route)
+        route.insert(last, self)
 
 
 for club in route:
