@@ -8,28 +8,36 @@ def solution():
         data = input().rstrip()
         values[i] = data
         count_dict[data] = 0
-     
+    
     goal= len(count_dict)
     
-    
     def check():
-        for i in count_dict.values():
-            if not i:
-                return False
-        return True
-        
+        if goal == len(count_dict):
+            return True
+        return False
+    
     left = 0
     result = 0
     for right in range(n): 
-        count_dict[values[right]] += 1
+        try:
+            count_dict[values[right]] += 1
+        except:
+            count_dict[values[right]] = 1
         if result:
             count_dict[values[left]] -= 1
+            if not count_dict[values[left]]:
+                del count_dict[values[left]]
             left += 1
+            
         while check():
             result = [left + 1, right + 1]
             count_dict[values[left]] -= 1
+            if not count_dict[values[left]]:
+                del count_dict[values[left]]
             left += 1
+            
     a,b = result
     print(a)
     print(b)
 solution()
+
