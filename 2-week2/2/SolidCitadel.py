@@ -24,4 +24,8 @@ def isRight(s):
         return True
 
 s = input()
-print(0 if len(s)%2 else sum([isRight(s[i:]+s[:i]) for i in range(len(s))]))
+num = 0
+for i in range(len(s)):
+    if isRight(s[i:]+s[:i]):
+        num += 1
+print(num)
