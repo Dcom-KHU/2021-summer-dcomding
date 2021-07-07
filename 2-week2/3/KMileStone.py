@@ -53,22 +53,22 @@ while len(route) < n-len(tickets['self']):
 # n+1 routes with n tickets
 route.append(next)
 
-# add self ticket
-def order(x):
-    return 'a' * len(x) + x
-
-for self in tickets['self']:
-    last = 0
-    inserted = False
-    for i in range(len(route)):
-        if route[i] == self:
-            last = i
-            if i < len(route)-1 and order(self) < order(route[i+1]):
-                route.insert(i, self)
-                inserted = True
-                break
-    if not inserted:
-        route.insert(last, self)
+# # add self ticket
+# def order(x):
+#     return 'a' * len(x) + x
+#
+# for self in tickets['self']:
+#     last = 0
+#     inserted = False
+#     for i in range(len(route)):
+#         if route[i] == self:
+#             last = i
+#             if i < len(route)-1 and order(self) < order(route[i+1]):
+#                 route.insert(i, self)
+#                 inserted = True
+#                 break
+#     if not inserted:
+#         route.insert(last, self)
 
 
 for club in route:
