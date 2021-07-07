@@ -12,36 +12,48 @@ for key in tickets:
     tickets[key].sort(key=lambda x : 'a' * len(x) + x)
 
 
-# DFS
-def dfs(prev):
-    # add club
-    route.append(prev)
+route = ['DCOM']
+prev = 'DCOM'
+next = tickets['DCOM'].pop(0)
+valid = True
 
-    # success : n+1 routes with n tickets
-    if len(route) > n:
-        return True
-
-    # fail : no further possible route before use all tickets
-    elif prev not in tickets.keys() or len(tickets[prev]) == 0:
-        return False
+while len(route) < n:
+    # no further possible route before use all tickets
+    if next not in tickets.keys() or len(tickets[next]) == 0:
+        valid = False
 
     # next possible route
-    else:
-        for i in range(len(tickets[prev])):
-            next = tickets[prev].pop(0)
+    if valid == True:
+        route.append(next)
+        prev = next
+        next = tickets[next].pop(0)
 
-            # if return is True, break loop and return True in a chain
-            if dfs(next):
-                return True
-            # if return is False, remove club and go on
-            else:
-                route.pop()
+    # choose another route
+    elif valid == False:
+        # undo
+        tickets[prev].append(next)
 
-            tickets[prev].append(next)
+        # take another route
+        if len(set(tickets[prev])) != 1:
+            new_next = tickets[prev].pop(0)
+            while new_next == next:
+                tickets[prev].append(new_next)
+                new_next = tickets[prev].pop(0)
+            prev = next
+            next = new_next
+            valid = True
 
+        # if there is only 1 dst, you cannot take another route
+        # more undo
+        else:
+            next = route.pop()
+            if route:
+                prev = route[-1]
+            valid = False
 
-route = []
-dfs('DCOM')
+# n+1 routes with n tickets
+route.append(next)
+
 
 for club in route:
     print(club, end=' ')
