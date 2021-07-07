@@ -6,12 +6,18 @@
 #include <queue>
 using namespace std;
 
+struct compare{
+    bool operator() (string& x, string& y) {
+        if(x.length() == y.length()) return x>y;
+        else return x.length()>y.length();
+    }
+};
+
 int n;
-map<string, priority_queue <string, vector<string>, greater<string> > > tickets;
+map<string, priority_queue <string, vector<string>, compare > > tickets;
 stack<string> resultStack, funcStack;
 char cDepartureClub[12], cArrivalClub[12];
 string sDepartureClub, sArrivalClub;
-
 
 int main() {
 	scanf("%d\n", &n);
@@ -20,9 +26,9 @@ int main() {
 		sDepartureClub = string(cDepartureClub), sArrivalClub = string(cArrivalClub);
 
 		if(!tickets.count(sDepartureClub))
-            tickets.insert(make_pair(sDepartureClub, priority_queue<string, vector<string>, greater<string> >()));
+            tickets.insert(make_pair(sDepartureClub, priority_queue<string, vector<string>, compare>()));
 		if(!tickets.count(sArrivalClub))
-            tickets.insert(make_pair(sArrivalClub, priority_queue<string, vector<string>, greater<string> >()));
+            tickets.insert(make_pair(sArrivalClub, priority_queue<string, vector<string>, compare>()));
 
         tickets[sDepartureClub].push(sArrivalClub);
 	}
