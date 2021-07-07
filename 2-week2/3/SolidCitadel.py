@@ -24,4 +24,4 @@ for t in tickets:
     else:
         groups[t[0]] = [t[1]]
 
-print(' '.join(search('ICN')))
+print(' '.join(search('DCOM')))
