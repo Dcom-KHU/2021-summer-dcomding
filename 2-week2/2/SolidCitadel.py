@@ -16,9 +16,12 @@ def isRight(s):
                 close = findClose(s, key)
                 if close != -1:
                     return isRight(s[1:close]) and isRight(s[close+1:])
+                else:
+                    return False
+            elif s[0] == key[1]:
+                return False
     else:
         return True
-    return False
 
 s = input()
 print(sum([isRight(s[i:]+s[:i]) for i in range(len(s))]))
