@@ -16,7 +16,7 @@ def search(f):
         return [f]
 
 n = int(input())
-tickets = [list(map(int, input().split()))for i in range(n)]
+tickets = [input().split() for i in range(n)]
 
 for t in tickets:
     if t[0] in groups.keys():
