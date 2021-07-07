@@ -15,9 +15,9 @@ for key in tickets:
     tickets[key].sort(key=lambda x : 'a' * len(x) + x)
 
 
-route = ['ICN']
-prev = 'ICN'
-next = tickets['ICN'].pop(0)
+route = ['DCOM']
+prev = 'DCOM'
+next = tickets['DCOM'].pop(0)
 valid = True
 
 while len(route) < n-len(tickets['self']):
