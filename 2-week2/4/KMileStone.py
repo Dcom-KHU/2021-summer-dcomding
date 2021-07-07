@@ -12,6 +12,9 @@ left = 0
 right = len(count.keys())-1
 for i in items[left:right+1]:
     count[i] += 1
+while right < n-1 and 0 in count.values():
+    right += 1
+    count[items[right]] += 1
 
 while right < n:
     # if included all item
@@ -23,22 +26,18 @@ while right < n:
             if max - min + 1 == len(count.keys()):
                 break
 
-        # take less item
+        # shorten window
         count[items[left]] -= 1
         left += 1
-        while left <= right and items[left] == items[left+1]:
-            count[items[left]] -= 1
-            left += 1
 
     # if not included all item
     else:
-        # take more item
-        while right < n-1 and items[right] == items[right+1]:
-            right += 1
-            count[items[right]] += 1
+        # slide window right
         right += 1
         if right < n:
             count[items[right]] += 1
+        count[items[left]] -= 1
+        left += 1
 
 
 # num of stand starts with 1
