@@ -1,7 +1,7 @@
 def solution():
     n = int(input())
     arrows = list(map(int, input().split()))
-    SIZE = 500000
+    SIZE = 400010
     result = 0
     # 방이 생겼다는 것은 이미 들린 정점에 다시 들리는 것.
     # 한번 간선을 탐색할때 마다 1씩 코스트를 늘려서 처음 정점에 들리면 추가
@@ -18,35 +18,27 @@ def solution():
     cur_y = SIZE // 2
     cur_x = SIZE // 2
 
-    # 한번이라도 빈 간선을 탔는가
-    is_valid = False
     for i in range(n):
         cur_arrow = arrows[i]
         y,x = moves[cur_arrow]
-        # 나간 쪽 체크
-        try:
-            ways[cur_y][cur_x][cur_arrow] = 1
-        except:
-            ways[cur_y][cur_x]= [0]*8
-            ways[cur_y][cur_x][cur_arrow] = 1
+        
         for j in range(2):
-            #print(cur_arrow, cur_y, cur_x)
             nodes[cur_y][cur_x] = i + 2
-
             cur_y += y
             cur_x += x
-            # [6, 0, 3, 0, 5, 2, 6, 0, 3, 0, 5]
-            # 2번 이전에 왔는가?
+            
+            # 2번 이전에 왔는가? and 새로운 길로 왔는가
             try:
-                #print(cur_y, cur_x,nodes[cur_y][cur_x],i)
-                if nodes[cur_y][cur_x] <= i and not ways[cur_y][cur_x][cur_arrow]:
+                if nodes[cur_y][cur_x] <= i and not ways[cur_y - y][cur_x - x][cur_arrow]:    
                     result += 1
-                    #print(cur_y, cur_x, result)
             except:
                 pass
-
             try:
-                
+                ways[cur_y - y][cur_x - x][cur_arrow] = 1
+            except:
+                ways[cur_y - y][cur_x - x]= [0]*8
+                ways[cur_y - y][cur_x - x][cur_arrow] = 1
+            try:
                 ways[cur_y][cur_x][opposite[cur_arrow]] = 1
             except:
                 ways[cur_y][cur_x]= [0]*8
@@ -55,5 +47,4 @@ def solution():
         ways[cur_y - y][cur_x - x][cur_arrow] = 1
         nodes[cur_y][cur_x] = i + 2
     print(result)
-    return result
 solution()
