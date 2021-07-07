@@ -59,18 +59,18 @@ route.append(next)
 def order(x):
     return 'a' * len(x) + x
 
-for dst, count in tickets['self'].items():
+for dst in sorted(tickets['self'].keys(), key=lambda x : 'a' * len(x) + x):
     last = 0
     inserted = False
     for i in range(len(route)):
         if route[i] == dst:
             last = i
             if i < len(route)-1 and order(dst) < order(route[i+1]):
-                route[i:i] = [dst for _ in range(count)]
+                route[i:i] = [dst for _ in range(tickets['self'][dst])]
                 inserted = True
                 break
     if not inserted:
-        route[last:last] = [dst for _ in range(count)]
+        route[last:last] = [dst for _ in range(tickets['self'][dst])]
     print(route)
 
 
