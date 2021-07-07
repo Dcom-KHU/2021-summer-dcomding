@@ -7,9 +7,8 @@ def solution():
     for i in range(n):
         data = input().rstrip()
         values[i] = data
-        count_dict[data] = 0
     
-    goal= len(count_dict)
+    goal= len(set(values))
     
     def check():
         if goal == len(count_dict):
