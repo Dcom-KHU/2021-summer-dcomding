@@ -9,7 +9,7 @@ for i in range(n):
 # tickets : {src1:[dst1, dst2, ...], src2:[dst1, dst2, ...], ...}
 # sort dst lists
 for key in tickets:
-    tickets[key].sort()
+    tickets[key].sort(key=lambda x : 'a' * len(x) + x)
 
 
 # DFS
