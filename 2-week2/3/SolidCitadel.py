@@ -23,5 +23,6 @@ for t in tickets:
         groups[t[0]].append(t[1])
     else:
         groups[t[0]] = [t[1]]
-
-print(' '.join(search('DCOM')))
+        
+answer = search('DCOM')
+print(' '.join(answer if answer else 'Failed'))
