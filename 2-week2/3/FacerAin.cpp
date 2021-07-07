@@ -5,13 +5,13 @@
 /*
 단순 DFS/BFS로는 풀 수 없다
 백트래킹 사용할 것
-간선의 개수(티켓의 수)와 노드의 수(동아리의 수)가 크지 않으므로 사용가능은 어림도 없지 ㅜ
+간선의 개수(티켓의 수)와 노드의 수(동아리의 수)가 크지 않으므로 사용가능은 어림도 없지 ㅜn
 정렬: nlgn + a(문자열 매칭)
 
 map lg n
 */
 using namespace std;
-vector<vector<int>> ticket_v;
+vector<vector<string>> ticket_v;
 vector<vector<bool>> check_v;
 vector<string> answer;
 int n;
@@ -79,7 +79,7 @@ int main(){
 			ticket_v.push_back(t_v);
 			check_v.push_back(t_v2);
 		}
-		ticket_v[m[s1]].push_back(m[s2]);
+		ticket_v[m[s1]].push_back(s2);
 		check_v[m[s1]].push_back(false);
 	}
 	for(int i = 0; i < ticket_v.size(); i++){
