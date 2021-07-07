@@ -1,18 +1,20 @@
 n = int(input())
-tickets = {'self':[]}
+tickets = {'self':{}}
 for i in range(n):
     src, dst = input().split()
     tickets.setdefault(src, [])
     if src != dst:
         tickets[src].append(dst)
     else:
-        tickets['self'].append(dst)
+        tickets['self'].setdefault(dst, 0)
+        tickets['self'][dst] += 1
 
 
 # tickets : {src1:[dst1, dst2, ...], src2:[dst1, dst2, ...], ...}
 # sort dst lists
 for key in tickets:
-    tickets[key].sort(key=lambda x : 'a' * len(x) + x)
+    if key != 'self':
+        tickets[key].sort(key=lambda x : 'a' * len(x) + x)
 
 
 route = ['DCOM']
@@ -20,7 +22,7 @@ prev = 'DCOM'
 next = tickets['DCOM'].pop(0)
 valid = True
 
-while len(route) < n-len(tickets['self']):
+while len(route) < n-sum(tickets['self'].values()):
     # if get None or empty list, no further possible route before use all tickets
     if valid:
         valid = bool(tickets.get(next))
@@ -53,22 +55,23 @@ while len(route) < n-len(tickets['self']):
 # n+1 routes with n tickets
 route.append(next)
 
-# # add self ticket
-# def order(x):
-#     return 'a' * len(x) + x
-#
-# for self in tickets['self']:
-#     last = 0
-#     inserted = False
-#     for i in range(len(route)):
-#         if route[i] == self:
-#             last = i
-#             if i < len(route)-1 and order(self) < order(route[i+1]):
-#                 route.insert(i, self)
-#                 inserted = True
-#                 break
-#     if not inserted:
-#         route.insert(last, self)
+# add self ticket
+def order(x):
+    return 'a' * len(x) + x
+
+for dst, count in tickets['self'].items():
+    last = 0
+    inserted = False
+    for i in range(len(route)):
+        if route[i] == dst:
+            last = i
+            if i < len(route)-1 and order(dst) < order(route[i+1]):
+                route[i:i] = [dst for _ in range(count)]
+                inserted = True
+                break
+    if not inserted:
+        route[last:last] = [dst for _ in range(count)]
+    print(route)
 
 
 for club in route:
