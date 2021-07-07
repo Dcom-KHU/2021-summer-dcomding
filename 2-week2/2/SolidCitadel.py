@@ -1,22 +1,17 @@
 def isRight(s):
-    if len(s):
-        for key in ['[]', '()', '{}']:
-            if s[0] == key[0]:
-                count = 0
-                for i in range(len(s)):
-                    if s[i] == key[0]:
-                        count += 1
-                    elif s[i] == key[1]:
-                        count -= 1
-                        if count == 0:
-                            return isRight(s[1:i]) and isRight(s[i+1:])
-    else:
-        return True
-    return False
+    stack = list()
+    for ch in s:
+        for open, close in zip('[({', '])}'):
+            if ch == open:
+                stack.append(open)
+                break
+            elif ch == close:
+                if stack and stack[-1] == open:
+                    stack.pop()
+                    break
+                else:
+                    return False
+    return False if stack else True
 
 s = input()
-num = 0
-for i in range(len(s)):
-    if isRight(s[i:]+s[:i]):
-        num += 1
-print(num)
+print(sum([isRight(s[i:]+s[:i]) for i in range(len(s))]))
