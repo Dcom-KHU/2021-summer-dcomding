@@ -1,9 +1,12 @@
 n = int(input())
-tickets = {}
+tickets = {'self':[]}
 for i in range(n):
     src, dst = input().split()
     tickets.setdefault(src, [])
-    tickets[src].append(dst)
+    if src != dst:
+        tickets[src].append(dst)
+    else:
+        tickets['self'].append(dst)
 
 
 # tickets : {src1:[dst1, dst2, ...], src2:[dst1, dst2, ...], ...}
@@ -12,36 +15,61 @@ for key in tickets:
     tickets[key].sort(key=lambda x : 'a' * len(x) + x)
 
 
-# DFS
-def dfs(prev):
-    # add club
-    route.append(prev)
+route = ['ICN']
+prev = 'ICN'
+next = tickets['ICN'].pop(0)
+valid = True
 
-    # success : n+1 routes with n tickets
-    if len(route) > n:
-        return True
-
-    # fail : no further possible route before use all tickets
-    elif prev not in tickets.keys() or len(tickets[prev]) == 0:
-        return False
+while len(route) < n-len(tickets['self']):
+    # if get None or empty list, no further possible route before use all tickets
+    if valid:
+        valid = bool(tickets.get(next))
 
     # next possible route
-    else:
-        for i in range(len(tickets[prev])):
-            next = tickets[prev].pop(0)
+    if valid == True:
+        route.append(next)
+        prev = next
+        next = tickets[next].pop(0)
 
-            # if return is True, break loop and return True in a chain
-            if dfs(next):
-                return True
-            # if return is False, remove club and go on
-            else:
-                route.pop()
+    # choose another route
+    elif valid == False:
+        # undo
+        tickets[prev].append(next)
 
-            tickets[prev].append(next)
+        # if there is only 1 dst, you cannot take another route
+        # more undo
+        if len(set(tickets[prev])) == 1:
+            next = route.pop()
+            if route:
+                prev = route[-1]
 
+        # take another route
+        else:
+            new_next = tickets[prev].pop(0)
+            prev = next
+            next = new_next
+            valid = True
 
-route = []
-dfs('DCOM')
+# n+1 routes with n tickets
+route.append(next)
+
+# add self ticket
+def order(x):
+    return 'a' * len(x) + x
+
+for self in tickets['self']:
+    last = 0
+    inserted = False
+    for i in range(len(route)):
+        if route[i] == self:
+            last = i
+            if i < len(route)-1 and order(self) < order(route[i+1]):
+                route.insert(i, self)
+                inserted = True
+                break
+    if not inserted:
+        route.insert(last, self)
+
 
 for club in route:
     print(club, end=' ')
