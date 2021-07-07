@@ -26,10 +26,16 @@ while right < n:
         # take less item
         count[items[left]] -= 1
         left += 1
+        while left <= right and items[left] == items[left+1]:
+            count[items[left]] -= 1
+            left += 1
 
     # if not included all item
     else:
         # take more item
+        while right < n-1 and items[right] == items[right+1]:
+            right += 1
+            count[items[right]] += 1
         right += 1
         if right < n:
             count[items[right]] += 1
