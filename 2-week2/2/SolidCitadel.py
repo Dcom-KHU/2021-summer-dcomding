@@ -15,13 +15,11 @@ def isRight(s):
             if s[0] == key[0]:
                 close = findClose(s, key)
                 if close != -1:
-                    return isRight(s[1:close]) and isRight(s[close+1:])
-                else:
-                    return False
-            elif s[0] == key[1]:
-                return False
-    else:
-        return True
+                    if len(s[1:close]):
+                        return isRight(s[1:close]) and isRight(s[close+1:])
+                    else:
+                        return True
+    return False
 
 s = input()
 num = 0
