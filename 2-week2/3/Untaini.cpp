@@ -115,11 +115,12 @@ int main() {
 
         if(usedCyclePtr[club]<eachClubCycles[club].size()){
             while(usedCyclePtr[club]<eachClubCycles[club].size()){
-                if(existLastCourse.count(club) && eachClubCycles[club][usedCyclePtr[club]][0]>nextClubs.top()) break;
+                if(existLastCourse.count(club) && (eachClubCycles[club][usedCyclePtr[club]].size()?eachClubCycles[club][usedCyclePtr[club]][0]:club)>nextClubs.top()) break;
 
                 for(vector<string>::iterator iter = eachClubCycles[club][usedCyclePtr[club]].begin(); iter != eachClubCycles[club][usedCyclePtr[club]].end(); ++iter)
                     revStack.push(make_pair(*iter, 1));
                 revStack.push(make_pair(club, 2));
+                nextClubs.push(club);
 
                 ++usedCyclePtr[club];
             }
@@ -129,7 +130,6 @@ int main() {
                 revStack.pop();
             }
         }
-        nextClubs.push(club);
 	}
 
 	return 0;
