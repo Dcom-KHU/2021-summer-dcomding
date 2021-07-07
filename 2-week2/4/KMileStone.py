@@ -6,28 +6,33 @@ for i in range(n):
 
 
 min = 0
-max = n-1
-count = {i:0 for i in set(items)}
+max = n - 1
+n_item = len(set(items))
 left = 0
-right = len(count.keys())-1
-for i in items[left:right+1]:
+right = n_item - 1
+count = {}
+for i in items[left:right + 1]:
+    count.setdefault(i, 0)
     count[i] += 1
-while right < n-1 and 0 in count.values():
+while right < n - 1 and len(count) != n_item:
     right += 1
+    count.setdefault(items[right], 0)
     count[items[right]] += 1
 
 while right < n:
     # if included all item
-    if 0 not in count.values():
+    if len(count) == n_item:
         # update min max
         if right - left < max - min:
             min = left
             max = right
-            if max - min + 1 == len(count.keys()):
+            if max - min + 1 == n_item:
                 break
 
         # shorten window
         count[items[left]] -= 1
+        if not count[items[left]]:
+            del count[items[left]]
         left += 1
 
     # if not included all item
@@ -35,8 +40,11 @@ while right < n:
         # slide window right
         right += 1
         if right < n:
+            count.setdefault(items[right], 0)
             count[items[right]] += 1
         count[items[left]] -= 1
+        if not count[items[left]]:
+            del count[items[left]]
         left += 1
 
 
