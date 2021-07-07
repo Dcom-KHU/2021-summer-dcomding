@@ -1,7 +1,6 @@
 def solution():
     n = int(input())
     arrows = list(map(int, input().split()))
-
     SIZE = 500000
     result = 0
     # 방이 생겼다는 것은 이미 들린 정점에 다시 들리는 것.
@@ -25,7 +24,11 @@ def solution():
         cur_arrow = arrows[i]
         y,x = moves[cur_arrow]
         # 나간 쪽 체크
-        
+        try:
+            ways[cur_y][cur_x][cur_arrow] = 1
+        except:
+            ways[cur_y][cur_x]= [0]*8
+            ways[cur_y][cur_x][cur_arrow] = 1
         for j in range(2):
             #print(cur_arrow, cur_y, cur_x)
             nodes[cur_y][cur_x] = i + 2
@@ -36,17 +39,12 @@ def solution():
             # 2번 이전에 왔는가?
             try:
                 #print(cur_y, cur_x,nodes[cur_y][cur_x],i)
-                if nodes[cur_y][cur_x] <= i and not ways[cur_y - y][cur_x - x][cur_arrow]:
-                    
+                if nodes[cur_y][cur_x] <= i and not ways[cur_y][cur_x][cur_arrow]:
                     result += 1
                     #print(cur_y, cur_x, result)
             except:
                 pass
-            try:
-                ways[cur_y - y][cur_x - x][cur_arrow] = 1
-            except:
-                ways[cur_y - y][cur_x - x]= [0]*8
-                ways[cur_y - y][cur_x - x][cur_arrow] = 1
+
             try:
                 
                 ways[cur_y][cur_x][opposite[cur_arrow]] = 1
@@ -58,4 +56,4 @@ def solution():
         nodes[cur_y][cur_x] = i + 2
     print(result)
     return result
-solutin()
+solution()
