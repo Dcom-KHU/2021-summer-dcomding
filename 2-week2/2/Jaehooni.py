@@ -31,7 +31,7 @@ def correct(bracket_list):
         if (parent_left < 0 or curly_left < 0 or square_left < 0):
             return False
     
-    if (parent_left == 0 and curly_left == 0 and square_left == 0):
+    if (parent_left >= 0 and curly_left >= 0 and square_left >= 0):
         return True
             
 
