@@ -72,6 +72,7 @@ int get_number(string _c, int size) {
 	return cnt;
 }
 int search(int cur,int cnt) {
+	//cout << "cur: " << cur << " cnt : " << cnt << "\n";
 	bool is_searched=false, is_left = false;
 
 	if (cnt == N) {
@@ -82,14 +83,17 @@ int search(int cur,int cnt) {
 		return false;
 	}
 
-	res[cnt] = club[cur];
+	
 	for (int i = 0;i < tree[cur].size();i++) {
 		if (tree[cur][i].second) continue;
 		is_left = true;
 		//res[cnt] = club[tree[cur][i].first];
 		tree[cur][i].second = 1;
 		is_searched = search(tree[cur][i].first, cnt + 1);
-		if (is_searched) return true;
+		if (is_searched) {
+			res[cnt] = club[cur];
+			return true;
+		}
 
 		tree[cur][i].second = 0;
 	}
