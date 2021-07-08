@@ -47,7 +47,8 @@ int main()
 		if (club[i] == "DCOM") start = i;
 		for (int j = 0; j < tree[i].size();j++) {
 			for (int k = j + 1; k < tree[i].size();k++) {
-				if (club[tree[i][j].first] > club[tree[i][k].first]) {//이름 빠른게 앞으로 가야 함
+				if (club[tree[i][j].first].length() > club[tree[i][k].first].length() || 
+					(club[tree[i][j].first].length() == club[tree[i][k].first].length()&&(club[tree[i][j].first] > club[tree[i][k].first]))) {//이름 빠른게 앞으로 가야 함
 					temp = tree[i][j].first;
 					tree[i][j].first = tree[i][k].first;
 					tree[i][k].first = temp;
