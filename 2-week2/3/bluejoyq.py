@@ -1,10 +1,10 @@
 import sys
 from collections import deque
+sys.setrecursionlimit(100000)
 input = sys.stdin.readline
 def solution():
     n = int(input())
     can_go = {}
-    check = {}
     for i in range(n):
         start, end = input().split()
         try:
@@ -12,31 +12,40 @@ def solution():
         except:
             can_go[start] = [end]
             
-        try:
-            check[start][end] = 1
-        except:
-            check[start] = {end: 1}
-            
     def custom_rank(key):
         '''길이와 사전순을 기준으로 정렬'''
-        try:
-            check[key][idx]
-            return (0,len(key), key)
-        except:
-            return (1, len(key), key)
+        return (len(key), key)
+
     for idx in can_go:
-        # fix
-        
         can_go[idx] = deque(sorted(can_go[idx],key = custom_rank))
         
-    cur = 'DCOM'
-    result = ""
-    while True:
-        result += cur +' '
+    
+    
+    def get_euler_circuit(cur, circuit):
         try:
-            nxt = can_go[cur].popleft()
+            while can_go[cur]:
+                nxt = can_go[cur].popleft()
+                get_euler_circuit(nxt, circuit)
+            del can_go[cur]
         except:
-            break
-        cur = nxt
-    print(result)
+            circuit.appendleft(cur)
+            return 0
+        circuit.appendleft(cur)
+        return 1
+    start = 'DCOM'
+    result = []
+    circuit = deque([])
+    last = []
+    if get_euler_circuit(start, circuit):
+        result += circuit
+    else:
+        last = circuit
+    for key in can_go:
+        new_circuit = deque([])
+        if get_euler_circuit(key, new_circuit):
+            result += new_circuit
+        else:
+            last = new_circuit
+    result += last
+    print(*result)
 solution()
