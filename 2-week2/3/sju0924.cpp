@@ -5,9 +5,23 @@
 
 using namespace std;
 
+struct ticket {
+	string first;
+	string second;
+
+	bool operator<(ticket& other) {
+		if (this->first.size() < other.first.size()) {
+			return true;
+		}
+		if (this->first < other.first) {
+			return true;
+		}
+	}
+};
 pair<string, string> tickets[100001];
 bool visit[100001];
 vector<string> res;
+
 
 int search(string cur,int cnt);
 int N;
