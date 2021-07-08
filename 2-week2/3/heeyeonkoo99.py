@@ -26,8 +26,8 @@ def solution():
             stack.append(routes[top][-1])
             routes[top]=routes[top][:-1]
    
-    for i in path[::-1]:
-        answer+=i+" "
+
+    answer=" ".join(path[::-1])
     
     
     return answer
