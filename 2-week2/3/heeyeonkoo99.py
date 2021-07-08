@@ -4,6 +4,7 @@
 
 def solution():
     routes=dict()
+    answer=""
 
 #그래프 생성
     for i in range(int(input())):
@@ -24,8 +25,12 @@ def solution():
         else:
             stack.append(routes[top][-1])
             routes[top]=routes[top][:-1]
-        
-    return path[::-1]
+   
+    for i in path[::-1]:
+        answer+=i+" "
+    
+    
+    return answer
 
 solution()
 
