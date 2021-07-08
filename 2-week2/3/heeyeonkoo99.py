@@ -30,10 +30,8 @@ def solution():
             routes[top]=routes[top][:-1]
    
 
-    answer=" ".join(path[::-1])
-    
-    
-    return answer
+    for i in path[::-1]:
+        print(i,end=" ")
 
 solution()
 
