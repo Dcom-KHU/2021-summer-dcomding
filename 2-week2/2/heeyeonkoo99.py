@@ -9,14 +9,18 @@ def solution(ip):
                 stack.append(c)
             else:
                 if not stack:
-                    return False
+                    print(0)
+	      return
                 x=stack.pop()
                 if c==")" and x!="(":
-                    return False
+                    print(0)
+	      return
                 elif c=="]" and x!="[":
-                    return False
+                    print(0)
+	      return
                 elif c=="}" and x!="{":
-                    return False
+                    print(0)
+	      return
         return len(stack)==0
     ip=deque(ip)
     answer=0
