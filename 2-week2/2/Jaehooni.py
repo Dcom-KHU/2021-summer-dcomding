@@ -15,25 +15,35 @@ def correct(bracket_list):
 
         elif (bracket_list[i] == ')'):
             parent_left -= 1
+            if (parent_left == 0):
+                if (curly_left > 0 or square_left > 0):
+                    return False
 
         elif (bracket_list[i] == '{'):
             curly_left += 1
 
         elif (bracket_list[i] == '}'):
             curly_left -= 1
+            if (curly_left == 0):
+                if (parent_left > 0 or square_left > 0):
+                    return False
 
         elif (bracket_list[i] == '['):
             square_left += 1
 
         else:
             square_left -= 1
+            if (square_left == 0):
+                if (parent_left > 0 or curly_left > 0):
+                    return False
         
         if (parent_left < 0 or curly_left < 0 or square_left < 0):
             return False
     
-    if (parent_left >= 0 and curly_left >= 0 and square_left >= 0):
+    if (parent_left == 0 and curly_left == 0 and square_left == 0):
+        print(bracket_list)
         return True
-            
+
 
 correct_num = 0
 bracket_list = deque(list(input()))
