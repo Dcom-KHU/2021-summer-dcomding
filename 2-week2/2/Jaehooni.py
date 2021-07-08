@@ -41,7 +41,6 @@ def correct(bracket_list):
             return False
     
     if (parent_left == 0 and curly_left == 0 and square_left == 0):
-        print(bracket_list)
         return True
 
 
