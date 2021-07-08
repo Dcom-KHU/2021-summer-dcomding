@@ -24,5 +24,5 @@ def solution(ip):
         ip.rotate(-1)
         if check(ip):
             answer+=1
-    return answer
+    print(answer)
 #Review)deque 기능 제대로 알아보자!
