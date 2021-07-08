@@ -1,6 +1,8 @@
 #2주차-2
 #괄호 회전하기
 from collections import deque
+s=str(input())
+
 def solution(ip):
     def check(s):
         stack=[]
@@ -9,18 +11,14 @@ def solution(ip):
                 stack.append(c)
             else:
                 if not stack:
-                    print(0)
-	      return
+                    return False
                 x=stack.pop()
                 if c==")" and x!="(":
-                    print(0)
-	      return
+                    return False
                 elif c=="]" and x!="[":
-                    print(0)
-	      return
+                    return False
                 elif c=="}" and x!="{":
-                    print(0)
-	      return
+                    return False
         return len(stack)==0
     ip=deque(ip)
     answer=0
@@ -29,4 +27,5 @@ def solution(ip):
         if check(ip):
             answer+=1
     print(answer)
+solution(s)
 #Review)deque 기능 제대로 알아보자!
