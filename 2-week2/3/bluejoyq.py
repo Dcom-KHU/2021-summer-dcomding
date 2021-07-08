@@ -1,6 +1,6 @@
 import sys
 from collections import deque
-sys.setrecursionlimit(100000)
+sys.setrecursionlimit(200000)
 input = sys.stdin.readline
 def solution():
     n = int(input())
