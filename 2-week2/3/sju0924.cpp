@@ -16,6 +16,12 @@ struct ticket {
 		if (this->first < other.first) {
 			return true;
 		}
+		if (this->second.size() < other.second.size()) {
+			return true;
+		}
+		if (this->second < other.second) {
+			return true;
+		}
 	}
 };
 pair<string, string> tickets[100001];
