@@ -1,55 +1,44 @@
 from collections import deque
 
-parent = ['(',')']
-curly_bracket = ['{','}']
-square_bracket = ['[',']']
-
 def correct(bracket_list):
-    parent_left = 0
-    curly_left = 0
-    square_left = 0
-    inner = True
+    bracket_stack = []
     
     for i in range(0, len(bracket_list)):
         if (bracket_list[i] == '('):
-            parent_left += 1
-            if (curly_left > 0 or square_left > 0):
-                inner = True
+            bracket_stack.append('(')
 
         elif (bracket_list[i] == ')'):
-            parent_left -= 1
-            if (parent_left == 0):
-                if (curly_left > 0 or square_left > 0 and inner==False):
-                    return False
+            if (len(bracket_stack) == 0):
+                return False
+            
+            value = bracket_stack.pop()
+            if (value != '('):
+                return False
 
         elif (bracket_list[i] == '{'):
-            curly_left += 1
-            if (parent_left > 0 or square_left > 0):
-                inner = True
+            bracket_stack.append('{')
 
         elif (bracket_list[i] == '}'):
-            curly_left -= 1
-            if (curly_left == 0):
-                if (parent_left > 0 or square_left > 0 and inner==False):
-                    return False
+            if (len(bracket_stack) == 0):
+                return False
+            
+            value = bracket_stack.pop()
+            if (value != '{'):
+                return False
 
         elif (bracket_list[i] == '['):
-            square_left += 1
-            if (parent_left > 0 or curly_left > 0):
-                inner = True
+            bracket_stack.append('[')
 
         else:
-            square_left -= 1
-            if (square_left == 0):
-                if (parent_left > 0 or curly_left > 0 and inner==False):
-                    return False
+            if (len(bracket_stack) == 0):
+                return False
+            
+            value = bracket_stack.pop()
+            if (value != '['):
+                return False
         
-        if (parent_left < 0 or curly_left < 0 or square_left < 0):
-            return False
-    
-    if (parent_left == 0 and curly_left == 0 and square_left == 0):
-        # print(bracket_list)
-        return True
+        # print(bracket_stack)
+    return True
 
 
 correct_num = 0
