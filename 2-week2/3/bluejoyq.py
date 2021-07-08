@@ -26,6 +26,7 @@ def solution():
             return (1, len(key), key)
     for idx in can_go:
         # fix
+        
         can_go[idx] = deque(sorted(can_go[idx],key = custom_rank))
         
     cur = 'DCOM'
