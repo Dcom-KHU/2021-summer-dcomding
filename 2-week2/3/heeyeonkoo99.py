@@ -9,7 +9,10 @@ def solution():
 #그래프 생성
     for i in range(int(input())):
         start,end=map(str,input().split())
-        routes[start]=routes.get(start,[])+[end]
+        if start==end:
+            continue
+        else:
+            routes[start]=routes.get(start,[])+[end]
 
     for r in routes.keys():
         routes[r].sort(reverse=True)
