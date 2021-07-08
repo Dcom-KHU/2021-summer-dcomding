@@ -1,9 +1,5 @@
 from collections import deque
 
-parent = ['(',')']
-curly_bracket = ['{','}']
-square_bracket = ['[',']']
-
 def correct(bracket_list):
     bracket_stack = []
     
