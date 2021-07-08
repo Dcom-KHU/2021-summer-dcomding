@@ -1,5 +1,9 @@
 from collections import deque
 
+parent = ['(',')']
+curly_bracket = ['{','}']
+square_bracket = ['[',']']
+
 def correct(bracket_list):
     bracket_stack = []
     
@@ -38,7 +42,8 @@ def correct(bracket_list):
                 return False
         
         # print(bracket_stack)
-    return True
+    if (len(bracket_stack) == 0):
+        return True
 
 
 correct_num = 0
