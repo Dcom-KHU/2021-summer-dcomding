@@ -5,44 +5,37 @@ def solution():
     n = int(input())
     can_go = {}
     check = {}
-    kinds = set()
-    
     for i in range(n):
-        start, end = input().split()   
+        start, end = input().split()
         try:
             can_go[start].append(end)
-            check[start][end] = 1
         except:
             can_go[start] = [end]
+            
+        try:
+            check[start][end] = 1
+        except:
             check[start] = {end: 1}
             
-    def rank(tmp):
+    def custom_rank(key):
         '''길이와 사전순을 기준으로 정렬'''
-        return (len(tmp), tmp)
-    
-    for k in can_go:
+        try:
+            check[key][idx]
+            return (0,len(key), key)
+        except:
+            return (1, len(key), key)
+    for idx in can_go:
         # fix
-        can_go[k] = deque(sorted(can_go[k],key = rank))
-
-    cur = 'DCOM'
-    while True:
-        print(cur, end =' ')
-        cur_tickets = can_go[cur]
-        nxt = cur_tickets.popleft()
-        try:
-            if cur_tickets and not check[nxt][cur]:
-                pass
-        except:
-            cur_tickets.append(nxt)
-            nxt = cur_tickets.popleft()
-        cur = nxt
+        can_go[idx] = deque(sorted(can_go[idx],key = custom_rank))
         
+    cur = 'DCOM'
+    result = ""
+    while True:
+        result += cur +' '
         try:
-            if not can_go[cur]:
-                raise()
+            nxt = can_go[cur].popleft()
         except:
-            print(cur, end =' ')
             break
+        cur = nxt
+    print(result)
 solution()
-
-     
