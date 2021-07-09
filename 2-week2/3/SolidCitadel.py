@@ -1,28 +1,26 @@
-groups = dict()
-
-def search(f):
-    global groups
-    if sum(map(bool, groups.values())):
-        if f in groups.keys():
-            for t in sorted(sorted(groups[f]), key=lambda x: len(x)):
-                groups[f].remove(t)
-                result = search(t)
-                if result:
-                    return [f] + result
-                else:
-                    groups[f].append(t)
-        return False
-    else:
-        return [f]
+from collections import deque
 
 n = int(input())
 tickets = [input().split() for i in range(n)]
 
+groups = dict()
 for t in tickets:
     if t[0] in groups.keys():
         groups[t[0]].append(t[1])
     else:
         groups[t[0]] = [t[1]]
-        
-answer = search('DCOM')
-print(' '.join(answer if answer else 'Failed'))
+
+groups = {k: sorted(sorted(v), key=lambda x: len(x)) for k, v in groups.items()}
+
+queue = deque([(['DCOM'], groups)])
+while len(queue):
+    route, groups = queue.popleft()
+    f = route[-1]
+    if f in groups.keys():
+        for t in groups[f]:
+            newgroup = {k: v[:] for k, v in groups.items() if len(v)}
+            newgroup[f].remove(t)
+            queue.append([route+[t], newgroup])
+    elif len(route) == n+1 and len(groups) == 1:
+        break
+print(' '.join(route))
