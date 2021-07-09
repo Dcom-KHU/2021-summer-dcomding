@@ -10,18 +10,19 @@ struct ticket {
 	string first;
 	string second;
 
-	const bool operator<(ticket& other) {
+	bool operator<(ticket& other) {
 		if (this->second.size() < other.second.size()) {
 			return true;
 		}
-		else if (this->second.size() == other.second.size() && this->second < other.second) {
+		if (this->second < other.second) {
 			return true;
 		}
-		else return false;
+		return false;
 	}
 
 	
 };
+<<<<<<< HEAD
 
 ticket tickets[100001];
 bool visit[100001];
@@ -81,6 +82,11 @@ public:
 
 
 };
+=======
+pair<string, string> tickets[100001];
+bool visit[100001];
+vector<string> res;
+>>>>>>> parent of 47c11a5 (Update sju0924.cpp)
 
 findNextClub info;
 
@@ -95,9 +101,14 @@ int main()
 	cin >> N;
 
 	for (int i = 0; i < N; i++) {
+<<<<<<< HEAD
 		cin >> from>>to;
 		tickets[i].first = from;
 		tickets[i].second = to;
+=======
+		cin >> from>>to;		
+		tickets[i] = make_pair(from, to);		
+>>>>>>> parent of 47c11a5 (Update sju0924.cpp)
 	}
 	sort(tickets, tickets + N);
 	/*
@@ -123,11 +134,14 @@ int main()
 
 }
 int search(string cur,int cnt) {
+	//cout << "cur: " << cur << " cnt : " << cnt << "\n";
 	bool is_searched=false, is_left = false;
+
 	if (cnt == N) {
-		res[cnt] = cur;
+		res.push_back(cur);
 		return true;
 	}
+<<<<<<< HEAD
 	int curTicket;
 	vector<int>next = info.getNextClub(cur);
 	//cout << next.size() << "\n";
@@ -136,12 +150,23 @@ int search(string cur,int cnt) {
 		if (visit[curTicket] == false and cur == tickets[curTicket].first) {
 			visit[curTicket] = true;
 			is_searched = search(tickets[curTicket].second, cnt + 1);
+=======
+
+	
+	for (int i = 0;i <N;i++) {
+		if (visit[i] == false and cur == tickets[i].first) {
+			visit[i] = true;
+			res.push_back(cur);
+			is_searched = search(tickets[i].second, cnt + 1);
+>>>>>>> parent of 47c11a5 (Update sju0924.cpp)
 			if (is_searched) {
-				res[cnt] = cur;			
 				return true;
 			}
 			visit[i] = false;
+			res.pop_back();
 		}
+		
+
 	}
 
 
