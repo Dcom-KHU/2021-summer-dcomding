@@ -10,19 +10,16 @@ struct ticket {
 	string second;
 
 	bool operator<(ticket& other) {
-		if (this->first.size() < other.first.size()) {
-			return true;
-		}
-		if (this->first < other.first) {
-			return true;
-		}
 		if (this->second.size() < other.second.size()) {
 			return true;
 		}
 		if (this->second < other.second) {
 			return true;
 		}
+		return false;
 	}
+
+	
 };
 pair<string, string> tickets[100001];
 bool visit[100001];
