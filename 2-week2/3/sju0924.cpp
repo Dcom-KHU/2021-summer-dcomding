@@ -9,21 +9,21 @@ struct ticket {
 	string first;
 	string second;
 
-	bool operator<(ticket& other) {
+	const bool operator<(ticket& other) {
 		if (this->second.size() < other.second.size()) {
 			return true;
 		}
-		if (this->second < other.second) {
+		else if (this->second.size() == other.second.size() && this->second < other.second) {
 			return true;
 		}
-		return false;
+		else return false;
 	}
 
 	
 };
-pair<string, string> tickets[100001];
+ticket tickets[100001];
 bool visit[100001];
-vector<string> res;
+string res [100001];
 
 
 int search(string cur,int cnt);
@@ -36,7 +36,8 @@ int main()
 
 	for (int i = 0; i < N; i++) {
 		cin >> from>>to;		
-		tickets[i] = make_pair(from, to);		
+		tickets[i].first = from;
+		tickets[i].second = to;
 	}
 	sort(tickets, tickets + N);
 
@@ -51,28 +52,21 @@ int main()
 
 }
 int search(string cur,int cnt) {
-	//cout << "cur: " << cur << " cnt : " << cnt << "\n";
 	bool is_searched=false, is_left = false;
-
 	if (cnt == N) {
-		res.push_back(cur);
+		res[cnt] = cur;
 		return true;
 	}
-
-	
 	for (int i = 0;i <N;i++) {
 		if (visit[i] == false and cur == tickets[i].first) {
 			visit[i] = true;
-			res.push_back(cur);
 			is_searched = search(tickets[i].second, cnt + 1);
 			if (is_searched) {
+				res[cnt] = cur;			
 				return true;
 			}
 			visit[i] = false;
-			res.pop_back();
 		}
-		
-
 	}
 
 
