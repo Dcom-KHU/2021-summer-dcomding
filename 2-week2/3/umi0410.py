@@ -16,7 +16,7 @@ def solution(tickets):
             conns[depart].append(dest)
     dfs(answers, length, 'DCOM', conns, ['DCOM'])
 
-    return sorted(answers)[0]
+    return sorted(answers, key=lambda t: (len(t), t))[0]
 
 def dfs(answers, length, depart, _conns, _visits):
     # print(_visits)
