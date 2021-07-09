@@ -23,6 +23,7 @@ struct ticket {
 	
 };
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 ticket tickets[100001];
 bool visit[100001];
@@ -58,6 +59,11 @@ public:
 		Myticket.push_back(newV);
 		return;
 	}
+=======
+pair<string, string> tickets[100001];
+bool visit[100001];
+vector<string> res;
+>>>>>>> parent of 47c11a5 (Update sju0924.cpp)
 
 	vector<int> getNextClub(string _s) {
 
@@ -102,9 +108,14 @@ int main()
 
 	for (int i = 0; i < N; i++) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		cin >> from>>to;
 		tickets[i].first = from;
 		tickets[i].second = to;
+=======
+		cin >> from>>to;		
+		tickets[i] = make_pair(from, to);		
+>>>>>>> parent of 47c11a5 (Update sju0924.cpp)
 =======
 		cin >> from>>to;		
 		tickets[i] = make_pair(from, to);		
@@ -142,6 +153,7 @@ int search(string cur,int cnt) {
 		return true;
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 	int curTicket;
 	vector<int>next = info.getNextClub(cur);
 	//cout << next.size() << "\n";
@@ -151,6 +163,8 @@ int search(string cur,int cnt) {
 			visit[curTicket] = true;
 			is_searched = search(tickets[curTicket].second, cnt + 1);
 =======
+=======
+>>>>>>> parent of 47c11a5 (Update sju0924.cpp)
 
 	
 	for (int i = 0;i <N;i++) {
