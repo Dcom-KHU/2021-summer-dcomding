@@ -1,4 +1,4 @@
-#2주차 3
+#2주차-3
 #bfs/dfs문제이다.
 #여행경로
 
@@ -6,8 +6,8 @@
 def order_by_alphabet(array):
     for i in range(0,len(array)-1):
         for j in range(i+1,len(array)):
-            if array[i]<=array[j]:
-                array[i],array[j]=array[j],array[i]
+            if len(array[i])==len(array[j]) and array[i]<=array[j]:
+                array[i],array[j]=array[j],array[i] #swap!
 
 def solution():
     routes=dict()
@@ -25,16 +25,15 @@ def solution():
         #우선 'len'=>'알파벳 순서'로 중요도를 줘야 한다.
         routes[r].sort(key=len,reverse=True)
         order_by_alphabet(routes[r])
-
-    #print(routes)
+    #print(routes)-체크용
    
     stack=["DCOM"]
     path=[]
-    #print(routes)- 체크용
+ 
     
     while stack:
         top=stack[-1]
-    
+        #print(top)
         if top not in routes or len(routes[top])==0:
             path.append(stack.pop())
         else:
