@@ -2,6 +2,13 @@
 #bfs/dfs문제이다.
 #여행경로
 
+
+def order_by_alphabet(array):
+    for i in range(0,len(array)-1):
+        for j in range(i+1,len(array)):
+            if array[i]<=array[j]:
+                array[i],array[j]=array[j],array[i]
+
 def solution():
     routes=dict()
     answer=""
@@ -15,11 +22,16 @@ def solution():
             routes[start]=routes.get(start,[])+[end]
 
     for r in routes.keys():
-        routes[r].sort(reverse=True)
-    
+        #우선 'len'=>'알파벳 순서'로 중요도를 줘야 한다.
+        routes[r].sort(key=len,reverse=True)
+        order_by_alphabet(routes[r])
+
+    #print(routes)
+   
     stack=["DCOM"]
     path=[]
     #print(routes)- 체크용
+    
     while stack:
         top=stack[-1]
     
