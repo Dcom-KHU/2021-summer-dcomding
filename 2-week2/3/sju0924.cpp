@@ -2,6 +2,7 @@
 #include<string>
 #include<vector>
 #include<algorithm>
+#include<map>
 using namespace std;
 
 
@@ -32,7 +33,7 @@ string res[100001];
 class findNextClub {
 private:
 	int len;
-	string club[5001];
+	map<string,int> club;
 	vector<vector<int>>Myticket;
 
 public:
@@ -42,40 +43,37 @@ public:
 	void Add_ticket(ticket _t, int tnum) {
 		string f = _t.first;
 		string s = _t.second;
-
-		for (int i = 0; i < len; i++) {
-			//cout <<"club["<<i<<"]: "<<club[i] << " " << f << "\n";
-			if (club[i] == f) {
-				Myticket[i].push_back(tnum);
-				return;
-			}
+		if (club.find(f) != club.end()) {
+			Myticket[club[f]].push_back(tnum);
+			return;
 		}
-		club[len] = f;
-		len++;
-		vector<int> newV;
-		newV.push_back(tnum);
-		Myticket.push_back(newV);
-		return;
+		else {
+			club.insert({ f,len });	
+			len++;
+			vector<int>newV;
+			newV.push_back(tnum);
+			Myticket.push_back(newV);			
+			return;
+		}
+	
 	}
 
 	vector<int> getNextClub(string _s) {
-
-		for (int i = 0; i < len; i++) {
-			if (club[i] == _s) {
-				return Myticket[i];
-			}
+		if (club.find(_s) != club.end()) {
+			return Myticket[club[_s]];
 		}
 		return vector<int>(0);
 
 	}
 
 	void print() {
-		for (int i = 0; i < len; i++) {
-			cout << "club: " << club[i] << " : ";
+		int i = 0;
+		for (int i = 0; i < Myticket.size(); i++) {
 			for (int j = 0; j < Myticket[i].size();j++) {
 				cout << tickets[Myticket[i][j]].first << "-" << tickets[Myticket[i][j]].second << ", ";
 			}
 			cout << "\n";
+			i++;
 		}
 	}
 
