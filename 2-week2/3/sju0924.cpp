@@ -2,7 +2,6 @@
 #include<string>
 #include<vector>
 #include<algorithm>
-
 using namespace std;
 
 
@@ -27,6 +26,7 @@ struct ticket {
 ticket tickets[100001];
 bool visit[100001];
 string res[100001];
+
 
 
 class findNextClub {
@@ -69,6 +69,16 @@ public:
 		
 	}
 
+	void print() {
+		for (int i = 0; i < len; i++) {
+			cout << "club: " << club[i] << " : ";
+			for (int j = 0; j < Myticket[i].size();j++) {
+				cout << tickets[Myticket[i][j]].first << "-"<<tickets[Myticket[i][j]].second<<", ";
+			}
+			cout << "\n";
+		}
+	}
+
 
 };
 
@@ -78,6 +88,7 @@ int search(string cur,int cnt);
 int N;
 int main()
 {
+	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 	int cnt=0,nf,nt,Size = 0;
 	string from,to;
 	
@@ -89,11 +100,18 @@ int main()
 		tickets[i].second = to;
 	}
 	sort(tickets, tickets + N);
+	/*
+	for (int i = 0; i <= N; i++) {
+		cout << tickets[i].first<<" "<<tickets[i].second << "\n";
+	}
+	*/
+
+
 
 	for (int i = 0; i < N; i++) {
 		info.Add_ticket(tickets[i],i);
 	}
-
+	//info.print();
 	int temp;
 	int start;
 
