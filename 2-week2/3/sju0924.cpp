@@ -111,7 +111,7 @@ int main()
 	for (int i = 0; i < N; i++) {
 		info.Add_ticket(tickets[i], i);
 	}
-	info.print();
+	//info.print();
 	int temp;
 	int start;
 
