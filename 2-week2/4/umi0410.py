@@ -61,5 +61,6 @@ germs = []
 for _ in range(int(input())):
     germs.append(input())
 print('\n'.join(map(str, solution(germs))))
+
 # print(solution(["DIA", "RUBY", "RUBY", "DIA", "DIA", "EMERALD", "SAPPHIRE", "DIA"]))
 # print(solution(["AA", "AB", "AC", "AA", "AC"]))
