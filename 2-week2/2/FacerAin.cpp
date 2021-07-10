@@ -45,14 +45,21 @@ bool check(){
 		move_idx(cur_idx);
 		
 	}
+	
+	//마지막 idx 처리
 	if(!v.empty()){
 		if(check_pair(v.back(), s[cur_idx])){
-			return true;
-		}else{
+			v.pop_back();
+		}
+		if(!v.empty()){
 			return false;
 		}
+		return true;
+		
+	}else{
+		return false;
 	}
-	return true;
+
 }
 int main(){
 	cin >> s;
