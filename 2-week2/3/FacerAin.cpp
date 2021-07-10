@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <map>
+#include <stack>
 /*
 단순 DFS/BFS로는 풀 수 없다
 백트래킹 사용할 것
@@ -14,6 +15,7 @@ using namespace std;
 vector<vector<string>> ticket_v;
 vector<vector<bool>> check_v;
 vector<string> answer;
+vector<int> idx_v;
 int n;
 map<string, int> m;
 bool comp(string v1, string v2){
@@ -40,21 +42,43 @@ bool DFS(string club, int visit_num){
 			check_v[club_idx][i] = false;
 		}
 	}
-	/*
-	//아래 반복문을 더욱 개선할 수 있는 방법은?
-	for(int i = 0; i < ticket_v.size(); i++){
-		if(!check[i] && ticket_v[i][0] == club){
-			check[i] = 1;
-			if(DFS(ticket_v[i][1], visit_num+1)){
-				return true;
-			}
-			check[i] = 0;
-		}
-	}
-	*/
 	answer.pop_back();
 	return false;
 }
+
+void DFS2(string club){
+	answer.push_back(club);
+	//cout << club << endl
+	int idx = 0;
+	int club_idx = m[club];
+	while(!answer.empty()){
+		if(answer.size() == n+1){
+			return;
+		}
+		
+		club_idx = m[answer.back()];
+		bool isExist = false;
+		for(int i = idx; i < ticket_v[club_idx].size(); i++){
+		if(!check_v[club_idx][i]){
+			check_v[club_idx][i] = true;
+			answer.push_back(ticket_v[club_idx][i]);
+			idx_v.push_back(i);
+			isExist = true;
+			break;
+		}
+			
+	}
+		if(!isExist){
+				idx = idx_v.back();
+				idx_v.pop_back();
+				answer.pop_back();
+				check_v[m[answer.back()]][idx] = false;
+			}
+		
+	//cout << club_idx << endl;
+	}
+}
+
 
 int main(){
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
@@ -86,7 +110,7 @@ int main(){
 		sort(ticket_v[i].begin(), ticket_v[i].end(),comp);
 	}
 	
-	DFS("DCOM",0);
+	DFS2("DCOM");
 	for(int i = 0; i < answer.size(); i++){
 		cout << answer[i] << " ";
 	}
