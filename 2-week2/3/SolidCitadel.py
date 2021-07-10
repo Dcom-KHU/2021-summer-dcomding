@@ -19,7 +19,7 @@ while len(queue):
         for i in range(len(groups[f])):
             if (f, i) not in route:
                 queue.append((route+[(f, i)]))
-    elif len(route) == n+1:
+    if len(route) == n+1:
         break
     
 print(' '.join([groups[f][i] for f, i in route]))
