@@ -3,24 +3,23 @@ from collections import deque
 n = int(input())
 tickets = [input().split() for i in range(n)]
 
-groups = dict()
+groups = {'start':['DCOM']}
 for t in tickets:
-    if t[0] in groups.keys():
-        groups[t[0]].append(t[1])
-    else:
-        groups[t[0]] = [t[1]]
+    groups.setdefault(t[0], [])
+    groups[t[0]].append(t[1])
 
 groups = {k: sorted(sorted(v), key=lambda x: len(x)) for k, v in groups.items()}
+route = [('start', 0)]
 
-queue = deque([(['DCOM'], groups)])
+queue = deque([route])
 while len(queue):
-    route, groups = queue.popleft()
-    f = route[-1]
+    route = queue.popleft()
+    f = groups[route[-1][0]][route[-1][1]]
     if f in groups.keys():
-        for t in groups[f]:
-            newgroup = {k: v[:] for k, v in groups.items() if len(v)}
-            newgroup[f].remove(t)
-            queue.append([route+[t], newgroup])
-    elif len(route) == n+1 and len(groups) == 1:
+        for i in range(len(groups[f])):
+            if (f, i) not in route:
+                queue.append((route+[(f, i)]))
+    elif len(route) == n+1:
         break
-print(' '.join(route))
+    
+print(' '.join([groups[f][i] for f, i in route]))
