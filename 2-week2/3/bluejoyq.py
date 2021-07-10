@@ -21,7 +21,7 @@ def solution(tickets):
     result = []
     
     # 손선생님의 손길이 탄 코드입니다.
-    funcStack = deque(["ICN"])
+    funcStack = deque(["DCOM"])
     while funcStack:
         
         cur = funcStack[-1]
