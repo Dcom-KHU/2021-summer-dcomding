@@ -30,12 +30,12 @@ for i in range(0, num):
         
         non_matching = True
             
-        if (start == first_dest and not first):
-            move_list.append([shortest_start, (start, end)])
-            shortest_start_index.append(number_of_stack)
-            number_of_stack += 1
-            non_matching  = False
-            first = False
+        # if (start == first_dest and not first):
+        #     move_list.append([shortest_start, (start, end)])
+        #     shortest_start_index.append(number_of_stack)
+        #     number_of_stack += 1
+        #     non_matching  = False
+        #     first = False
 
         for i in range(0, number_of_stack):          
             if (start == move_list[i][-1][1]):
@@ -98,3 +98,4 @@ for i in range(0, len(move_list)):
             print(move_list[i][j][0], end = " ")
         
         print(move_list[i][j][1], end = " ")
+        
