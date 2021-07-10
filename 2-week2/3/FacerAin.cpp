@@ -18,7 +18,7 @@ vector<string> answer;
 vector<int> idx_v;
 int n;
 map<string, int> m;
-bool comp(string v1, string v2){
+bool comp(string& v1, string& v2){
 	if(v1.length() != v2.length()){
 		return v1.length() < v2.length();
 	}
