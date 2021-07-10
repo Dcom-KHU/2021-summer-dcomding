@@ -49,7 +49,7 @@ bool DFS(string club, int visit_num){
 void DFS2(string club){
 	answer.push_back(club);
 	//cout << club << endl
-	int idx = 0;
+	int idx = -1;
 	int club_idx = m[club];
 	while(!answer.empty()){
 		if(answer.size() == n+1){
@@ -58,10 +58,11 @@ void DFS2(string club){
 		
 		club_idx = m[answer.back()];
 		bool isExist = false;
-		for(int i = idx; i < ticket_v[club_idx].size(); i++){
+		for(int i = idx+1; i < ticket_v[club_idx].size(); i++){
 		if(!check_v[club_idx][i]){
 			check_v[club_idx][i] = true;
 			answer.push_back(ticket_v[club_idx][i]);
+			//cout << answer.back() << endl;
 			idx_v.push_back(i);
 			isExist = true;
 			break;
@@ -73,7 +74,9 @@ void DFS2(string club){
 				idx_v.pop_back();
 				answer.pop_back();
 				check_v[m[answer.back()]][idx] = false;
-			}
+			}else{
+			idx = -1;
+		}
 		
 	//cout << club_idx << endl;
 	}
