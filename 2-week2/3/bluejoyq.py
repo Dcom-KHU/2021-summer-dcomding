@@ -26,7 +26,7 @@ def solution(tickets):
             while can_go[cur]:
                 nxt = can_go[cur].popleft()
                 get_euler_circuit(nxt, circuit)
-            can_go[cur] = 0
+            del can_go[cur]
         except:
             circuit.appendleft(cur)
             return 0
@@ -41,8 +41,6 @@ def solution(tickets):
     else:
         last = circuit
     for key in can_go:
-        if not can_go[key]:
-            continue
         new_circuit = deque([])
         if get_euler_circuit(key, new_circuit):
             result += new_circuit
