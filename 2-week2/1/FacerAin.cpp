@@ -43,7 +43,7 @@ int main(){
 	}
 	cout << sum;
 	
-	//cout << b.to_ulong();
+	//cout << b.to_ulong()
 	return 0;
 }
 
