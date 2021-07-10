@@ -3,15 +3,14 @@
 #include<string>
 using namespace std;
 
-stack<int> st1,st2,st3;
+stack<int> st;
 string s;
 bool found = false;
 bool is_aborted = 0;
 int cnt = 0;
 void clear() {
-	while (!st1.empty()) st1.pop();
-	while (!st2.empty()) st2.pop();
-	while (!st3.empty()) st3.pop();
+
+	while (!st.empty()) st.pop();
 	is_aborted = 0;
 	cnt = 0;
 }
@@ -30,37 +29,38 @@ int main()
 		while (true) {
 			//cout << s.at(i) ;
 			if (s.at(i) == '(') {
-				st1.push(1);
+				st.push(1);
 			}
 			else if (s.at(i) == '{') {
-				st2.push(1);
+				st.push(2);
 			}
 			else if (s.at(i) == '[') {
-				st3.push(1);
+				st.push(3);
 			}
 			else if (s.at(i) == ')') {
-				if (st1.empty()) {
+				if (st.empty()||st.top()!=1) {
 					is_aborted = 1;
 					break;
 				}
-				st1.pop();
+
+				st.pop();
 			}
 			else if (s.at(i) == '}') {
-				if (st2.empty()) {
+				if (st.empty()||st.top() != 2) {
 					is_aborted = 1;
 					break;
 				}
-				st2.pop();
+				st.pop();
 			}
-			else if (s.at(i) == ']') {
-				if (st3.empty()) {
+			else if (s.at(i) == ']'||st.top() != 3) {
+				if (st.empty()) {
 					is_aborted = 1;
 					break;
 				}
-				st3.pop();
+				st.pop();
 			}
 
-			if (st1.empty() && st2.empty() && st3.empty()) {
+			if (st.empty() ) {
 				cnt++;
 			}
 			if (i == len - 1) {
@@ -71,7 +71,7 @@ int main()
 		}
 		//cout << "\n";
 
-		if (st1.empty() && st2.empty() && st3.empty() && !is_aborted) {
+		if (st.empty() && !is_aborted) {
 			found = 1;
 			break;
 		}
