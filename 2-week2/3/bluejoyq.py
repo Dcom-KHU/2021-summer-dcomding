@@ -2,11 +2,11 @@ import sys
 from collections import deque
 sys.setrecursionlimit(1000000)
 input = sys.stdin.readline
-def solution(tickets):
-    n = len(tickets)
+def solution():
+    n = int(input())
     can_go = {}
     for i in range(n):
-        start, end = tickets[i]
+        start, end = input().split()
         try:
             can_go[start].append(end)
         except:
@@ -26,13 +26,13 @@ def solution(tickets):
             while can_go[cur]:
                 nxt = can_go[cur].popleft()
                 get_euler_circuit(nxt, circuit)
-            del can_go[cur]
+            can_go[cur] = 0
         except:
             circuit.appendleft(cur)
             return 0
         circuit.appendleft(cur)
         return 1
-    start = 'ICN'
+    start = 'DCOM'
     result = []
     circuit = deque([])
     last = []
@@ -41,10 +41,13 @@ def solution(tickets):
     else:
         last = circuit
     for key in can_go:
+        if not can_go[key]:
+            continue
         new_circuit = deque([])
         if get_euler_circuit(key, new_circuit):
             result += new_circuit
         else:
             last = new_circuit
     result += last
-    return(result)
+    print(*result)
+solution()
