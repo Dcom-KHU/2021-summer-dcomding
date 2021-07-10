@@ -110,9 +110,7 @@ int main(){
 		}
 		ticket_v[m[s1]].push_back(s2);
 		check_v[m[s1]].push_back(false);
-	}
-	for(int i = 0; i < ticket_v.size(); i++){
-		sort(ticket_v[i].begin(), ticket_v[i].end(),comp);
+		sort(ticket_v[m[s1]].begin(), ticket_v[m[s1]].end(),comp);
 	}
 	
 	DFS2("DCOM");
