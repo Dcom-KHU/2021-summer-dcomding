@@ -3,28 +3,43 @@
 #include <algorithm>
 #include <map>
 #include <stack>
+#include <queue>
 /*
 단순 DFS/BFS로는 풀 수 없다
 백트래킹 사용할 것
+가지치기 할 수 있는 방법은?
+어차피 모든 간선을 방문해야한다. -> 오일러 서킷
 간선의 개수(티켓의 수)와 노드의 수(동아리의 수)가 크지 않으므로 사용가능은 어림도 없지 ㅜn
 정렬: nlgn + a(문자열 매칭)
+매번 정렬하는 것도 부하가 심하다.
+priority_queue 사용할 것
+
 
 map lg n
 */
 using namespace std;
-vector<vector<string>> ticket_v;
-vector<vector<bool>> check_v;
+
+struct compare{
+	bool operator() (const string& s1, const string& s2){
+	if(s1.length() != s2.length()){
+		return s1.length() > s2.length();
+	}
+	return s1 > s2;
+	}
+};
+
+
+
+vector<priority_queue<string, vector<string>, compare>> ticket_pv;
 vector<string> answer;
-vector<int> idx_v;
+vector<string> check_s;
 int n;
 map<string, int> m;
-bool comp(string& v1, string& v2){
-	if(v1.length() != v2.length()){
-		return v1.length() < v2.length();
-	}
-	return v1 < v2;
-}
+int c_num;
 
+
+
+/*
 bool DFS(string club, int visit_num){
 	answer.push_back(club);
 	//cout << club << endl;
@@ -45,39 +60,27 @@ bool DFS(string club, int visit_num){
 	answer.pop_back();
 	return false;
 }
+*/
 
+/*
+굳이 체크를 할 이유가 없다.
+바로 스택으로 구현 가능
+오일러 회로 한붓그리기 문제 변형으로 생각하자.
+*/
 void DFS2(string club){
-	idx_v.reserve(n+1);
-	answer.push_back(club);
-	//cout << club << endl
-	int idx = -1;
-	int club_idx = m[club];
-	while(!answer.empty()){
-		if(answer.size() == n+1){
-			return;
-		}
-		
-		club_idx = m[answer.back()];
-		bool isExist = false;
-		for(int i = idx+1; i < ticket_v[club_idx].size(); i++){
-		if(!check_v[club_idx][i]){
-			check_v[club_idx][i] = true;
-			answer.push_back(ticket_v[club_idx][i]);
-			//cout << answer.back() << endl;
-			idx_v.push_back(i);
-			isExist = true;
-			break;
+	check_s.push_back(club);
+	while(c_num >= 0){
+		string cur_club = check_s.back();
+		int cur_club_idx = m[cur_club];
+		if(!ticket_pv[cur_club_idx].empty()){
+			check_s.push_back(ticket_pv[cur_club_idx].top());
+			ticket_pv[cur_club_idx].pop();
+		}else{
+			answer.push_back(check_s.back());
+			check_s.pop_back();
+			c_num--;
 		}
 			
-	}
-		if(!isExist){
-				idx = idx_v.back();
-				idx_v.pop_back();
-				answer.pop_back();
-				check_v[m[answer.back()]][idx] = false;
-			}else{
-			idx = -1;
-		}
 		
 	//cout << club_idx << endl;
 	}
@@ -88,33 +91,29 @@ int main(){
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 	int idx = 0;
 	cin >> n;
+	c_num = n;
 	answer.reserve(n+1);
 	for(int i = 0; i < n; i++){
 		string s1, s2;
 		cin >> s1 >> s2;
-		vector<string> t_v;
-		vector<bool> t_v2;
+		priority_queue<string, vector<string>, compare> pq;
 		if(m.find(s1) == m.end()){//키에 없을 때
 			m.insert({s1, idx});
 			idx++;
-			ticket_v.push_back(t_v);
-			check_v.push_back(t_v2);
+			ticket_pv.push_back(pq);
 		}
 
 		if(m.find(s2) == m.end()){
 			m.insert({s2, idx});
-			//cout << s2 << idx << endl;
 			idx++;
-			ticket_v.push_back(t_v);
-			check_v.push_back(t_v2);
+			ticket_pv.push_back(pq);
 		}
-		ticket_v[m[s1]].push_back(s2);
-		check_v[m[s1]].push_back(false);
-		sort(ticket_v[m[s1]].begin(), ticket_v[m[s1]].end(),comp);
+		int v_idx = m[s1];
+		ticket_pv[v_idx].push(s2);
 	}
 	
 	DFS2("DCOM");
-	for(int i = 0; i < answer.size(); i++){
+	for(int i =  answer.size() - 1; i >= 0; i--){
 		cout << answer[i] << " ";
 	}
 	
