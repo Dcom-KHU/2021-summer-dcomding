@@ -47,6 +47,7 @@ bool DFS(string club, int visit_num){
 }
 
 void DFS2(string club){
+	idx_v.reserve(n+1);
 	answer.push_back(club);
 	//cout << club << endl
 	int idx = -1;
@@ -87,6 +88,7 @@ int main(){
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 	int idx = 0;
 	cin >> n;
+	answer.reserve(n+1);
 	for(int i = 0; i < n; i++){
 		string s1, s2;
 		cin >> s1 >> s2;
