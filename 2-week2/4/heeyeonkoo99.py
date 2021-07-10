@@ -23,8 +23,10 @@ def solution(gems):
                 del cur_shop[gems[l_idx]]
             l_idx+=1
     cand=sorted(cand,key=lambda x:(x[DIST],x[RESULT]))
-    print(cand[0][RESULT][0])
-    return cand[0][RESULT][1]
+    def print_it():
+        for i in cand[0][RESULT]:
+            print(i)
+    return print_it()
 solution(gems)
 #print(solution(["DIA", "RUBY", "RUBY", "DIA", "DIA", "EMERALD", "SAPPHIRE", "DIA"]))
 #투포인터 알고리즘 사용
