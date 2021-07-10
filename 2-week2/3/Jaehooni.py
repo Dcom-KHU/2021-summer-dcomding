@@ -54,7 +54,7 @@ for i in range(0, num):
                 
         
     
-        
+# print(move_list)        
     
             
                 
@@ -90,12 +90,25 @@ for i in range(0, num):
 #         else:
 #             pass
         
+# print(move_list)
         
-for i in range(0, len(move_list)):
-    for j in range(0, len(move_list[i])):
+while (len(move_list) != 1):
+    value = move_list[0][-1][1]
+    for i in range(1, num):
+        if (move_list[i][0][0] == value):
+            move_list[0].extend(move_list.pop(i))
+            num -= 1
+            break
+            
+        else:
+            pass
         
-        if (i == 0 and j == 0):
-            print(move_list[i][j][0], end = " ")
+# print(move_list)
         
-        print(move_list[i][j][1], end = " ")
+
+for i in range(0, len(move_list[0])):
+    if (i == 0):
+        print(move_list[0][0][0], end = " ")
+        
+    print(move_list[0][i][1], end = " ")
         
