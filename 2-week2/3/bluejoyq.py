@@ -1,7 +1,7 @@
 import sys
 from collections import deque
 input = sys.stdin.readline
-def solution(tickets):
+def solution():
     n = int(input())
     can_go = {}
     for i in range(n):
