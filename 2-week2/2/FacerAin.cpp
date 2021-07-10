@@ -66,7 +66,7 @@ int main(){
 	s_idx = 0;
 	e_idx = s.size() - 1;
 	int ans = 0;
-	for(int i = 0; i < s.size() - 1; i++){
+	for(int i = 0; i < s.size(); i++){
 		if(check()){
 			ans++;
 		}
