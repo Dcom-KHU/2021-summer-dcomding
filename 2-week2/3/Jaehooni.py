@@ -3,7 +3,6 @@ move_list = []
 dest_list = []
 number_of_stack = 0
 first_dest = ""
-first = True
 
 
 for i in range(0, num):
@@ -22,7 +21,6 @@ for i in range(0, num):
         
             move_list = [element for _, element in sorted_zipped_list]
             first_dest = move_list[0][0][1]
-            shortest_start = move_list[0][0]
             
         
         non_matching = True
