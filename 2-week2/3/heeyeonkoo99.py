@@ -3,11 +3,7 @@
 #여행경로
 
 
-def order_by_alphabet(array):
-    for i in range(0,len(array)-1):
-        for j in range(i+1,len(array)):
-            if len(array[i])==len(array[j]) and array[i]<=array[j]:
-                array[i],array[j]=array[j],array[i] #swap!
+
 
 def solution():
     routes=dict()
@@ -23,8 +19,8 @@ def solution():
 
     for r in routes.keys():
         #우선 'len'=>'알파벳 순서'로 중요도를 줘야 한다.
-        routes[r].sort(key=len,reverse=True)
-        order_by_alphabet(routes[r])
+        routes[r].sort(key=lambda t:(len(t),t),reverse=True)
+  
     #print(routes)-체크용
    
     stack=["DCOM"]
