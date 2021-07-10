@@ -2,10 +2,7 @@ num = int(input())
 move_list = []
 dest_list = []
 number_of_stack = 0
-alphabet_list = []
 first_dest = ""
-shortest_start = ()
-shortest_start_index = [0]
 first = True
 
 
