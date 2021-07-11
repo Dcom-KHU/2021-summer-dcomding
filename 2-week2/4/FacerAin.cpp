@@ -34,20 +34,18 @@ void get_start_window(){
 */
 
 void get_end_window(){
-	bool isFind = false;
-	int idx = e_idx;
-	while(!isFind && idx < n){
+	while(e_idx < n){
 		//cout << idx << endl;
-		m[v[idx]] += 1;
-		if(m[v[idx]] == 1){
+		m[v[e_idx]] += 1;
+		if(m[v[e_idx]] == 1){
 			item_cnt += 1;
 		}
 		if(item_cnt == category_cnt){
-			e_idx = idx;
-			isFind = true;
+			break;
 		}
-		idx++;
+		e_idx++;
 	}
+	
 }
 
 int main(){
