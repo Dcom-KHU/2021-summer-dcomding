@@ -51,6 +51,7 @@ void get_end_window(){
 }
 
 int main(){
+	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
 	int s_ans, e_ans, w_size;
 
@@ -73,7 +74,7 @@ int main(){
 	s_ans = s_idx;
 	e_ans = e_idx;
 	w_size = e_ans - s_ans;
-	while(e_idx < n && s_idx < n){
+	while(e_idx < n){
 		//cout << s_idx << " " << e_idx << endl;
 		string item = v[s_idx];
 		m[item]--;
@@ -81,7 +82,16 @@ int main(){
 		if(m[item] == 0){
 			item_cnt--;
 			e_idx++;
-			get_end_window();
+			//get_end_window();
+			while(e_idx < n){
+				m[v[e_idx]]++;
+				if(v[e_idx] == item){
+					//cout << e_idx << endl;
+					item_cnt++;
+					break;
+				}
+				e_idx++;
+			}
 		}
 		
 		
