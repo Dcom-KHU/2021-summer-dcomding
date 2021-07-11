@@ -1,64 +1,48 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
-bool smaller(string depart, string end) {
-	if (depart.size() < end.size()) { return true; }
-	else if (depart.size() > end.size()) { return false; }
-	else {
-		int size = end.size();
-		for (int i = 0; i < size; i++)
-		{
-			if (depart[i] < end[i])
-			{
+int n;
+
+bool DFS(string start, vector<vector<string>> tickets, int consume, vector<string>& print) {
+	if (consume == n) { return true; }
+	int size = tickets.size();
+	vector<string> buf;
+	for (int i = 0; i < size; i++)
+	{
+		if (tickets[i][0] == start) {
+			buf = tickets[i];
+			print.push_back(buf[1]);
+			tickets.erase(tickets.begin() + i);
+			if (DFS(buf[1], tickets, consume + 1, print)) {
 				return true;
 			}
-			else if (depart[i] > end[i])
-			{
-				return false;
-			}
+			tickets.insert(tickets.begin() + i, buf);
+			print.pop_back();
 		}
-		
 	}
+	return false;
 }
 
+
 int main() {
-	int n, index;
-	vector<string> depart, arrival;
-	string start, end;
 	cin >> n;
-	
+	vector<vector<string>> tickets;
+	string depart, arrive;
 	for (int i = 0; i < n; i++)
 	{
-		cin >> start >> end;
-		depart.push_back(start);
-		arrival.push_back(end);
+		cin >> depart >> arrive;
+		tickets.push_back({ depart, arrive });
 	}
+	sort(tickets.begin(), tickets.end());
 
-	start = "DCOM";
-	end = "ZZZZZZZZZZZ";
-
-	cout << start << " ";
-
-	for (int num = 0; num < n; num++)
+	vector<string> print = { "DCOM" };
+	DFS("DCOM", tickets, 0, print);
+	for (int i = 0; i < n + 1; i++)
 	{
-		for (int i = 0; i < depart.size(); i++)
-		{
-			if (depart[i] == start)
-			{
-				if (smaller(arrival[i], end))
-				{
-					end = arrival[i];
-					index = i;
-				}
-			}
-		}
-		cout << end << ' ';
-		depart.erase(depart.begin() + index);
-		arrival.erase(arrival.begin() + index);
-		start = end;
-		end = "ZZZZZZZZZZZ";
+		cout << print[i] << " ";
 	}
 	return 0;
 }
