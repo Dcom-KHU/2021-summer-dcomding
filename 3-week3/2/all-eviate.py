@@ -8,9 +8,9 @@ for a in range(n):
 
 for day in range(0,n):
 
-    if day + comm[day][0] <= n + 1: #방햑을 넘기지 않는다면
+    if day + comm[day][0] <= n: #방햑을 넘기지 않는다면
 
-        wage[day] = comm[day][1] #day 날에 일한 보수를 저장
+        wage[day] = comm[day][1] #day날에 일한 보수를 저장
 
         for bef in range(0, day+1): #첫날부터 day 이전의 날, bef들 중
 
