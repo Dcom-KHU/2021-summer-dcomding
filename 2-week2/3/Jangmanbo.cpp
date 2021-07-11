@@ -45,8 +45,8 @@ int main() {
 	}
 	sort(tickets.begin(), tickets.end(), compare);
 
-	vector<string> print = { "ICN" };
-	DFS("ICN", tickets, 0, print);
+	vector<string> print = { "DCOM" };
+	DFS("DCOM", tickets, 0, print);
 	for (int i = 0; i < n + 1; i++)
 	{
 		cout << print[i] << " ";
