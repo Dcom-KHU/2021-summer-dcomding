@@ -8,8 +8,10 @@ int n;
 
 bool DFS(string start, vector<vector<string>> tickets, int consume, vector<string>& print) {
 	if (consume == n) { return true; }
+
 	int size = tickets.size();
 	vector<string> buf;
+
 	for (int i = 0; i < size; i++)
 	{
 		if (tickets[i][0] == start) {
@@ -23,7 +25,12 @@ bool DFS(string start, vector<vector<string>> tickets, int consume, vector<strin
 			print.pop_back();
 		}
 	}
+
 	return false;
+}
+
+bool compare(vector<string> start, vector<string> end) {
+	return start[1].size() < end[1].size();
 }
 
 
@@ -36,10 +43,10 @@ int main() {
 		cin >> depart >> arrive;
 		tickets.push_back({ depart, arrive });
 	}
-	sort(tickets.begin(), tickets.end());
+	sort(tickets.begin(), tickets.end(), compare);
 
-	vector<string> print = { "DCOM" };
-	DFS("DCOM", tickets, 0, print);
+	vector<string> print = { "ICN" };
+	DFS("ICN", tickets, 0, print);
 	for (int i = 0; i < n + 1; i++)
 	{
 		cout << print[i] << " ";
