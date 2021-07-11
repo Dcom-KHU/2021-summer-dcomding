@@ -80,16 +80,7 @@ int main(){
 		if(m[item] == 0){
 			item_cnt--;
 			e_idx++;
-			//get_end_window();
-			while(e_idx < n){
-				m[v[e_idx]]++;
-				if(v[e_idx] == item){
-					//cout << e_idx << endl;
-					item_cnt++;
-					break;
-				}
-				e_idx++;
-			}
+			get_end_window();
 		}
 		
 		
