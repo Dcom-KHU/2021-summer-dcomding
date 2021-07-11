@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include <string>
-#include <queue>
 using namespace std;
 
 int main()
@@ -24,7 +23,6 @@ int main()
 		cin >> items[i];
 		for (int j = 0; j < types_index; j++) {
 			if (items[i] == types[j]) {
-				//count[j]++;
 				newtype = false;
 				break;
 			}
@@ -34,7 +32,6 @@ int main()
 			count[types_index] = 0;
 			types_index++;
 		}
-		//end++;
 		newtype = true;
 	}
 
@@ -58,7 +55,7 @@ int main()
 					if (count[j] > 1) {
 						count[j]--;
 						start++;
-						j = 0;
+						j = -1;
 					}
 				}
 			}
