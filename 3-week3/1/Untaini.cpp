@@ -1,7 +1,6 @@
 #include <cstdio>
 
 int n,k,book,existBook[200001],bookCnt;
-vector<int> bookList;
 
 int main() {
 	scanf("%d%d",&n,&k);
