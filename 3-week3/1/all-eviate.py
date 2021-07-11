@@ -1,6 +1,6 @@
 n, k = map(int, input("").split())
 books = list(map(int, input("").split()))
 
-bookset = set(books)
+bookset = len(set(books))
 
-print(min(len(bookset), k))
+print(min(bookset, k))
