@@ -74,23 +74,17 @@ int main(){
 	while(e_idx < n-1){
 		e_idx++;
 		m[v[e_idx]] += 1;
-		
 		if(m[v[e_idx]] == 1){
 			item_cnt += 1;
 		}
 		if(item_cnt == category_cnt){
 			get_start_window();
-		}
-		
-		if(w_size > e_idx - s_idx + 1){
+				if(w_size > e_idx - s_idx + 1){
 					s_ans = s_idx;
 					e_ans = e_idx;
-			}
-		
+			}	
+		}
 
-
-		
-		
 		
 	}
 	
