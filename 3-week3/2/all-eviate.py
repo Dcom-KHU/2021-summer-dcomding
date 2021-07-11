@@ -1,19 +1,21 @@
 n = int(input(""))
-r = []
-maxwage = 0
 
-for i in range(n):
-    t, p = map(int, input("").split())
-    r.append([t, p])
+wage = [0]*n
+comm = []
 
-for start in range(n):
-    date = start
-    wage = 0
-    while date < n:
-        if r[date][0] <= n-date:
-            wage += r[date][1]
-        date += r[date][0]
-    if wage > maxwage:
-        maxwage = wage
+for a in range(n):
+    comm.append(tuple(map(int, input("").split()))) #t와 k를 튜플로 저장
 
-print(maxwage)
+for day in range(0,n):
+
+    if day + comm[day][0] <= n + 1: #방햑을 넘기지 않는다면
+
+        wage[day] = comm[day][1] #day 날에 일한 보수를 저장
+
+        for bef in range(0, day+1): #첫날부터 day 이전의 날, bef들 중
+
+            if bef + comm[bef][0] <= day: #그때 받은 외주가 겹치지 않는다면
+
+                wage[day] = max(wage[day], wage[bef]+comm[day][1]) #보수를 합산
+
+print(max(wage)) 
