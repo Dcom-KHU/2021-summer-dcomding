@@ -35,31 +35,31 @@ int main()
 		newtype = true;
 	}
 
-	for (int i = 0; i < n; i++) {
+	for (; end < n; end++) {
 		for (int j = 0; j < types_index; j++) {
-			if (items[i] == types[j]) {
+			if (items[end] == types[j]) {
 				count[j]++;
-				break;
+				if (zerotype == true)
+					break;
+			}
+			else if (count[j] == 0) {
+				zerotype = true;
 			}
 		}
 
-		for (int j = 0; j < types_index; j++) {
-			if (count[j] == 0) {
-				zerotype = true;
-				break;
-			}
-		}
 		if (zerotype == false) {
-			for (int j = 0; j < types_index; j++) {
+			for (int j = 0; j < types_index;) {
 				if (items[start] == types[j]) {
 					if (count[j] > 1) {
 						count[j]--;
 						start++;
-						j = -1;
+						j = 0;
 					}
 					else
 						break;
 				}
+				else
+					j++;
 			}
 
 			if (min_end - min_start > end - start) {
@@ -68,7 +68,6 @@ int main()
 			}
 		}
 		zerotype = false;
-		end++;
 	}
 
 	cout << min_start + 1 << endl;
