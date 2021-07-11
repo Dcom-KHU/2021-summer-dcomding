@@ -50,14 +50,18 @@ int main()
 			}
 		}
 		if (zerotype == false) {
-			for (int j = 0; j < types_index; j++) {
+			for (int j = 0; j < types_index;) {
 				if (items[start] == types[j]) {
 					if (count[j] > 1) {
 						count[j]--;
 						start++;
-						j = -1;
+						j = 0;
 					}
+					else
+						break;
 				}
+				else
+					j++;
 			}
 
 			if (min_end - min_start > end - start) {
