@@ -53,13 +53,13 @@ for d in directions:
                 additional = False
         except:
             additional = False
+    if additional:
+        shapes += 1
+        additional = False
     if nex in visited:
         if d not in visited[nex]:
             shapes += 1
             visited[nex].append(d)
-            if additional:
-                shapes += 1
-                additional = False
         new = False
     else:
         visited[nex] = [d]
