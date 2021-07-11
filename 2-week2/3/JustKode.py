@@ -1,40 +1,26 @@
-import sys
-sys.setrecursionlimit(200000)
-
 n = int(input())
 dict_var = {}
-current = "DCOM"
-result = ["DCOM"]
-check = False
-
-def func(key):
-    global dict_var, current, result, check, n
-    if check:
-        return
-
-    if len(result) == n + 1:
-        print(' '.join(result))
-        check = True
-        return
-
-    if key in dict_var:
-        for i in range(len(dict_var[key])):
-            if not dict_var[key][i][0]:
-                dict_var[key][i][0] = True
-                result.append(dict_var[key][i][1])
-                func(dict_var[key][i][1])
-                result.pop()
-                dict_var[key][i][0] = False
-
 
 for i in range(n):
     start, end = input().split()
     if start not in dict_var:
-        dict_var[start] = [[False, end]]
+        dict_var[start] = [end]
     else:
-        dict_var[start].append([False, end])
+        dict_var[start].append(end)
+    
+    if end not in dict_var:
+        dict_var[end] = []  # 없는 경우
 
 for key in dict_var:
-    dict_var[key].sort(key=lambda x: (len(x[1]), x[1]))
+    dict_var[key].sort(key=lambda x: (len(x), x))
 
-func("DCOM")
+stack = ["DCOM"]
+answer = []
+while stack:
+    top = stack[-1]
+    if top not in dict_var or len(dict_var[top]) == 0:
+        answer.append(stack.pop())
+    else:
+        stack.append(dict_var[top].pop(0))
+
+print(' '.join(answer[::-1]))
