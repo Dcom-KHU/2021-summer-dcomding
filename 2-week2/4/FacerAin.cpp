@@ -60,7 +60,10 @@ int main(){
 		string s;
 		cin >> s;
 		v.push_back(s);
-		m.insert({s,0});
+		if(m.find(s) == m.end()){
+			m.insert({s,0});
+		}
+		
 		
 	}
 	
@@ -70,7 +73,7 @@ int main(){
 	s_ans = s_idx;
 	e_ans = e_idx;
 	w_size = e_ans - s_ans;
-	while(e_idx < n){
+	while(e_idx < n && s_idx < n){
 		//cout << s_idx << " " << e_idx << endl;
 		string item = v[s_idx];
 		m[item]--;
