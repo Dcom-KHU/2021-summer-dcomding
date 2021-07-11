@@ -110,7 +110,6 @@ int main()
 	}
 
 	//print(r);
-	
 	int left=1, right,is_found = 0;
 	for (int length = amount; length <= n;length++) {
 		right = left + length - 1;
@@ -121,6 +120,7 @@ int main()
 				break;
 			}
 			left++;
+			right++;
 		}
 		if (is_found) break;
 		left = 1;
