@@ -1,6 +1,6 @@
-#n = int(input(""))
+n = int(input(""))
 directions = list(map(int, input("").split()))
-n = len(directions)
+
 new = True
 now = (0, 0)
 bef = (3, 3)
