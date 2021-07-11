@@ -13,15 +13,16 @@ def func(key):
         print(' '.join(result))
         check = True
         return
-        
 
-    for i in range(len(dict_var[key])):
-        if not dict_var[key][i][0]:
-            dict_var[key][i][0] = True
-            result.append(dict_var[key][i][1])
-            func(dict_var[key][i][1])
-            result.pop()
-            dict_var[key][i][0] = False
+    if dict_var[key] in dict_var:
+        for i in range(len(dict_var[key])):
+            if not dict_var[key][i][0]:
+                dict_var[key][i][0] = True
+                result.append(dict_var[key][i][1])
+                func(dict_var[key][i][1])
+                result.pop()
+                dict_var[key][i][0] = False
+
 
 for i in range(n):
     start, end = input().split()
