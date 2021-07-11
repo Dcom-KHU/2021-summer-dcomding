@@ -1,7 +1,6 @@
-from copy import deepcopy
-n = int(input(""))
+#n = int(input(""))
 directions = list(map(int, input("").split()))
-
+n = len(directions)
 new = True
 now = (0, 0)
 visited = {now:[-1]}
@@ -57,13 +56,14 @@ for d in directions:
         shapes += 1
         additional = False
     if nex in visited:
-        if d not in visited[nex]:
+        if nex != bef and d not in visited[nex]:
             shapes += 1
             visited[nex].append(d)
         new = False
     else:
         visited[nex] = [d]
         new = True
+    bef = now
     now = nex
 
 print(shapes)
