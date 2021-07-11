@@ -1,27 +1,29 @@
-from collections import deque
 def solution(gems):
     answer = []
     kinds = set(gems)
+    kinds_length = len(kinds)
     start = 0
-    target = deque()
-    for end in range(len(gems)):
-        target.append(gems[end])
-        if kinds == set(target):
-            while True:
-                start += 1
-                target.popleft()
-                if start>end:
-                    answer = [start, start]
-                    return answer
-                if kinds != set(target):
-                    # if not answer:
-                    answer = [start, end+1]
+    end = 0
+    minimum_length = 99999999
+    target_count = {}
+    while end < len(gems):
+        if target_count.get(gems[end]) is None:
+            target_count[gems[end]] = 1
+        else:
+            target_count[gems[end]] += 1 
+        
+        if kinds_length == len(target_count.keys()):
+            while start <= end:
+                if target_count[gems[start]] > 1: # ==1이면 start가 넘어갈 때 target에서 무조건 빠지니까
+                    target_count[gems[start]] -= 1
+                    start += 1
+                elif minimum_length > end - start:
+                    answer = [start+1, end+1]
+                    minimum_length = end - start
                     break
-                    
-        if answer:
-            start += 1
-            target.popleft()
-                        
+                else:
+                    break
+        end += 1
     return answer
 n = int(input())
 items = []
