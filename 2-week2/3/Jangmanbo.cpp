@@ -7,13 +7,19 @@ bool smaller(string depart, string end) {
 	if (depart.size() < end.size()) { return true; }
 	else if (depart.size() > end.size()) { return false; }
 	else {
-		if (depart[0]<end[0])
+		int size = end.size();
+		for (int i = 0; i < size; i++)
 		{
-			return true;
+			if (depart[i] < end[i])
+			{
+				return true;
+			}
+			else if (depart[i] > end[i])
+			{
+				return false;
+			}
 		}
-		else {
-			return false;
-		}
+		
 	}
 }
 
