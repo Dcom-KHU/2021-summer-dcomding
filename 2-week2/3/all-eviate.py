@@ -18,14 +18,14 @@ path = []
 
 while route:
     now = route[-1]
-    if tickets:
+    try:
         if tickets[now]:
             route.append(tickets[now].pop())
-            #if not tickets[now]:
-            #    del tickets[now]
+                #if not tickets[now]:
+                #    del tickets[now]
         else:
             path.append(route.pop())
-    else:
+    except:
         path.append(route.pop())
 path.reverse()
 print(' '.join(path))
