@@ -55,6 +55,8 @@ def solution(arrows):
             edge[(now,before)] = 1
             before = now
         queue.append(before)
+        
+    return answer
 
 n = int(input())
 arrows = list(map(int, input().split()))
