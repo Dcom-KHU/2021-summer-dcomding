@@ -30,8 +30,8 @@ for start in range(n):
             basketset.add(apples[end])
 
         if np == len(basketset):
-            if optimum < 0 or (end - start) < optimum:
-                optimum = end - start
+            if optimum < 0 or abs(end - start) < optimum:
+                optimum = abs(end - start)
                 buyfrom = start + 1
                 buyto = end + 1
             
