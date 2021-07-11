@@ -11,8 +11,6 @@ current = [0, 0]
 def dfs(depth):
     global current
     global count
-    
-    print(set_var)
 
     if depth == n:
         return
