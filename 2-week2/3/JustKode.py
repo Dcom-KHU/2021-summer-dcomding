@@ -1,3 +1,6 @@
+import sys
+sys.setrecursionlimit(200000)
+
 n = int(input())
 dict_var = {}
 current = "DCOM"
