@@ -38,24 +38,23 @@ def solution(arrows):
             dx = -1
             dy = 1
         
-        for i in range(2): # 점이 없는 곳에서 교차하는 경우를 위해 점을 2개씩 찍기
-            temp = (now[0]+dx, now[1]+dy)
+        for i in range(2): # 점이 없는 곳에서 교차하는 경우(ex.모래시계모양)를 위해 점을 2개씩 찍기
+            temp = (before[0]+dx, before[1]+dy)
             queue.append(temp)
-            now = temp
-        node[(now[0],now[1])] = 1
+            before = temp
         before = queue.popleft()
+        node[before] = 1
         while queue:
             now = queue.popleft()
-            if node[(now[0], now[1])] == 0: # 점에 처음 방문한 경우
-                node[(now[0], now[1])] = 1 # 방문증 배부
+            if node[now] == 0: # 점에 처음 방문한 경우
+                node[now] = 1 # 방문증 배부
             else: # 다시 방문한 경우!
                 if edge[(before, now)] == 0: # 처음오는 길로 왔나요?
                     answer += 1
             edge[(before, now)] = 1
             edge[(now,before)] = 1
             before = now
-        
-    return answer
+        queue.append(before)
 
 n = int(input())
 arrows = list(map(int, input().split()))
