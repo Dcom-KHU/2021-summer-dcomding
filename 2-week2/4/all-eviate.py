@@ -8,7 +8,7 @@ products = len(set(apples)) # total apple products
 buyfrom = 0
 buyto = 0
 
-for counts in range(products, n):
+for counts in range(products, n+1):
     if buyfrom != 0 and buyto != 0:
         break
     basket = []
