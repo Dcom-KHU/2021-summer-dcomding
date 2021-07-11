@@ -9,7 +9,7 @@ buyfrom = 0
 buyto = 0
 
 for counts in range(products, n):
-    if buyfrom != buyto:
+    if buyfrom != 0 and buyto != 0:
         break
     basket = []
     for start in range(0, n-products+1):
