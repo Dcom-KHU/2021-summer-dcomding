@@ -14,7 +14,7 @@ def func(key):
         check = True
         return
 
-    if dict_var[key] in dict_var:
+    if key in dict_var:
         for i in range(len(dict_var[key])):
             if not dict_var[key][i][0]:
                 dict_var[key][i][0] = True
