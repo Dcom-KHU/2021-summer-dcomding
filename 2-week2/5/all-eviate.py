@@ -13,8 +13,11 @@ additional = False
 for d in directions:
     nex = (now[0]+mov[d][0], now[1]+mov[d][1])
     if d%2 == 1:
-        if (d+2)%8 in visited[ (now[0]+mov[(d+1)%8][0]) , (now[1]+mov[(d+1)%8][1]) ]:
-            additional = True
+        try:
+            if (d+2)%8 in visited[(now[0]+mov[(d+1)%8][0]) ,(now[1]+mov[(d+1)%8][1]) ]:
+                additional = True
+        except:
+            additional = False
     
     if nex in visited:
         if d not in visited[nex]:
