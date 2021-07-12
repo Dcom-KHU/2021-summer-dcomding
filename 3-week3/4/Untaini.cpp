@@ -100,7 +100,7 @@ int main() {
 			group[findGroup(y)] = findGroup(x), ++matchCnt, result+=val;
 		
 		//모든 건물이 한 그룹으로 묶였으면 다리 선택을 그만둠.
-		if(matchCnt == buildingCnt) break;
+		if(matchCnt == totalBuilding) break;
 	}
 	
 	//모든 건물이 하나로 묶였으면 result, 아니면 불가능하다는 뜻이므로 -1을 출력
