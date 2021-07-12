@@ -5,11 +5,8 @@
 # 전꺼를 없앤 대신 걔가 포함되어있으면 ㄱㅊ은 거니까.
 import collections
 def solution(gems):
-
     end = -1
-    first_set = set()
     gems_set = set(gems)
-
     for i in range(len(gems)):
         gem = gems[i]
         gems_set.discard(gem)
@@ -17,9 +14,9 @@ def solution(gems):
             end = i
             break
     answers = [(end+1, 0, end)]
-    products = collections.deque(gems[:end+1])
+    shopping_bag = collections.deque(gems[:end+1])
     for i in range(1, len(gems)):
-        found, end, products = shop(gems, i, end, products)
+        found, end, shopping_bag = shop(gems, i, end, shopping_bag)
         if not found:
             break
         length = end - i + 1
@@ -33,26 +30,24 @@ def solution(gems):
     return [answer[1] + 1, answer[2] + 1]
 
 # end 포함
-def shop(gems, start, end, current_products):
-    before_product = gems[start-1]
+def shop(gems, start, end, shopping_bag):
+    left_gem = gems[start-1]
     is_complete = False
     new_end = -1
 
-    current_products.popleft()
-    if before_product not in current_products:
+    shopping_bag.popleft()
+    if left_gem not in shopping_bag:
         for i in range(end+1, len(gems)):
-            current_products.append(gems[i])
+            shopping_bag.append(gems[i])
             # 이전에 뺸 녀석을 찾은 경우
-            if gems[i] == before_product:
+            if gems[i] == left_gem:
                 is_complete = True
                 new_end = i
                 break
     else:
         is_complete = True
         new_end = end
-    return is_complete, new_end, current_products
-
-
+    return is_complete, new_end, shopping_bag
 
 print(solution(["DIA", "RUBY", "RUBY", "DIA", "DIA", "EMERALD", "SAPPHIRE", "DIA"]))
 print(solution(["AA", "AB", "AC", "AA", "AC"]))
