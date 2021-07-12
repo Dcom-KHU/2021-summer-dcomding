@@ -6,6 +6,6 @@ def solve():
         t,p = map(int,input().split())
         cache[i + t] = max(cache[i+t], cache[i] + p)
         
-    print(max(cache[:n+1]))
+    print(max(cache[:n]))
     
 solve()
