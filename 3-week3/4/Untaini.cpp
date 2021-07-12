@@ -59,7 +59,7 @@ int main() {
 	for(int bCnt = 1; bCnt<=buildingCnt; ++bCnt)
 		
 		//xCnt, yCnt는 for문을 최대한 적게 돌기 위한 처리
-		for(int xCnt = bMinPos[bCnt][0]; xCnt<=bMaxPos[bCnt][1]; ++xCnt)
+		for(int xCnt = bMinPos[bCnt][0]; xCnt<=bMaxPos[bCnt][0]; ++xCnt)
 			for(int yCnt = bMinPos[bCnt][1]; yCnt<=bMaxPos[bCnt][1]; ++yCnt)
 				
 				//방문한 지점이 건물이면
