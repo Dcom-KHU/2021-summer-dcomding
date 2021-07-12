@@ -26,7 +26,6 @@ int main() {
 	for(int nCnt = 0; nCnt<n; ++nCnt)
 		for(int mCnt = 0; mCnt<m; ++mCnt){
 			scanf("%d",&campus[nCnt][mCnt]);
-			//건물이 1부터 시작하므로 -1로 저장함
 			campus[nCnt][mCnt] = -campus[nCnt][mCnt];
 		}
 	
@@ -43,7 +42,6 @@ int main() {
 					int x = funcStack.top().first, y = funcStack.top().second; funcStack.pop();
 					campus[x][y] = buildingCnt;
 					
-					//다음 반복문에서 반복을 최소화 하기 위한 건물 구역 갱신
 					bMinPos[buildingCnt][0] = min(x, bMinPos[buildingCnt][0]);
 					bMinPos[buildingCnt][1] = min(y, bMinPos[buildingCnt][1]);
 					bMaxPos[buildingCnt][0] = max(x, bMaxPos[buildingCnt][0]);
@@ -61,8 +59,8 @@ int main() {
 	for(int bCnt = 1; bCnt<=buildingCnt; ++bCnt)
 		
 		//xCnt, yCnt는 for문을 최대한 적게 돌기 위한 처리
-		for(int xCnt = bMinPos[bCnt][0]; xCnt<=bMaxPos[bCnt][0]; ++xCnt)
-			for(int yCnt = bMinPos[bCnt][1]; yCnt<=bMaxPos[bCnt][1]; ++yCnt)
+		for(int xCnt = 0; xCnt<n; ++xCnt)
+			for(int yCnt = 0; yCnt<m; ++yCnt)
 				
 				//방문한 지점이 건물이면
 				if(campus[xCnt][yCnt] == bCnt){
@@ -106,12 +104,13 @@ int main() {
 		pair<int, pii> edge = pq.top(); pq.pop();
 		int val = edge.first, x = edge.second.first, y = edge.second.second;
 		if(findGroup(x) != findGroup(y)){
-			group[y] = findGroup(x), ++matchCnt, result+=val;
+			group[findGroup(y)] = findGroup(x), ++matchCnt, result+=val;
 			//printf("(%d %d %d), ",x,y,val);
 		}
 		if(matchCnt == buildingCnt) break;
 	}
 	
 	printf("%d",matchCnt==buildingCnt?result:-1);
+
 	return 0;
 }
