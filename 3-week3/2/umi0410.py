@@ -7,8 +7,6 @@ for _ in range(N):
     # (t, p)
     data.append(tuple(map(int, input().split())))
 
-MAX = -1
-
 for i, (tp) in enumerate(data):
     t, p = tp
     # 7일이라면 인덱스는 0(더미라 제외), 1,2,3,4,5,6,7
