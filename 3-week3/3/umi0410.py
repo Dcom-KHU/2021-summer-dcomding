@@ -33,6 +33,7 @@ def get_hour(text):
 def get_minute(text:str):
     return int(text[3:5])
 
+
 n, t, m, k = map(int, input().split())
 timetable = []
 for _ in range(k):
