@@ -19,6 +19,7 @@ void dfs(int x, int y, int mode, int val){
 	if(mode == -1){
 		campus[x][y] = val;
 		
+		//4방향으로 뻗어가면서 더 이어진 부분이 있는 지 확인함
 		for(int cnt=0;cnt<4;++cnt){
 			int nx = x+dx[cnt], ny = y+dy[cnt];
 			if(canGotoPos(nx, ny) && campus[nx][ny] == -1)
@@ -35,7 +36,7 @@ void dfs(int x, int y, int mode, int val){
 			if(campus[nx][ny] == 0)
 				dfs(nx, ny, mode, val+1);
 			
-			//다음 지점이 자기 건물이 아니면서 거리가 1보다 크면 벡터에 저장
+			//다음 지점이 자기 건물이 아니면서 거리가 1보다 크면 벡터에 저장. min,max는 나중에 중복된 다리를 없애기 위함임
 			else if(campus[nx][ny] != bCnt && val>1)
 				bridges.push_back(make_pair(val, make_pair(min(bCnt, campus[nx][ny]), max(bCnt, campus[nx][ny]))));
 			
@@ -56,22 +57,22 @@ int main() {
 	for(int nCnt = 0; nCnt<n; ++nCnt)
 		for(int mCnt = 0; mCnt<m; ++mCnt){
 			scanf("%d",&campus[nCnt][mCnt]);
-			//건물의 번호가 1번부터 시작하므로 존재여부와 건물번호에 차이를 두기 위해 존재여부는 -1로 저장함
+			//건물의 번호가 1번부터 시작하므로 건물의 존재여부와 건물번호에 차이를 두기 위해 건물의 존재여부는 -1로 저장함
 			campus[nCnt][mCnt] = -campus[nCnt][mCnt];
 		}
 	
 	//dfs를 통해 건물 특정짓기
-	int buildingCnt = 0;
+	int totalBuilding = 0;
 	for(int nCnt = 0; nCnt<n; ++nCnt)
 		for(int mCnt = 0; mCnt<m; ++mCnt)
 			
 			//방문한 지점에 번호가 매겨지지 않은 건물이 있으면 건물에 번호를 붙여줌
 			if(campus[nCnt][mCnt] == -1) 
-				dfs(nCnt, mCnt, -1, ++buildingCnt);
+				dfs(nCnt, mCnt, -1, ++totalBuilding);
 			
 	
-	//dfs를 통해 각 건물을 연결하는 다리 만들기 bCnt는 dfs()에서도 사용됨
-	for(bCnt = 1; bCnt<=buildingCnt; ++bCnt)
+	//dfs를 통해 각 건물을 연결하는 다리 만들기. bCnt는 dfs()에서도 사용됨
+	for(bCnt = 1; bCnt<=totalBuilding; ++bCnt)
 		for(int nCnt = 0; nCnt<n; ++nCnt)
 			for(int mCnt = 0; mCnt<m; ++mCnt)
 				
@@ -84,7 +85,8 @@ int main() {
 	//unoin-find 초기 세팅
 	for(int cnt=1; cnt<=6; ++cnt)
 		group[cnt] = cnt;
-
+	
+	//중복된 다리 제거
 	sort(bridges.begin(), bridges.end());
 	bridges.erase(unique(bridges.begin(), bridges.end()),bridges.end());
 	
@@ -102,7 +104,7 @@ int main() {
 	}
 	
 	//모든 건물이 하나로 묶였으면 result, 아니면 불가능하다는 뜻이므로 -1을 출력
-	printf("%d",matchCnt==buildingCnt?result:-1);
+	printf("%d",matchCnt==totalBuilding?result:-1);
 
 	return 0;
 }
