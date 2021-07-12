@@ -3,7 +3,7 @@
 using namespace std;
 
 int main() {
-	int n, k, before, total = 1;
+	int n, k;
 	cin >> n >> k;
 	int* books = new int[n];
 	for (int i = 0; i < n; i++)
@@ -12,16 +12,11 @@ int main() {
 	}
 	sort(books, books + n);
 
-	before = books[0];
+	int total = n;
 	for (int i = 1; i < n; i++)
 	{
-		if (before != books[i])
-		{
-			total++;
-			before = books[i];
-			if (total == k) break;
-		}
+		if (books[i - 1] == books[i]) total--;
 	}
-	cout << total;
+	cout << min(total, k);
 	return 0;
 }
