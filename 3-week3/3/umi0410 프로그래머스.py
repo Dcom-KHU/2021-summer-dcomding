@@ -22,9 +22,9 @@ def solution(n, t, m, timetable):
     if len(shuttles[shuttle_times[-1]]) == m:
         last_crew = shuttles[shuttle_times[-1]][-1]
         # 내림 연산 필요
-        return [(get_minute(last_crew) - 1) // 60 + get_hour(last_crew), (60 + get_minute(last_crew) - 1) % 60]
+        return '{0:02d}:{1:02d}'.format((get_minute(last_crew) - 1) // 60 + get_hour(last_crew), (60 + get_minute(last_crew) - 1) % 60)
 
-    return [get_hour(shuttle_times[-1]), get_minute(shuttle_times[-1])]
+    return shuttle_times[-1]
 
 
 def get_hour(text):
@@ -33,10 +33,9 @@ def get_hour(text):
 def get_minute(text:str):
     return int(text[3:5])
 
-n, t, m, k = map(int, input().split())
-timetable = []
-for _ in range(k):
-    hour, minute = map(int, input().split())
-    timetable.append('%02d:%02d' % (hour, minute))
-
-print(' '.join(map(str, solution(n, t, m, timetable))))
+print(solution(1,	1,	5,	["08:00", "08:01", "08:02", "08:03"]))
+print(solution(2,10,	2,	["09:10", "09:09", "08:00"]))
+print(solution(2,	1,	2,	["09:00", "09:00", "09:00", "09:00"]))
+print(solution(1,	1,	5,	["00:01", "00:01", "00:01", "00:01", "00:01"]))
+print(solution(1,	1,	1,	["23:59"]))
+print(solution(10,	60,	45,	["23:59","23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59"]))
