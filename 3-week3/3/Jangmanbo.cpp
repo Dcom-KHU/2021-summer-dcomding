@@ -17,19 +17,26 @@ int main() {
 	sort(table.begin(), table.end());
 
 	int time = 9 * 60;
-	int idx = 0, person = 0;
-	for (int i = 0; i < n && time < 1440; i++, time += t)
+	int idx = 0, person = 0, bus = 0;
+	for (; bus < n && time < 1440; bus++, time += t)
 	{
 		person = 0; // 이번 버스에 탄 학생 수
 		for (; person < m && idx < k && table.at(idx) <= time; person++, idx++) {}
 	}
 
-	//막차에 자리가 있다면
-	if (idx < k || person < m) cout << (time - t) / 60 << " " << (time - t) % 60;
-	//막차에 자리가 없다면
+	if (bus==n)
+	{
+		if (person==m)
+		{
+			time = table.at(idx - 1);
+			cout << (time - 1) / 60 << " " << (time - 1) % 60;
+		}
+		else {
+			cout << (time - t) / 60 << " " << (time - t) % 60;
+		}
+	}
 	else {
-		time = table.at(idx - 1);
-		cout << (time - 1) / 60 << " " << (time - 1) % 60;
+		time = 540 + (n - 1) * t;
 	}
 	return 0;
 }
