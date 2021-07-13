@@ -1,9 +1,10 @@
 import sys
 from collections import deque
+from datetime import timedelta
 input = sys.stdin.readline
 def solution():
     num_of_bus,TIME_BETWEEN_BUS,MAX_PASSENGER,NUM_OF_PASSENGER = map(int, input().split())
-    timetables = {h:{} for h in range(23)}
+    timetables = {h:{} for h in range(24)}
     
     for i in range(NUM_OF_PASSENGER):
         # hour, minute
@@ -14,31 +15,30 @@ def solution():
             timetables[h][m] = 1
             
     watings = deque([])
-    nxt_bus_hour = 9
-    nxt_bus_minute = 0
-    result = [0,0]
+    nxt_bus = timedelta(hours = 9, minutes = 0)
+    result = timedelta(hours= 0, minutes = 0)
     for hour in range(0,23):
         for minute in range(0,59):
-            # 탑승 처리
+            cur = timedelta(hours = hour, minutes = minute)
+            
+            # 대기열에 사람 추가
             try:
                 for p in range(timetables[hour][minute]):
-                    watings.append([hour,minute])
+                    watings.append(cur)
             except:
                 pass
             
-            # 
-            if nxt_bus_hour == hour and nxt_bus_minute == minute and num_of_bus > 0:
+            # 탑승 처리
+            if nxt_bus == cur and num_of_bus > 0:
                 try:
                     for p in range(MAX_PASSENGER):
                         last = watings.popleft()
-                    result = [last[0], last[1] - 1]
+                    result = last - timedelta(minutes = 1)
                 except:
-                    result = [hour, minute]
-                nxt_bus_minute += TIME_BETWEEN_BUS
-                nxt_bus_hour += nxt_bus_minute // 60
-                nxt_bus_minute %= 60
+                    result = cur
+                nxt_bus += timedelta(minutes = TIME_BETWEEN_BUS)
                 num_of_bus -= 1
                 
-    print(result)
+    print(result.seconds // 3600, (result.seconds//60)%60)
 solution()
             
