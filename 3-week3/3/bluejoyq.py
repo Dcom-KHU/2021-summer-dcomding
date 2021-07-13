@@ -13,12 +13,12 @@ def solution():
             timetables[h][m] += 1
         except:
             timetables[h][m] = 1
-            
     watings = deque([])
     nxt_bus = timedelta(hours = 9, minutes = 0)
     result = timedelta(hours= 0, minutes = 0)
+    
     for hour in range(0,23):
-        for minute in range(0,59):
+        for minute in range(0,60):
             cur = timedelta(hours = hour, minutes = minute)
             
             # 대기열에 사람 추가
@@ -29,6 +29,7 @@ def solution():
                 pass
             
             # 탑승 처리
+            
             if nxt_bus == cur and num_of_bus > 0:
                 try:
                     for p in range(MAX_PASSENGER):
