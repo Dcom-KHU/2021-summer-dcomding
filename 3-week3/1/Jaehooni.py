@@ -1,11 +1,5 @@
 n, k = map(int, input().split())
-books = map(int, input().split())
+l = len(list(set(map(int, input().split()))))
     
-book_list = list(set(books))
-number_of_book = len(book_list)
-
-if (k > number_of_book):
-    print(number_of_book)
-    
-else:
-    print(k)
+# TYPE_BOOK = len(list(set(books)))
+print(l) if k > l else print(k)
