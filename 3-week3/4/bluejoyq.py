@@ -64,17 +64,19 @@ def solve():
     findings = []
 
     heapq.heappush(findings, (0,1))
-    while True:
-        cur_cost, has_been = heapq.heappop(findings)
-        if has_been == goal_bit:
-            print(cur_cost)
-            break
-        for i in range(goal):
-            if not ((1 << i) & has_been):
-                continue
-            for nxt, nxt_cost in edges[i+1]:
-                if (1 << (nxt - 1)) & has_been:
+    try:
+        while True:
+            cur_cost, has_been = heapq.heappop(findings)
+            if has_been == goal_bit:
+                print(cur_cost)
+                break
+            for i in range(goal):
+                if not ((1 << i) & has_been):
                     continue
-                heapq.heappush(findings, (cur_cost + nxt_cost, (1 << (nxt - 1)) | has_been))
-            
+                for nxt, nxt_cost in edges[i+1]:
+                    if (1 << (nxt - 1)) & has_been:
+                        continue
+                    heapq.heappush(findings, (cur_cost + nxt_cost, (1 << (nxt - 1)) | has_been))
+    except:
+        print(-1)
 solve()
