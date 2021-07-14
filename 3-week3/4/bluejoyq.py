@@ -7,9 +7,10 @@ def solve():
     # 모든 블럭을 돌면서 라벨링부터 하자.
     # 각 섬에 번호를 붙여주는거임.
     searchs = [[-1,0], [0,1], [1,0], [0,-1]]
+    
+    # 섬 라벨링
     cur_numbering = 1
     visited = [[0 for j in range(M)] for i in range(N)]
-    
     islands = []
     for y in range(N):
         for x in range(M):
@@ -31,6 +32,8 @@ def solve():
                         board[nxt_y][nxt_x] = cur_numbering
                     
             cur_numbering += 1
+            
+    # 각 섬을 연결하는 경로 찾기
     goal = len(islands)
     edges = {i+1 : [] for i in range(goal)}
     visited = [[0 for j in range(M)] for i in range(N)]
@@ -54,15 +57,14 @@ def solve():
                             nxt_y += search[0]
                             nxt_x += search[1]
                             length += 1
-                            
-                                
+                                  
                         if length > 1 and (-1 < nxt_y < N) and (-1 <nxt_x < M):
                             # 목적지, 코스트
                             edges[idx+1].append((board[nxt_y][nxt_x], length))
     
+    # 비트마스크와 다익스트라를 이용한 모든 섬을 경유하는 최단 경로 찾기.
     goal_bit = (1 << goal) - 1
     findings = []
-
     heapq.heappush(findings, (0,1))
     try:
         while True:
@@ -78,5 +80,6 @@ def solve():
                         continue
                     heapq.heappush(findings, (cur_cost + nxt_cost, (1 << (nxt - 1)) | has_been))
     except:
+        # 에러가 날 경우 모든 섬을 경유하는 경로가 없음.
         print(-1)
 solve()
