@@ -13,24 +13,15 @@ int main() {
 		cin >> heights[i];
 	}
 
-	bool loop = true;
 	for (int i = 0; i <= n; i++)
 	{
-		if (!idx.empty() && heights[idx.top()] > heights[i])
+		while (!idx.empty() && heights[idx.top()] > heights[i])
 		{
-			do
-			{
-				height = heights[idx.top()];
-				idx.pop();
-				if (idx.empty())
-				{
-					width = i;
-					loop = false;
-				}
-				else width = i - idx.top() - 1;
-				area = max(area, height * width);
-			} while (loop);
-			loop = true;
+			height = heights[idx.top()];
+			idx.pop();
+			if (idx.empty()) width = i;
+			else width = i - idx.top() - 1;
+			area = max(area, height * width);
 		}
 		idx.push(i);
 	}
