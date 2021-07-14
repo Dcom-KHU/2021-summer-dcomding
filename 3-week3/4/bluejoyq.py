@@ -65,7 +65,6 @@ def solve():
 
     heapq.heappush(findings, (0,1))
     while True:
-        print(findings)
         cur_cost, has_been = heapq.heappop(findings)
         if has_been == goal_bit:
             print(cur_cost)
