@@ -2,17 +2,12 @@ n = int(input())
 heights = list(map(int, input().split()))
 
 
-area = 0
-max_area = -1
-
-# binary search
-left = min(heights)
-right = max(heights)
-
-while left <= right:
+# divide with min
+def divide(seq):
+    global max_area
+    mid = min(seq)
+    idx = seq.index(mid)
     area = 0
-    updated = False
-    mid = (left + right) // 2
 
     for h in heights:
         # if mid <= h, you can make rectangle
@@ -22,21 +17,23 @@ while left <= right:
             # update max
             if area > max_area:
                 max_area = area
-                updated = True
 
             area = 0
 
     # update max with last rectangle
     if area > max_area:
         max_area = area
-        updated = True
 
-    # if updated, check higher height
-    if updated:
-        left = mid + 1
+    # divide more
+    left = seq[:idx]
+    right = seq[idx+1:]
+    if len(left) > 0:
+        divide(left)
+    if len(right) > 0:
+        divide(right)
 
-    # if not updated, check lower height
-    else:
-        right = mid - 1
+
+max_area = 0
+divide(heights)
 
 print(max_area)
