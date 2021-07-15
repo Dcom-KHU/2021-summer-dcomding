@@ -32,9 +32,14 @@ if passenger < k:
     if passenger == 0:
         deadline = first_bus + (n-1)*t
 
-    # not all passenger can take bus means lack of bus, you should queue before last passenger
     else:
-        deadline = timetable[passenger-1] - 1
+        # last bus was not full means rest of passenger late, you can take last bus
+        if not_full:
+            deadline = first_bus + (n-1)*t
+
+        # last bus was full means lack of bus, you should queue before last passenger
+        else:
+            deadline = timetable[passenger-1] - 1
 
 # if all passenger take bus
 else:
