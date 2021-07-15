@@ -3,7 +3,7 @@ heights = list(map(int, input().split()))
 
 
 area = 0
-max_area = 0
+max_area = -1
 
 # binary search
 left = min(heights)
