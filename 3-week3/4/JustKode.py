@@ -48,7 +48,7 @@ for i in range(n):
     for j in range(m):
         if arr[i][j] == 1 and (i, j) not in checked:
             key = group_key[group_key_index]
-            group[key] = [(i,)]
+            group[key] = [(i, j)]
             dfs(i, j, key)
             group_key_index += 1
 
