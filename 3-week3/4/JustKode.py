@@ -48,7 +48,7 @@ for i in range(n):
     for j in range(m):
         if arr[i][j] == 1 and (i, j) not in checked:
             key = group_key[group_key_index]
-            group[key] = [(i, j)]
+            group[key] = [(i,)]
             dfs(i, j, key)
             group_key_index += 1
 
@@ -108,12 +108,8 @@ while True:
         union(u, v)
         cost += weight
         edges += 1
-print(road)
 
 if cost >= 1000:
     print(-1)
 else:
     print(cost)
-
-
-
