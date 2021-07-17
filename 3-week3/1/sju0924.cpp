@@ -1,10 +1,10 @@
 #include <iostream>
 
 using namespace std;
-int arr[10001];
+int arr[200001];
 
 void init() {
-	for (int i = 0; i <= 10000;i++) {
+	for (int i = 0; i <= 200000;i++) {
 		arr[i] = 0;
 	}
 }
@@ -17,7 +17,8 @@ int main() {
 
 	for (int i = 0; i < n; i++) {
 		cin >> a;
-		if (arr[a]) {
+		if (arr[a] == 1) {
+			continue;
 		}
 		else {
 			arr[a] = 1;
