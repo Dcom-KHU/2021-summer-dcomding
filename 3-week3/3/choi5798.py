@@ -49,17 +49,14 @@ while buses:
         hour, minute = time[0], time[1]
         if hour<bus_hour or (hour==bus_hour and minute<=bus_minute):
             students += timetable[time]
-            if students >= m:
-                answer = minus_1min(hour, minute)
-                # print('over_answer:', answer)
-            else:
-                continue
         else:
             times.appendleft(time)
             break
     if students < m:
         answer = list(bus)
         # print('under_answer:', answer)
+    else:
+        answer = minus_1min(hour, minute)
     students -= m if students - m >= 0 else 0
 
 
