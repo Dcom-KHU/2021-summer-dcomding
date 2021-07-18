@@ -1,3 +1,6 @@
+import sys
+sys.setrecursionlimit(300000)
+
 n = int(input())
 heights = list(map(int, input().split()))
 tree = [0] * (4 * n)
