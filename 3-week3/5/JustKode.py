@@ -2,7 +2,7 @@ import sys
 sys.setrecursionlimit(10**9)
 
 n = int(input())
-arr = list(map(int, input().split()))
+arr = list(map(int, sys.stdin.readline().split()))
 tree = [0] * (4 * n)
 
 def init(node, start, end):
