@@ -1,9 +1,10 @@
 import sys
+import math
 sys.setrecursionlimit(10**9)
 
 n = int(input())
 arr = list(map(int, sys.stdin.readline().split()))
-tree = [0] * (4 * n)
+tree = [0] * (pow(2, math.ceil(math.log(n,2)) + 1))
 
 def init(node, start, end):
     global arr, tree
