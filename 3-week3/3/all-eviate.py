@@ -1,17 +1,18 @@
 '''
 n = number of cars
 t = term of cars (minutes)
-m = maximum capacity
+m = maximum capacity per cars
 k = students waiting in queue
 '''
 import operator
+
 
 class time: # definition of time class for operator overloading
     def __init__(self, h, m):
         self.h = h
         self.m = m
     def __lt__(self, other):
-        if self.h != other.n:
+        if self.h != other.h:
             return self.h < other.h
         else:
             return self.m < other.m
@@ -24,6 +25,9 @@ class time: # definition of time class for operator overloading
             return False
     def __eq__(self, other):
         return self.h == other.h and self.m == other.m
+    def __add__(self, num):
+        if isinstance(num, int):
+            return time(self.h + (self.m + num)//60, (self.m + num)%60)
     def __sub__(self, num):
         if isinstance(num, int):
             if self.m >= num:
@@ -31,17 +35,18 @@ class time: # definition of time class for operator overloading
             else:
                 return time(self.h - 1, 60 + self.m - num)
         if isinstance(num, time):
-            if self.m >= num:
+            if self.m >= num.m:
                 return time(self.h - num.h, self.m - num.m)
             else:
                 return time(self.h - 1 - num.h, self.m - num.m + 60)
 
 
 n, t, m, k = map(int, input().split())
-last_h = (n - 1) * t // 60 + 9
-last_m = (n - 1) * t % 60
-last_ride = time(last_h, last_m)
-car_full = False
+max_cap = m * n
+carsch = []
+for c in range(n):
+    carsch.append(time(9, 0) + c * t)
+last_car_full = False
 tt = []
 competitors_count = 0
 for i in range(k):
@@ -50,17 +55,29 @@ for i in range(k):
     
 tt = sorted(tt, key = operator.attrgetter('h', 'm'))
 
-for j in range(k):
-    if tt[j] <= last_ride:
-        competitors_count += 1
-        if not car_full and competitors_count > m:
-            target_time = tt[j] - 1
-            car_full = True
+stuind = 0
+
+for c in range(n):
+    if stuind >= max_cap:
+        break
+    seats_taken = 0
+    for s in range(stuind, k):
+        if tt[s] <= carsch[c]:
+            linq = tt[s]
+            stuind += 1
+            seats_taken += 1
+        else:
+            break
+        if seats_taken >= m:
+            if c == n-1:
+                last_car_full = True
             break
 
-if m > k: # abundant capacity
-    print(f'{last_h} {last_m}')
-elif competitors_count < m: # enough seats left
-    print(f'{last_h} {last_m}')
-elif car_full:
-    print(f'{target_time.h} {target_time.m}')
+if not last_car_full and stuind <= max_cap: # all students aboard still seats left
+    print(f'{carsch[-1].h} {carsch[-1].m}')
+else:
+    print(f'{(linq-1).h} {(linq-1).m}')
+
+# print(f'm = {m}')
+# print(f'stuind = {stuind}')
+# print(f'last time = {linq.h} {linq.m}')
