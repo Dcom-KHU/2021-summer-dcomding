@@ -11,8 +11,10 @@ for timetable in timetables:
                 stop_time[1] += 1
                 safe_time.append(timetable)
                 break
+                
             else:
                 pass
+            
         else:
             pass
 
