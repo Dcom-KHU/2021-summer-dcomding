@@ -121,7 +121,6 @@ while True:
         union(u, v)
         cost += weight
         edges += 1
-        print(cost)
 
 if cost >= 1000:
     print(-1)
