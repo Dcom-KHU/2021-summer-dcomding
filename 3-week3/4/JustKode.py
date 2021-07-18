@@ -45,10 +45,11 @@ def find_road(x, y, dx, dy, current, depth):
                 find_road(nx, ny, dx, dy, loc_to_group[(nx, ny)], depth)
             else:
                 if loc_to_group[(nx, ny)] == current:
-                    find_road(nx, ny, dx, dy, current, depth)
+                    find_road(nx, ny, dx, dy, current, 0)
                 elif depth >= 2:
-                    road[current][loc_to_group[(nx, ny)]] = depth
-                    road[loc_to_group[(nx, ny)]][current] = depth
+                    if road[current][loc_to_group[(nx, ny)]] > depth:
+                        road[current][loc_to_group[(nx, ny)]] = depth
+                        road[loc_to_group[(nx, ny)]][current] = depth
                     find_road(nx, ny, dx, dy, loc_to_group[(nx, ny)], 0)
                 else:
                     find_road(nx, ny, dx, dy, loc_to_group[(nx, ny)], 0)
