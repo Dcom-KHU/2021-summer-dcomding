@@ -1,11 +1,11 @@
 #include <cstdio>
-#include <algorithm>
-using namespace std; 
+
+#define max(x,y) (x>y?x:y)
 
 int n, v, fenwickTree[100010], distanceFromRoot[100010], result;
 
 void update(int num, int val){
-    while(num<=100010)
+    while(num<=n+2)
         fenwickTree[num] += val, num += (num & -num);
 }
 
