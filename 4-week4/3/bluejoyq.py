@@ -11,7 +11,7 @@ def solution():
                 visited[i][j] = [2,2]
             
     visited[0][0][0] = 1
-    visited[0][1][1] = 2
+    visited[0][1][1] = 1
     
     
     moves = [[0,1], [1,0], [-1,0], [0,-1]]
@@ -23,14 +23,16 @@ def solution():
 
     def not_valid(a,b):
         if -1 < a[0] < n and  -1 < a[1] < n and -1< b[0] < n and -1< b[1] < n :
-            if visited[a[0]][a[1]][0] and visited[b[0]][b[1]][1]:
+            if visited[a[0]][a[1]][0] == 2 or visited[b[0]][b[1]][1] == 2:
                 return 1 
-            else:
+            elif visited[a[0]][a[1]][0] == 1 and visited[b[0]][b[1]][1] == 1:
+                return 1
+            else:                
                 return 0
         return 1
-    def not_valid_for_rotate(a,b):
-        if -1 < a[0] < n and  -1 < a[1] < n and -1< b[0] < n and -1< b[1] < n and not (visited[b[0]][b[1]][1] == 2):
-            if visited[a[0]][a[1]][0]:
+    def not_valid_for_rotate(a,b, cur):
+        if -1 < a[0] < n and  -1 < a[1] < n and -1< b[0] < n and -1< b[1] < n:
+            if visited[a[0]][a[1]][0] == 2 or (visited[b[0]][b[1]][cur] ):
                 return 1 
             else:
                 return 0
@@ -58,7 +60,7 @@ def solution():
             for rotate in rotates[shape]:
                 nxt_a = d2_shape_sum(cur_a,rotate)
                 nxt_a_final = d2_shape_sum(cur_b,rotate)
-                if not_valid_for_rotate(nxt_a, nxt_a_final):
+                if not_valid_for_rotate(nxt_a, nxt_a_final,0):
                     continue
                 if nxt_a == goal or nxt_a_final == goal:
                     return i 
@@ -68,7 +70,7 @@ def solution():
             for rotate in rotates[shape]:
                 nxt_b = d2_shape_sum(cur_b,rotate)
                 nxt_b_final = d2_shape_sum(cur_a,rotate)
-                if not_valid_for_rotate(nxt_b, nxt_b_final):
+                if not_valid_for_rotate(nxt_b, nxt_b_final,1):
                     continue
                 if nxt_b == goal or nxt_b_final == goal:
                     return i 
