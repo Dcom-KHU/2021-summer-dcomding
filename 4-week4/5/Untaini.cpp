@@ -1,3 +1,29 @@
+//solved using set container
+#include <cstdio>
+#include <set>
+using namespace std;
+
+#define max(x,y) (x>y?x:y)
+
+int n, v, distanceFromRoot[100001], result;
+set<int> insertedNum;
+
+int main() {
+    scanf("%d", &n);
+    insertedNum.insert(0);
+    insertedNum.insert(n+1);
+    for(int cnt=0; cnt<n; ++cnt){
+        scanf("%d", &v);
+        auto right = insertedNum.lower_bound(v), left = right; --left;
+        result += (distanceFromRoot[v] = max(distanceFromRoot[*left], distanceFromRoot[*right])+1);
+        insertedNum.insert(v);
+        printf("%d\n", --result);
+    }
+    return 0;
+}
+
+/*
+//solved using fenwick tree and binary search
 #include <cstdio>
 
 #define max(x,y) (x>y?x:y)
@@ -40,3 +66,4 @@ int main() {
     }
     return 0;
 }
+*/
