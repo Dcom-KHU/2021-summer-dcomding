@@ -19,7 +19,6 @@ Thank you for SolidCitadel...
 # board = [list(filter(lambda x : x != 0, reversed(r))) for r in zip(*[map(int, input().split()) for i in range(n)])]
 board = [[x for x in reversed(r) if x != 0] for r in zip(*[map(int, input().split()) for i in range(n)])]
 
-
 for m in moves:
     if not board[m-1]:
         continue
