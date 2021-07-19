@@ -5,7 +5,7 @@ using namespace std;
 
 #define max(x,y) (x>y?x:y)
 
-int n, v, distanceFromRoot[100001], result;
+int n, v, distanceFromRoot[100002], result;
 set<int> insertedNum;
 
 int main() {
@@ -14,7 +14,7 @@ int main() {
     insertedNum.insert(n+1);
     for(int cnt=0; cnt<n; ++cnt){
         scanf("%d", &v);
-        auto right = insertedNum.upper_bound(v), left = right; --left;
+        auto right = insertedNum.lower_bound(v), left = right; --left;
         result += (distanceFromRoot[v] = max(distanceFromRoot[*left], distanceFromRoot[*right])+1);
         insertedNum.insert(v);
         printf("%d\n", --result);
