@@ -14,7 +14,7 @@ int main() {
     insertedNum.insert(n+1);
     for(int cnt=0; cnt<n; ++cnt){
         scanf("%d", &v);
-        auto right = insertedNum.lower_bound(v), left = right; --left;
+        auto right = insertedNum.upper_bound(v), left = right; --left;
         result += (distanceFromRoot[v] = max(distanceFromRoot[*left], distanceFromRoot[*right])+1);
         insertedNum.insert(v);
         printf("%d\n", --result);
