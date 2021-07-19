@@ -1,34 +1,31 @@
-import sys 
-sys.setrecursionlimit(100000)
-class Node:
-    def __init__(self, value):
-        self.value = value
-        self.left = None
-        self.right = None
-        
-# 대충 이런느낌?
-
-N = int(input())
-values = list(map(int, input().split()))
-def insert(val , node):
-    #print(val,node)
+import sys
+input = sys.stdin.readline
+def solve():
+    N = int(input())
+    values = list(map(int,input().split()))
     
-    if val < node.value:
-        if node.left == None:
-            node.left = Node(val)
-        else:
-            return insert(val, node.left) + 1
-    else:
-        if node.right == None:
-            node.right = Node(val)
-        else:
-            return insert(val, node.right) + 1
-    return 1
-root = Node(values[0])
-result = ""
-num = 0
-for value in values[1:]:
-    num += insert(value, root)
-    result += str(num) + "\n"
-print(0)
-print(result)
+    tree = [0] * (N*2 + 1)
+    result_str = ""
+    result = 0
+    for value in values:
+        lo = 0
+        hi = (N * 2)
+        num = 0
+        while lo <= hi:
+            
+            mid = (lo + hi) // 2
+            #print(mid, tree)
+            if tree[mid]:
+                if tree[mid] < value: 
+                    lo = mid + 1
+                else:
+                    hi = mid - 1
+            else:
+                tree[mid] = value
+                break
+                
+            num += 1
+        result += num
+        result_str += str(result) + "\n"
+    print(result_str)
+solve()
