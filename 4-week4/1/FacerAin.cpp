@@ -42,8 +42,9 @@ int main(){
 				basket.pop_back();
 			}else{
 				basket.push_back(board[oper][0]);
-				board[oper].erase(board[oper].begin());
+
 			}
+			board[oper].erase(board[oper].begin());
 		}
 	}
 	
