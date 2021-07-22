@@ -13,10 +13,8 @@ while queue:
     pos = moves[-1]
     pos0 = moves[-2]
     if pos == (n, n):
-        time = 0
-        for i in range(len(moves)-1):
-            time += min([abs(moves[i][0]-m[0]) + abs(moves[i][1]-m[1]) for m in moves[i+1:]])
-        print(time-1)
+        time = len(set(map(tuple, moves)))
+        print(time-2)
         break
     else:
         for dir in (not vertical, vertical), (-(not vertical),  -vertical):
@@ -24,7 +22,10 @@ while queue:
             if pos2 not in moves and board[pos2] == 0:
                 queue.append((moves+[pos2], vertical))
         for dir in (vertical, not vertical), (-vertical, -(not vertical)):
-            pos2 = (pos[0]+dir[0], pos[1]+dir[1])
-            if pos2 not in moves and board[pos2] + board[pos0[0], pos2[1]] + board[pos2[0], pos0[1]] == 0:
-                moves[-1] = pos2
-                queue.append((moves[:], not vertical))
+            pos2_ = (pos[0]+dir[0], pos[1]+dir[1])
+            pos2__ = (pos0[0]+dir[0], pos0[1]+dir[1])
+            if pos2_ not in moves and pos2__ not in moves and board[pos2_] + board[pos2__] == 0:
+                queue.append((moves[:-1]+[list(pos), pos2_], not vertical))
+                queue.append((moves[:-2]+[list(pos0), pos, pos2__], not vertical))
+                queue.append((moves+[pos2_], vertical))
+                queue.append((moves+[pos2__], vertical))
