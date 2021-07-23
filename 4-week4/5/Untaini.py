@@ -1,46 +1,36 @@
-from sys import stdin
-from operator import *
+n = int(input())
+vList = list(map(int, input().split()))
+rangeList =[0]*n
+leftGroup = [0]*100002
+rightGroup = [0]*100002
+disFromRoot = [0]*100002
 
-fenwickTree = mul([0],100003)
-distanceFromRoot = mul([0],100003)
-n=add(int(stdin.readline()),2)
-v=[add(int(i),1) for i in stdin.readline().split()]
-
-def update(num, val):
-	while le(num,n):
-		fenwickTree[num] = add(fenwickTree[num],val)
-		num = add(num, and_(num, neg(num)))
-	return
+def findLeft(num):
+	if leftGroup[num] != num:
+		leftGroup[num] = findLeft(leftGroup[num])
+	return leftGroup[num]
 		
-def getRange1ToNum(num):
-	res=0
-	while gt(num,0):
-		res = add(res, fenwickTree[num])
-		num = sub(num, and_(num, neg(num)))
-	return res
+def findRight(num):
+	if rightGroup[num] != num :
+		rightGroup[num] = findRight(rightGroup[num])
+	return rightGroup[num]
 		
-def binarySearch(val):
-	left = 1
-	right = n
-	while le(left,right):
-		mid = floordiv(add(left,right),2)
-		if le(getRange1ToNum(mid),val):
-			left = add(mid,1)
-		else :
-			right = sub(mid,1)
-	return left
+for cnt in range(100002):
+	leftGroup[cnt] = rightGroup[cnt] = cnt
 	
+for cnt in range(n-1,-1,-1):
+	v = vList[cnt]
+	left, right = findLeft(v-1), findRight(v+1)
+	leftGroup[v], rightGroup[v] = left, right
+	rangeList[cnt] = [left, right]
+	findLeft(right-1)
+	findRight(left+1)
+
 res=0
 resList=[]
-resApp = resList.append
-update(1,1)
-update(n,1)
-for val in v:
-	rangeVal = getRange1ToNum(val)
-	left = binarySearch(sub(rangeVal,1))
-	right = binarySearch(rangeVal)
-	distanceFromRoot[val] = add(max(distanceFromRoot[left], distanceFromRoot[right]),1)
-	res = add(res, sub(distanceFromRoot[val],1))
-	resApp(str(res))
-	update(val,1)
+for cnt in range(n):
+	v, left, right = vList[cnt], rangeList[cnt][0], rangeList[cnt][1]
+	disFromRoot[v] = max(disFromRoot[left], disFromRoot[right])+1
+	res += disFromRoot[v]-1
+	resList.append(str(res))
 print("\n".join(resList))
