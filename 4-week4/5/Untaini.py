@@ -13,7 +13,7 @@ def update(num, val):
 		
 def getRange1ToNum(num):
 	res=0
-	while num:
+	while num>0:
 		res += fenwickTree[num]
 		num -= (num & -num)
 	return res
