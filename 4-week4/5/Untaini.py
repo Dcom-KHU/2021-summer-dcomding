@@ -1,45 +1,46 @@
 from sys import stdin
-import operator as o
+from operator import *
 
-fenwickTree = o.mul([0],100003)
-distanceFromRoot = o.mul([0],100003)
-n=o.add(int(stdin.readline()),2)
-v=[o.add(int(i),1) for i in stdin.readline().split()]
+fenwickTree = mul([0],100003)
+distanceFromRoot = mul([0],100003)
+n=add(int(stdin.readline()),2)
+v=[add(int(i),1) for i in stdin.readline().split()]
 
 def update(num, val):
-	while o.le(num,n):
-		fenwickTree[num] = o.add(fenwickTree[num],val)
-		num = o.add(num, o.and_(num, o.neg(num)))
+	while le(num,n):
+		fenwickTree[num] = add(fenwickTree[num],val)
+		num = add(num, and_(num, neg(num)))
 	return
 		
 def getRange1ToNum(num):
 	res=0
-	while o.gt(num,0):
-		res = o.add(res, fenwickTree[num])
-		num = o.sub(num, o.and_(num, o.neg(num)))
+	while gt(num,0):
+		res = add(res, fenwickTree[num])
+		num = sub(num, and_(num, neg(num)))
 	return res
 		
 def binarySearch(val):
 	left = 1
 	right = n
-	while o.le(left,right):
-		mid = o.floordiv(o.add(left,right),2)
-		if o.le(getRange1ToNum(mid),val):
-			left = o.add(mid,1)
+	while le(left,right):
+		mid = floordiv(add(left,right),2)
+		if le(getRange1ToNum(mid),val):
+			left = add(mid,1)
 		else :
-			right = o.sub(mid,1)
+			right = sub(mid,1)
 	return left
 	
 res=0
-res_str = ""
+resList=[]
+resApp = resList.append
 update(1,1)
 update(n,1)
 for val in v:
 	rangeVal = getRange1ToNum(val)
-	left = binarySearch(o.sub(rangeVal,1))
+	left = binarySearch(sub(rangeVal,1))
 	right = binarySearch(rangeVal)
-	distanceFromRoot[val] = o.add(max(distanceFromRoot[left], distanceFromRoot[right]),1)
-	res = o.add(res, o.sub(distanceFromRoot[val],1))
-	res_str = o.add(res_str, o.add(str(res),"\n"))
+	distanceFromRoot[val] = add(max(distanceFromRoot[left], distanceFromRoot[right]),1)
+	res = add(res, sub(distanceFromRoot[val],1))
+	resApp(str(res))
 	update(val,1)
-print(res_str)
+print("\n".join(resList))
