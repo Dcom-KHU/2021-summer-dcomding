@@ -7,6 +7,19 @@ class Node:
         self.data = data
         self.left = self.right = self.parent = None
         self.color = 'Red'
+        
+        
+import time
+import math
+def logging_time(original_fn):
+    
+    def wrapper_fn(*args, **kwargs):
+        start_time = time.time()
+        result = original_fn(*args, **kwargs)
+        end_time = time.time()
+        print("WorkingTime[{}]: {} sec".format(original_fn.__name__, round(end_time-start_time, 7)))
+        return result
+    return wrapper_fn
 
 class RedBlackTree:
     def __init__(self):
@@ -48,7 +61,7 @@ class RedBlackTree:
                 p.left = c
             else:
                 p.right = c
-
+                
     def rotate_right(self,node):
         c = node.left
         p = node.parent
@@ -68,7 +81,7 @@ class RedBlackTree:
                 p.right = c
             else:
                 p.left = c
-                
+    
     # case1. 루트 노드는 항상 블랙  
     def insert_case1(self,node):
         if node.parent == None:
@@ -86,13 +99,14 @@ class RedBlackTree:
     # case3. 부모노드, 삼촌노드 모두 빨강이라면 색변환 수행, 아닐경우 case4로 이동
     def insert_case3(self,node):
         uncle = self.find_uncle_node(node)
-    
-        if (uncle != None and uncle.color == 'Red'):
+        while uncle != None and uncle.color == 'Red':
+            grandparent = uncle.parent
+            grandparent.color = 'Red'
             node.parent.color = 'Black'
             uncle.color = 'Black'
-            grandparent = self.find_gp_node(node)
-            grandparent.color = 'Red'
-            self.insert_case1(grandparent)
+            uncle = self.find_uncle_node(grandparent)
+                
+                
         else:
             self.insert_case4(node)
             
@@ -108,18 +122,14 @@ class RedBlackTree:
             self.rotate_right(node.parent)
             node = node.right
     
-        self.insert_case5(node)
-    
-    def insert_case5(self,node):
-        grandparent = self.find_gp_node(node)
-    
         node.parent.color = 'Black'
         grandparent.color = 'Red'
 
         if (node == node.parent.left):
             self.rotate_right(grandparent)
         else:
-            self.rotate_left(grandparent)
+            self.rotate_left(grandparent) 
+        
     # 삽입
     def insert(self, data):
         node, bigger_min, smaller_max = self.insert_value(data)
