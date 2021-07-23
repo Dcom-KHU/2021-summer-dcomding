@@ -105,7 +105,8 @@ class RedBlackTree:
             grandparent.left.color = 'Black'
             grandparent.right.color = 'Black'
             uncle = self.find_uncle_node(grandparent)
-                
+            if uncle.parent == None:
+                return 
                 
         else:
             self.insert_case4(node)
