@@ -1,7 +1,9 @@
+from sys import stdin
+
 fenwickTree = [0]*100003
 distanceFromRoot = [0]*100003
-n=int(input())+2
-v=list(map(int, input().split()))
+n=int(stdin.readline())+2
+v=list(map(int, stdin.readline().split()))
 
 def update(num, val):
 	while num<=n:
