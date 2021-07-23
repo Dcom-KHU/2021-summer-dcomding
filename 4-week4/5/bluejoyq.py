@@ -83,15 +83,11 @@ class RedBlackTree:
                 p.left = c
     
     # case1. 루트 노드는 항상 블랙  
+    # case2. 부모 노드가 블랙이면 회전, 색변환등 수행 필요 x, 하지만 빨강색이라면 case3 수행
     def insert_case1(self,node):
         if node.parent == None:
             node.color = 'Black'
-        else:
-            self.insert_case2(node)
-            
-    # case2. 부모 노드가 블랙이면 회전, 색변환등 수행 필요 x, 하지만 빨강색이라면 case3 수행
-    def insert_case2(self,node):
-        if node.parent.color == 'Black':
+        elif node.parent.color == 'Black':
             return
         else:
             self.insert_case3(node)
@@ -99,17 +95,15 @@ class RedBlackTree:
     # case3. 부모노드, 삼촌노드 모두 빨강이라면 색변환 수행, 아닐경우 case4로 이동
     def insert_case3(self,node):
         uncle = self.find_uncle_node(node)
-        while uncle != None and uncle.color == 'Red':
-            grandparent = uncle.parent
+    
+        if (uncle != None and uncle.color == 'Red'):
+            node.parent.color = 'Black'
+            uncle.color = 'Black'
+            grandparent = self.find_gp_node(node)
             grandparent.color = 'Red'
-            grandparent.left.color = 'Black'
-            grandparent.right.color = 'Black'
-            uncle = self.find_uncle_node(grandparent)
-            if uncle.parent == None:
-                return 
-        if uncle and uncle.parent:      
-            self.insert_case4(node)
-            
+            self.insert_case1(grandparent)
+        else:
+            self.insert_case4(node)      
     # case4,5 회전 수행
     def insert_case4(self,node):
         
