@@ -33,8 +33,8 @@ res=0
 res_str = ""
 update(1,1)
 update(n,1)
-for val in v:
-	val+=1
+for i in range(n-2):
+	val=v[i]+1
 	rangeVal = getRange1ToNum(val)
 	left = binarySearch(rangeVal-1)
 	right = binarySearch(rangeVal)
