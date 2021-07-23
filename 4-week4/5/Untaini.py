@@ -5,7 +5,7 @@ distanceFromRoot = [0]*100003
 n=int(stdin.readline())+2
 v=list(map(int, stdin.readline().split()))
 bitList = [0]*100003
-for i in range(1,n+1):
+for i in range(1,100003):
 	bitList[i] = (i & -i)
 
 def update(num, val):
