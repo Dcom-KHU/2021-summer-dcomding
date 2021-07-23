@@ -1,4 +1,57 @@
-//solved using set container
+//solving with union-find, backtracking
+#include <cstdio>
+#include <stack>
+#include <algorithm>
+using namespace std;
+
+#define pii pair<int, int>
+#define max(a,b) (a>b?a:b)
+
+int n, v, left, right, leftGroup[100002], rightGroup[100002], disFromRoot[100002], res;
+stack<int> vStack;
+stack<pair<int,pii>> rangeStack;
+
+int findLeft(int num){
+    if(leftGroup[num] == num) return num;
+    else return leftGroup[num] = findLeft(leftGroup[num]);
+}
+
+int findRight(int num){
+    if(rightGroup[num] == num) return num;
+    else return rightGroup[num] = findRight(rightGroup[num]);
+}
+
+
+int main()
+{
+    scanf("%d",&n);
+    for(int cnt=0;cnt<n;++cnt){
+        scanf("%d",&v);
+        vStack.push(v);
+    }
+        
+    for(int cnt=0;cnt<=100001;++cnt)
+        leftGroup[cnt] = rightGroup[cnt] = cnt;
+    
+    while(!vStack.empty()){
+        v = vStack.top(); vStack.pop();
+        left = findLeft(v-1), right = findRight(v+1);
+        leftGroup[v] = left, rightGroup[v] = right;
+        findLeft(right-1), findRight(left+1);
+        rangeStack.push(make_pair(v,make_pair(left,right)));   
+    }
+    
+    while(!rangeStack.empty()){
+        v = rangeStack.top().first, left = rangeStack.top().second.first, right = rangeStack.top().second.second;
+        rangeStack.pop();
+        res+=(disFromRoot[v] = max(disFromRoot[left], disFromRoot[right])+1)-1;
+        printf("%d\n",res);
+    }
+    return 0;
+}
+
+/*
+//solved with set container
 #include <cstdio>
 #include <set>
 using namespace std;
@@ -21,9 +74,10 @@ int main() {
     }
     return 0;
 }
+*/
 
 /*
-//solved using fenwick tree and binary search
+//solved with fenwick tree and binary search
 #include <cstdio>
 
 #define max(x,y) (x>y?x:y)
