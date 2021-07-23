@@ -107,8 +107,7 @@ class RedBlackTree:
             uncle = self.find_uncle_node(grandparent)
             if uncle.parent == None:
                 return 
-                
-        else:
+        if uncle and uncle.parent:      
             self.insert_case4(node)
             
     # case4,5 회전 수행
