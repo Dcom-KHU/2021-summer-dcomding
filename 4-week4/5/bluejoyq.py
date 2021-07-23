@@ -167,13 +167,12 @@ def check(node):
 '''
 def solve():
     N = int(input())
-    
+    values = list(map(int, input().split()))
     rb_tree = RedBlackTree()
     tree = [0] * (N + 1)
     result_str = ""
     result = 0
-    for i in range(N):
-        value = int(input())
+    for value in values:
         bigger_min, smaller_max = rb_tree.insert(value)
         depth = 1
         try:
