@@ -102,8 +102,8 @@ class RedBlackTree:
         while uncle != None and uncle.color == 'Red':
             grandparent = uncle.parent
             grandparent.color = 'Red'
-            node.parent.color = 'Black'
-            uncle.color = 'Black'
+            grandparent.left.color = 'Black'
+            grandparent.right.color = 'Black'
             uncle = self.find_uncle_node(grandparent)
                 
                 
