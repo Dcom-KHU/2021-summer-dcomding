@@ -4,18 +4,21 @@ fenwickTree = [0]*100003
 distanceFromRoot = [0]*100003
 n=int(stdin.readline())+2
 v=list(map(int, stdin.readline().split()))
+bitList = [0]*100003
+for i in range(1,n+1):
+	bitList[i] = (i & -i)
 
 def update(num, val):
 	while num<=n:
 		fenwickTree[num] += val
-		num += (num & -num)
+		num += bitList[num]
 	return
 		
 def getRange1ToNum(num):
 	res=0
 	while num>0:
 		res += fenwickTree[num]
-		num -= (num & -num)
+		num -= bitList[num]
 	return res
 		
 def binarySearch(val):
