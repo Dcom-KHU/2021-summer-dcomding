@@ -9,6 +9,8 @@ for i in range(1,100003):
 	bitList[i] = (i & -i)
 
 def update(num, val):
+	if not num:
+		print("test")
 	while num<=n:
 		fenwickTree[num] += val
 		num += bitList[num]
