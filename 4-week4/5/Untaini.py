@@ -3,14 +3,14 @@ from sys import stdin
 fenwickTree = [0]*100003
 distanceFromRoot = [0]*100003
 n=int(stdin.readline())+2
-v=list(map(int, stdin.readline().split()))
+v=[int(i)+1 for i in stdin.readline().split()]
 bitList = [0]*100003
 for i in range(1,100003):
-	bitList[i] = (i & -i)
+	exp = 2
+	while not i%exp: exp*=2;
+	bitList[i] = exp//2
 
 def update(num, val):
-	if not num:
-		print("test")
 	while num<=n:
 		fenwickTree[num] += val
 		num += bitList[num]
@@ -38,8 +38,7 @@ res=0
 res_str = ""
 update(1,1)
 update(n,1)
-for i in range(n-2):
-	val=v[i]+1
+for val in v:
 	rangeVal = getRange1ToNum(val)
 	left = binarySearch(rangeVal-1)
 	right = binarySearch(rangeVal)
