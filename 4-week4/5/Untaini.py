@@ -8,14 +8,14 @@ v=list(map(int, stdin.readline().split()))
 def update(num, val):
 	while num<=n:
 		fenwickTree[num] += val
-		num += num & -num
+		num += (num & -num)
 	return
 		
 def getRange1ToNum(num):
 	res=0
 	while num:
 		res += fenwickTree[num]
-		num -= num & -num
+		num -= (num & -num)
 	return res
 		
 def binarySearch(val):
