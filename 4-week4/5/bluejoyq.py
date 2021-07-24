@@ -2,51 +2,43 @@ import sys
 input = sys.stdin.readline
 # 참고글 : https://www.crocus.co.kr/641
 # 참고글 : https://lsh424.tistory.com/73
+# 참고글 : https://zeddios.tistory.com/237
 class Node:
     def __init__(self, data):
         self.data = data
         self.left = self.right = self.parent = None
-        self.color = 'Red'
+        self.color = 'R'
         
-        
-import time
-import math
-def logging_time(original_fn):
-    
-    def wrapper_fn(*args, **kwargs):
-        start_time = time.time()
-        result = original_fn(*args, **kwargs)
-        end_time = time.time()
-        print("WorkingTime[{}]: {} sec".format(original_fn.__name__, round(end_time-start_time, 7)))
-        return result
-    return wrapper_fn
 
 class RedBlackTree:
     def __init__(self):
         self.root = None
     
     def find_gp_node(self,node):
-        if node == None or node.parent == None:
-            return None
-        return node.parent.parent
-    
+        try:
+            return node.parent.parent
+        except:
+            return None 
     def find_uncle_node(self,node):
         grandparent_node = self.find_gp_node(node)
-        if grandparent_node == None:
-            return None
+        try:
+            if node.parent == grandparent_node.left:
+                return grandparent_node.right
+            else:
+                return grandparent_node.left
+        except:
+            return None 
     
-        if node.parent == grandparent_node.left:
-            return grandparent_node.right
-        else:
-            return grandparent_node.left
+        
         
     def rotate_left(self,node):
         c = node.right
         p = node.parent
         # node와 c 위치 변경
-        if (c.left != None):
+        try:
             c.left.parent = node
-    
+        except:
+            pass
         node.right = c.left
         node.parent = c
         c.left = node
@@ -66,9 +58,11 @@ class RedBlackTree:
         c = node.left
         p = node.parent
     
-        if (c.right != None):
+        try:
             c.right.parent = node
-    
+        except:
+            pass
+            
         node.left = c.right
         node.parent = c
         c.right = node
@@ -85,22 +79,22 @@ class RedBlackTree:
     # case1. 루트 노드는 항상 블랙  
     # case2. 부모 노드가 블랙이면 회전, 색변환등 수행 필요 x, 하지만 빨강색이라면 case3 수행
     def insert_case1(self,node):
-        if node.parent == None:
-            node.color = 'Black'
-        elif node.parent.color == 'Black':
-            return
-        else:
-            self.insert_case3(node)
+        try:
+            if node.parent.color == 'B':
+                self.insert_case3(node)
+        except:
+            node.color = 'B'
+            
     
     # case3. 부모노드, 삼촌노드 모두 빨강이라면 색변환 수행, 아닐경우 case4로 이동
     def insert_case3(self,node):
         uncle = self.find_uncle_node(node)
     
-        if (uncle != None and uncle.color == 'Red'):
-            node.parent.color = 'Black'
-            uncle.color = 'Black'
+        if (uncle != None and uncle.color == 'R'):
+            node.parent.color = 'B'
+            uncle.color = 'B'
             grandparent = self.find_gp_node(node)
-            grandparent.color = 'Red'
+            grandparent.color = 'R'
             self.insert_case1(grandparent)
         else:
             self.insert_case4(node)      
@@ -116,8 +110,8 @@ class RedBlackTree:
             self.rotate_right(node.parent)
             node = node.right
     
-        node.parent.color = 'Black'
-        grandparent.color = 'Red'
+        node.parent.color = 'B'
+        grandparent.color = 'R'
 
         if (node == node.parent.left):
             self.rotate_right(grandparent)
@@ -135,9 +129,7 @@ class RedBlackTree:
             self.root = Node(data)
             return self.root, None, None
         node = self.root
-        parent_node = None
-        smaller_max = None
-        bigger_min = None
+        parent_node = smaller_max = bigger_min=  None
         # min max 안달아도 될 것 같긴함.
         while node != None:
             parent_node = node
@@ -155,7 +147,6 @@ class RedBlackTree:
             parent_node.right = node
             
         return node, bigger_min, smaller_max
-
 class BinaryNode:
     def __init__(self, depth):
         self.depth = depth
