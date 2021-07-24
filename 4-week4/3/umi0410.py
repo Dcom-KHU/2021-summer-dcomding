@@ -14,16 +14,11 @@ for _ in range(N):
     row = list(map(lambda n: [int(n), int(n)], input().split()))
     coords.append(row)
 
-
-# 각 칸에 이동하기 위한 최소 거리들을 메모
-costs = [[0 for _ in range(N)] for _ in range(N)]
-
 # direction이 0이면 가로, 1이면 세로
 # r, c, direction, dist
 q = deque([(0, 0, 0, 0)])
 # 방문 처리
 coords[0][0][0] = 2
-coords[0][0][1] = 2
 
 move_drdc = [
     [0, 1],
@@ -99,8 +94,7 @@ def is_rotatable_coord(orientation, clock, is_pivot, cc, cr):
     # print()
     return nr, nc, 0 <= tmp_r < N and 0 <= tmp_c < N and coords[tmp_r][tmp_c][direction] != 1 and \
            0 <= nr < N and 0 <= nc < N and coords[nr][nc][(direction + 1) % 2] == 0 and is_next_not_wall
-# 최솟값을 정답으로하기 위해 최댓값 설정 (근데 이렇게 설정해도 되나 잘 몰겠네)
-answer = int(1e10)
+
 while q:
     cr, cc, direction, dist = q.popleft()
     # print(f'큐에서 뽑음 ({cr}, {cc}), {"가로" if direction == 0 else "세로"}, {dist}')
@@ -125,4 +119,5 @@ while q:
         #     q.append((nr, nc, (direction+1) % 2, dist + 1))
         #     coords[nr][nc][(direction+1) % 2] = 2
 
-# print(answer)
+
+print(answer)
