@@ -10,6 +10,7 @@ def solve():
         values[i] = [e,s]
     values.sort() # end를 기준으로 정렬 
     #print(values)
+    
     cur = 0
     result = 0
     for end, start in values:
