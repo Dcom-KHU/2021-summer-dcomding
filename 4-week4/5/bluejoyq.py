@@ -8,13 +8,13 @@ disFromRoot = [0]*100002
 
 def findLeft(num):
     while leftGroup[num] != num:
-        leftGroup[num] = num
-    return leftGroup[num]
+        num = leftGroup[num]
+    return num
 		
 def findRight(num):
     while rightGroup[num] != num:
-        rightGroup[num] = num
-    return rightGroup[num]
+        num = rightGroup[num]
+    return num
 		
 for cnt in range(100002):
 	leftGroup[cnt] = rightGroup[cnt] = cnt
