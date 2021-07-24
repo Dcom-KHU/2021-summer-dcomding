@@ -1,5 +1,5 @@
 n = int(input())
-times = sorted([tuple(map(int, input().split())) for i in range(n)], key=lambda x: x[0])
+times = sorted([tuple(map(int, input().split())) for i in range(n)], key=lambda x: (x[0],x[1]))
 
 def r(index, start):
     if (index >= len(times)):
@@ -13,4 +13,4 @@ def r(index, start):
         return max(r(index+1, start), 1+r(index+1,new_start))
 
 
-print(r(0, 0))
+print(r(0, times[0][0]))
