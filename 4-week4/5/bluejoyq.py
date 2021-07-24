@@ -34,4 +34,4 @@ for cnt in range(n):
 	disFromRoot[v] = max(disFromRoot[left], disFromRoot[right])+1
 	res += disFromRoot[v]-1
 	result += str(res) + "\n"
-print("\n".join(resList))
+print(result)
