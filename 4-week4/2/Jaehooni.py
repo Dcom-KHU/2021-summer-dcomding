@@ -1,19 +1,11 @@
-import sys
-
 n = int(input())
-times = sorted([tuple(map(int, input().split())) for i in range(n)], key=lambda x: (x[0],x[1]))
+times = sorted([tuple(map(int, input().split())) for i in range(n)], key=lambda x: (x[1],x[0]))
 
-def r(index, start):
-    if (index >= len(times)):
-        return 0
-
-    elif (start > times[index][0]):
-        return r(index+1, start)
-
+cur, sum = 0
+for time in times:
+    if (cur <= time[0]):
+        sum += 1
+        cur = time[1]
+        
     else:
-        new_start = times[index][1]
-        return max(r(index+1, start), 1+r(index+1,new_start))
-
-
-sys.setrecursionlimit(100000)
-print(r(0, times[0][0]))
+        pass
