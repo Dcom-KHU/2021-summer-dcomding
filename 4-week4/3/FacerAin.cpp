@@ -18,9 +18,14 @@ int dx[] = {1,0,0,-1};
 
 int rdy1[] = {0,-1,0,-1};
 int rdx1[] = {0,0,1,1};
+int cdy1[] = {1,-1,1,-1};
+int cdx1[] = {0,0,1,1};
+
 
 int rdy2[] = {1,1,0,0};
 int rdx2[] = {-1,0,-1,0};
+int cdy2[] = {1,1,0,0};
+int cdx2[] = {-1,1,-1,1};
 
 
 bool isInside(int y, int x){
@@ -39,7 +44,7 @@ void BFS(){
 		//cout << cur_y << " " << cur_x << " " << dirt << " " << time << "\n";
 		q.pop();
 			//탐색 종료 조건
-		if((cur_y == n-1 && cur_x == n-2) || (cur_y == n-2 && cur_x == n-1)){
+		if((dirt == 0 && cur_y == n-1 && cur_x == n-2) || (dirt == 1 && cur_y == n-2 && cur_x == n-1)){
 			cout << time;
 			return;
 		}
@@ -54,28 +59,33 @@ void BFS(){
 			int next_x2 = next_x + dx[dirt];
 			if(isInside(next_y,next_x) && isInside(next_y2, next_x2) && !check[next_y][next_x][dirt] && !map[next_y][next_x] && !map[next_y2][next_x2]){
 				q.push({{next_y,next_x}, {dirt,time+1}});
-				check[next_y][next_x][dirt] = 1;
+				check[next_y][next_x][dirt] = check[cur_y][cur_x][dirt] + 1;
 			}
 		}
 		
 		
-		for(int i = 0; i < 4; i++){
-			int next_y, next_x, check_y, check_x;
+		for(int i = 0; i < 4; i++){//회전 이동
+			int next_y, next_x, check_y1, check_x1, check_y2, check_x2;
 			if(!dirt){//가로
 				next_y = cur_y + rdy1[i];
-				next_x = cur_x + rdx1[i];
-				check_y = next_y;
-				check_x = cur_x  + ((rdx1[i] + 1)%2);
+				next_x = cur_x + rdx1[i]; 
+				check_y1 = cur_y + cdy1[i];
+				check_x1 = cur_x  + cdx1[i];
+				check_y2 = check_y1;
+				check_x2 = cur_x + ((cdx1[i] + 1) % 2);
 			}else{//세로
-				next_y = cur_y + rdx2[i];
-				next_x = cur_x + rdy2[i];
-				check_y = cur_y + ((rdy2[i] + 1)%2);
-				check_x = next_x;
+				next_y = cur_y + rdy2[i];
+				next_x = cur_x + rdx2[i];
+				check_y1 = cur_y + cdy2[i];
+				check_x1 = cur_x + cdx2[i];
+				check_y2 = cur_y + ((cdy2[i] + 1) % 2);
+				check_x2 = check_x1;
+					
 			}
 			
-			if(isInside(next_y,next_x) && isInside(check_y,check_x) && !check[next_y][next_x][(dirt+1)%2] && !map[next_y][next_x] && !map[check_y][check_x]){
+			if(isInside(next_y,next_x) && isInside(check_y1,check_x1) && isInside(check_y2, check_x2) && !check[next_y][next_x][(dirt+1)%2] && !map[next_y][next_x] && !map[check_y1][check_x1] && !map[check_y2][check_x2]){
 				q.push({{next_y,next_x}, {(dirt+1)%2, time + 1}});
-				check[next_y][next_x][(dirt+1)%2] = 1;
+				check[next_y][next_x][(dirt+1)%2] = check[cur_y][cur_x][dirt] + 1;
 			}
 			
 
@@ -91,10 +101,38 @@ int main(){
 			cin >> map[i][j];
 		}
 	}
+		BFS();
+	/*
+	cout << '\n';
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < n; j++){
+			cout << check[i][j][0] << " ";
+		}
+		cout << '\n';
+	}
+	cout << '\n';
 	
-	BFS();
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < n; j++){
+			cout << check[i][j][1] << " ";
+		}
+		cout << '\n';
+	}
+	*/
 
 	
 	
 	return 0;
 }
+
+
+/*
+7
+0 0 0 0 0 0 1
+1 1 1 1 0 0 1
+0 0 0 0 0 0 0
+0 0 1 1 1 1 0
+0 1 1 1 1 1 0
+0 0 0 0 0 1 1
+0 0 1 0 0 0 0
+*/
