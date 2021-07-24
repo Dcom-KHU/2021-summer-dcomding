@@ -80,7 +80,7 @@ class RedBlackTree:
     # case2. 부모 노드가 블랙이면 회전, 색변환등 수행 필요 x, 하지만 빨강색이라면 case3 수행
     def insert_case1(self,node):
         try:
-            if node.parent.color == 'B':
+            if node.parent.color == 'R':
                 self.insert_case3(node)
         except:
             node.color = 'B'
