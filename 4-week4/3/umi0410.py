@@ -105,7 +105,8 @@ while q:
     cr, cc, direction, dist = q.popleft()
     # print(f'큐에서 뽑음 ({cr}, {cc}), {"가로" if direction == 0 else "세로"}, {dist}')
     if (direction == 0 and cr == N-1 and cc == N-2) or (direction == 1 and cr == N-2 and cc == N-1):
-        answer = min(answer, dist)
+        print(dist)
+        quit()
 
     for dr, dc in move_drdc:
         nr, nc = cr + dr, cc + dc
@@ -124,4 +125,4 @@ while q:
         #     q.append((nr, nc, (direction+1) % 2, dist + 1))
         #     coords[nr][nc][(direction+1) % 2] = 2
 
-print(answer)
+# print(answer)
