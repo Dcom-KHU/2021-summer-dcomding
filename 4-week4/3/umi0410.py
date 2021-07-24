@@ -14,6 +14,7 @@ for _ in range(N):
     row = list(map(lambda n: [int(n), int(n)], input().split()))
     coords.append(row)
 
+
 # 각 칸에 이동하기 위한 최소 거리들을 메모
 costs = [[0 for _ in range(N)] for _ in range(N)]
 
@@ -31,33 +32,78 @@ move_drdc = [
     [1, 0],
 ]
 
-# 다음 좌표가 방문할 수 있는 곳인가?
+
+# 다음 좌표가 방문할 곳인지 판단
 def is_visitable_coord(direction, nr, nc):
     # 가로
     if direction == 0:
-        return 0 <= nr < N and 0 <= nc + 1 < N and (coords[nr][nc+1][direction] == 0)
+        return 0 <= nr < N and 0 <= nc < N - 1 and (coords[nr][nc][direction] == 0) and (
+                    coords[nr][nc + 1][direction] != 1)
     # 세로
     elif direction == 1:
-        return 0 <= nr + 1< N and 0 <= nc < N and (coords[nr+1][nc][direction] == 0)
+        return 0 <= nr < N - 1 and 0 <= nc < N and (coords[nr][nc][direction] == 0) and (
+                    coords[nr + 1][nc][direction] != 1)
 
-def is_rotatable_coord(direction, cr, cc, nr, nc):
-    # 가로
-    if direction == 0:
-        delta = nc - cc
-        tmp_r, tmp_c = cc, cc + delta
 
+# 빡치지만 회전해서 방문할 곳인가를 판단
+def is_rotatable_coord(orientation, clock, is_pivot, cc, cr):
+    # 초깃값
+    nr, nc, tmp_r, tmp_c = -1, -1, -1, -1
+    # 가로일 때
+    if orientation == 0:
+        # 시계 반대 방향이면
+        if not clock and is_pivot:
+            nr, nc = cr - 1, cc
+            tmp_r, tmp_c = cr - 1, cc + 1
+        elif not clock and not is_pivot:
+            nr, nc = cr, cc + 1
+            tmp_r, tmp_c = cr + 1, cc
+        elif clock and is_pivot:
+            nr, nc = cr, cc
+            tmp_r, tmp_c = cr + 1, cc + 1
+        elif clock and not is_pivot:
+            nr, nc = cr - 1, cc + 1
+            tmp_r, tmp_c = cr - 1, cc
+    # 세로일 때
     else:
-        delta = nr - cr
-        tmp_r, tmp_c = cr + delta, cc
-    # 거쳐가는 곳이 벽이 아니고
-    # 회전해서 해당 방향에 놓이는 것이 방문한 적 없는 것일 때
-    return 0 <= tmp_r < N and 0 <= tmp_c < N and coords[tmp_r][tmp_c][direction] != 1 and \
-           0 <= nr < N and 0 <= nc < N and coords[nr][nc][(direction+1)%2] == 0
+        # 시계 반대 방향이면
+        if not clock and is_pivot:
+            nr, nc = cr, cc
+            tmp_r, tmp_c = cr + 1, cc + 1
+        elif not clock and not is_pivot:
+            nr, nc = cr + 1, cc - 1
+            tmp_r, tmp_c = cr, cc - 1
+        # 시계 방향이면
+        elif clock and is_pivot:
+            nr, nc = cr, cc - 1
+            tmp_r, tmp_c = cr + 1, cc - 1
+        elif clock and not is_pivot:
+            nr, nc = cr + 1, cc
+            tmp_r, tmp_c = cr, cc + 1
+        else:
+            raise RuntimeError()
 
+    is_next_not_wall = False
+    if (direction + 1) % 2 == 0:
+        is_next_not_wall = 0 <= nr < N and 0 <= nc + 1 < N and (coords[nr][nc + 1][0] != 1)
+    # 세로
+    elif (direction + 1) % 2 == 1:
+        is_next_not_wall = 0 <= nr + 1 < N and 0 <= nc < N and (coords[nr + 1][nc][1] != 1)
+
+    # print(f'회전 ({nc}, {nc})')
+    # print('tmp_r', tmp_r)
+    # print('tmp_c', tmp_c)
+    # print('회전 시 거쳐가는 좌표가 벽인가?', coords[tmp_r][tmp_c][direction] != 1)
+    # print('다음 나의 좌표가 방문하지 않았던 좌표인가?', coords[nr][nc][(direction+1)%2] == 0)
+    # print('다음 나의 좌표가 벽인가?', is_next_not_wall)
+    # print()
+    return nr, nc, 0 <= tmp_r < N and 0 <= tmp_c < N and coords[tmp_r][tmp_c][direction] != 1 and \
+           0 <= nr < N and 0 <= nc < N and coords[nr][nc][(direction + 1) % 2] == 0 and is_next_not_wall
+# 최솟값을 정답으로하기 위해 최댓값 설정 (근데 이렇게 설정해도 되나 잘 몰겠네)
 answer = int(1e10)
 while q:
     cr, cc, direction, dist = q.popleft()
-    # print(cr, cc, dist)
+    # print(f'큐에서 뽑음 ({cr}, {cc}), {"가로" if direction == 0 else "세로"}, {dist}')
     if (direction == 0 and cr == N-1 and cc == N-2) or (direction == 1 and cr == N-2 and cc == N-1):
         answer = min(answer, dist)
 
@@ -66,7 +112,16 @@ while q:
         if is_visitable_coord(direction, nr, nc):
             q.append((nr, nc, direction, dist+1))
             coords[nr][nc][direction] = 2
-        if is_rotatable_coord(direction, cr, cc, nr, nc):
-            q.append((nr, nc, (direction+1) % 2, dist + 1))
+    for clock, is_pivot in [(False,False), (False,True), (True,False), (True,True)]:
+        nr, nc, is_rotatable = is_rotatable_coord(direction, clock, is_pivot, cc, cr)
+        if is_rotatable:
+            q.append((nr, nc, (direction + 1) % 2, dist + 1))
             coords[nr][nc][(direction+1) % 2] = 2
+        #
+        # if is_rotatable_coord(direction, cr, cc, nr, nc):
+        #     if nr < 0:
+        #         print("ERROR ROT")
+        #     q.append((nr, nc, (direction+1) % 2, dist + 1))
+        #     coords[nr][nc][(direction+1) % 2] = 2
+
 print(answer)
