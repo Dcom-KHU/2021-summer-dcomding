@@ -19,7 +19,7 @@ int dx[] = {1,0,0,-1};
 int rdy1[] = {-1,-1,0,0};
 int rdx1[] = {1,0,1,0};
 
-int rdy2[] = {0,1,0,1};
+int rdy2[] = {0,1,1,0};
 int rdx2[] = {-1,0,-1,0};
 
 
@@ -36,7 +36,7 @@ void BFS(){
 		int cur_x = q.front().first.second;
 		int dirt = q.front().second.first;
 		int time = q.front().second.second;
-	
+		//cout << cur_y << " " << cur_x << " " << dirt << " " << time << "\n";
 		q.pop();
 			//탐색 종료 조건
 		if((cur_y == n-1 && cur_x == n-2) || (cur_y == n-2 && cur_x == n-1)){
@@ -45,7 +45,7 @@ void BFS(){
 		}
 		
 	
-		//cout << cur_y << " " << cur_x << " " << dirt << " " << time << "\n";
+
 		for(int i = 0; i < 4; i++){//상하좌우 이동
 			
 			int next_y = cur_y + dy[i];
