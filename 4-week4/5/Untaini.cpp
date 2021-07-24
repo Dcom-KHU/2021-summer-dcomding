@@ -37,7 +37,7 @@ int main()
         v = vStack.top(); vStack.pop();
         left = findLeft(v-1), right = findRight(v+1);
         leftGroup[v] = left, rightGroup[v] = right;
-        findLeft(right-1), findRight(left+1);
+        //findLeft(right-1), findRight(left+1);
         rangeStack.push(make_pair(v,make_pair(left,right)));   
     }
     
