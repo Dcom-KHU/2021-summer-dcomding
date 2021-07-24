@@ -89,14 +89,15 @@ class RedBlackTree:
     # case3. 부모노드, 삼촌노드 모두 빨강이라면 색변환 수행, 아닐경우 case4로 이동
     def insert_case3(self,node):
         uncle = self.find_uncle_node(node)
-    
-        if (uncle != None and uncle.color == 'R'):
+        cur = node
+        while cur != self.root and uncle != None and uncle.color == 'R':
             node.parent.color = 'B'
             uncle.color = 'B'
             grandparent = self.find_gp_node(node)
             grandparent.color = 'R'
-            self.insert_case1(grandparent)
-        else:
+            cur = grandparent
+            uncle = self.find_uncle_node(node)
+        if not (uncle != None and uncle.color == 'R'):
             self.insert_case4(node)      
     # case4,5 회전 수행
     def insert_case4(self,node):
@@ -123,14 +124,16 @@ class RedBlackTree:
         node, bigger_min, smaller_max = self.insert_value(data)
         self.insert_case1(node)
         return bigger_min, smaller_max
-    # 재귀에서 while로 바꾸고 항상 한개의 데이터만 입력받게 바꿈.
+    
+    # 삽입 위치 찾기.
     def insert_value(self, data):
+        # 재귀에서 while로 바꾸고 항상 한개의 데이터만 입력받게 바꿈.
         if self.root == None:
             self.root = Node(data)
             return self.root, None, None
         node = self.root
         parent_node = smaller_max = bigger_min=  None
-        # min max 안달아도 될 것 같긴함.
+
         while node != None:
             parent_node = node
             if data < node.data:
