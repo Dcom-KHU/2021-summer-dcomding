@@ -1,12 +1,12 @@
 #include <iostream>
 #include <stack>
 #include <string>
+#include <vector>
 #include <queue>
 using namespace std;
 
 int main() {
 	int n, k, num;
-	string str;
 	queue<int> moves;
 	vector<queue<int>> board(6);
 	stack<int> stk;
