@@ -22,4 +22,4 @@ def solve():
                 break
     return count
 
-solve()
+print(solve())
