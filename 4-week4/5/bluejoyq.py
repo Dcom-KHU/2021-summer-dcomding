@@ -1,8 +1,8 @@
 import sys
 
 def solve():
-    N = 10000
-    values = [i + 1 for  i in range(N)]
+    N = int(input())
+    values =list(map(int,input().split()))
     
     #N = 3
     #values = [3,1,2]
@@ -18,40 +18,44 @@ def solve():
     hi_min[N+1] = N+1
     
     def find_lo_max(cur,cur_stk):
-        while lo_max[cur] != cur:
+        while lo_max[cur] < cur:
             cur_stk.append(cur)
             cur = lo_max[cur]
             
-        return cur
+        return lo_max[cur]
     
     def find_hi_min(cur,cur_stk):
-        while hi_min[cur] != cur:
+        while hi_min[cur] > cur:
             cur_stk.append(cur)
             cur = hi_min[cur]
             
-        return cur
+        return hi_min[cur]
     for value in values:
-        #print(lo_max)
-        #print(hi_min)
-        #print(value)
         lo_stk = []
         lo = find_lo_max(value, lo_stk)
         
         hi_stk = []
         hi = find_hi_min(value, hi_stk)
-            
+        #print(lo_max)
+        #print(hi_min)
+        
+        for h in hi_stk:
+            lo_max[h] = value
+        for l in lo_stk:
+            hi_min[l] = value
         if 0 < lo < value:
             cur = lo
+            lo_max[cur] = N+2
         elif value < hi < N+1:
             cur = hi
+            hi_min[cur] = -1
         else:
             cur = value
+            
+        
         #print(value, cur, lo, hi, lo_stk,hi_stk)
+        
         depth[value] = depth[cur] + 1
-        for l in lo_stk:
-            lo_max[l] = lo
-        for h in hi_stk:
-            hi_min[h] = hi
         num += depth[value]
         result += str(num) + "\n"
     #print(lo_max)
