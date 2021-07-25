@@ -8,10 +8,10 @@ using namespace std;
 int main() {
 	int n, k, num;
 	queue<int> moves;
-	vector<queue<int>> board(6);
 	stack<int> stk;
 
 	cin >> n >> k;
+	vector<queue<int>> board(n + 1);
 
 	for (int i = 0; i < k; i++)
 	{
