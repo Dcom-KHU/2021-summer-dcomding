@@ -2,7 +2,6 @@
 #include <stack>
 #include <string>
 #include <queue>
-#include <sstream>
 using namespace std;
 
 int main() {
@@ -20,7 +19,7 @@ int main() {
 		moves.push(num);
 	}
 
-	for (int i = 1; i <= n; i++)
+	for (int i = 0; i < n; i++)
 	{
 		for (int j = 1; j <= n; j++)
 		{
@@ -37,7 +36,7 @@ int main() {
 			if (stk.empty()) top = 0;
 			else top = stk.top();
 
-			if (top == board[num].front()) {
+			if (top == board[num].front() && !stk.empty()) {
 				stk.pop();
 				total += 2;
 			}
