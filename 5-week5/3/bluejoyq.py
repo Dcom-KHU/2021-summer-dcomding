@@ -8,41 +8,40 @@ def solve():
         values[i] = tuple(map(int,input().split()))
     values.sort()
     
-    # 현재 막힌 부분이 사용가능한 컴퓨터가 여러 대 있을 때
-    # 이 중 idx가 가장 빠른 pc에 접근해야함.
-    
-    # heapq에 다 넣어서 끝나는 시간상 최소를 뽑고
-    # 최소가 현재 시작 시간보다 크다면? (못넣으면)
-    # 새로 idx 추가하고 현재꺼를 새로 집어넣고,
-    # 만약 작다면 계속 뽑아서 can_add_idx heapq에 추가하고.
-    # 그 중 제일 작은거를 뽑아서 추가! logN이 여러번이니까 ㄱㅊ을듯
-    
+    # heapq로 현재 사용 중인 자리의 끝나는 시간을 담고 있음.
     end_que = []
+    # heapq로 현재 사용 가능한 자리의 idx를 담고 있음.
     idx_que = []
+    # 각 자리별 사용 인원 수
     cache = [0] * N
     nxt_idx = 0
     
     for start,end in values:
-        #print(start, end, end_que, idx_que)
+        # 현재 사용 중인 인원이 있다면
         if len(end_que):
+            # 그 중 가장 빨리 끝나는 사람을 찾는다.
             fastest_end, fastest_idx = end_que[0]
+            # 만약 fastest_end가 start 보다 작다면 (즉 그 자리를 쓸 수 있다면)
             if fastest_end <= start:
                 try:
+                    # fastest_end가 start보다 커지거나 end_que가 빌때까지
+                    # 계속 빼내서 idx_que에 넣음
                     while fastest_end <= start:
                         f_end, f_idx = heapq.heappop(end_que)
                         heapq.heappush(idx_que, f_idx)
                         fastest_end, fastest_idx = end_que[0]
                 except:
-                    pass
+                    pass  
+            try:
+                # idx_que에 value가 있다면 가장 빠른 자리를 찾는다.
                 idx = heapq.heappop(idx_que)
                 cache[idx] += 1
                 heapq.heappush(end_que, (end, idx))
                 continue
-            elif len(idx_que):
-                idx = heapq.heappop(idx_que)
-                cache[idx] += 1
-                heapq.heappush(end_que, (end, idx))
-                continue
+            except:
+                pass
+        # 사용중인 인원이 없거나, 빈자리가 없고 가장 빨리 끝나는 사람이 내 시작시간보다 느리면
+        # 새로운 자리를 추가한다.
         cache[nxt_idx] += 1
         heapq.heappush(end_que, (end, nxt_idx))
         nxt_idx += 1
@@ -52,20 +51,3 @@ def solve():
 solve()
 
 
-'''
-5
-0 10
-10 20
-20 30
-30 40
-40 50
-'''
-'''
-6
-0 10
-0 20
-0 30
-50 70
-60 80
-100 120
-'''
