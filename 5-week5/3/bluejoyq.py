@@ -1,4 +1,6 @@
 import heapq
+import sys
+input = sys.stdin.readline
 def solve():
     N = int(input())
     values = [0] * N
