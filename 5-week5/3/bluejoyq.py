@@ -21,11 +21,8 @@ def solve():
     nxt_idx = 0
     
     for start,end in values:
-        if len(idx_que):
-            idx = heapq.heappop(idx_que)
-            cache[idx] += 1
-            heapq.heappush(end_que, (end, idx))
-        elif len(end_que):
+        #print(start, end, end_que, idx_que)
+        if len(end_que):
             fastest_end, fastest_idx = end_que[0]
             if fastest_end <= start:
                 try:
@@ -38,18 +35,20 @@ def solve():
                 idx = heapq.heappop(idx_que)
                 cache[idx] += 1
                 heapq.heappush(end_que, (end, idx))
-            else:
-                cache[nxt_idx] += 1
-                heapq.heappush(end_que, (end, nxt_idx))
-                nxt_idx += 1
-        else:
-            cache[nxt_idx] += 1
-            heapq.heappush(end_que, (end, nxt_idx))
-            nxt_idx += 1
+                continue
+            elif len(idx_que):
+                idx = heapq.heappop(idx_que)
+                cache[idx] += 1
+                heapq.heappush(end_que, (end, idx))
+                continue
+        cache[nxt_idx] += 1
+        heapq.heappush(end_que, (end, nxt_idx))
+        nxt_idx += 1
             
     print(nxt_idx)
     print(*cache[:nxt_idx])
 solve()
+
 
 '''
 5
@@ -59,4 +58,12 @@ solve()
 30 40
 40 50
 '''
-
+'''
+6
+0 10
+0 20
+0 30
+50 70
+60 80
+100 120
+'''
