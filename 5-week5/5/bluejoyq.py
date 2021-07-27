@@ -1,5 +1,3 @@
-import sys
-input = sys.stdin.readline
 class Tree:
     def __init__(self):
         self.nxt = {}
@@ -8,6 +6,7 @@ def solution():
     n = int(input())
     words = [0] * n
     root = Tree()
+    root.nxt[""] = Tree()
     for i in range(n):
         words[i] = input().rstrip()
         cur = root
@@ -18,7 +17,6 @@ def solution():
                 cur.nxt[char] = Tree()
                 cur = cur.nxt[char]
         cur.nxt[""] = Tree()
-    
     
     result = ""
     for i in range(n):
