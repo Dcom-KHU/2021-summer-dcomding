@@ -10,7 +10,7 @@ int n, st, ed;
 vector<pii> timetable;
 vector<int> computers;
 priority_queue<pii> timeQueue;
-
+queue<pii> reserveTimes;
 int main()
 {
     scanf("%d",&n);
@@ -24,16 +24,27 @@ int main()
     timeQueue.push(make_pair(0,0));
     
     for(auto iter = timetable.begin(); iter != timetable.end(); ++iter){
-        pii time = timeQueue.top();
-
-        if(-iter->first>time.first){
+        int minComputer = computers.size();
+        pii time;
+        while(!timeQueue.empty() && -iter->first <= (time = timeQueue.top()).first){
+            reserveTimes.push(time);
+            minComputer = min(minComputer, -time.second);
+            timeQueue.pop();
+        }
+        
+        if(!reserveTimes.size()){
             computers.push_back(1);
             timeQueue.push(make_pair(-iter->second,-computers.size()+1));
         }
-        else{
-            timeQueue.pop();
-            ++computers[-time.second];
-            timeQueue.push(make_pair(-iter->second,time.second));
+        else{        
+            ++computers[minComputer];
+            while(!reserveTimes.empty()){
+                time = reserveTimes.front(); reserveTimes.pop();
+                if(minComputer == -time.second)
+                    timeQueue.push(make_pair(-iter->second,time.second));
+                else 
+                    timeQueue.push(time);
+            }
         }
     }
     
