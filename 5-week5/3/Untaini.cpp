@@ -28,12 +28,12 @@ int main()
 
         if(-iter->first>time.first){
             computers.push_back(1);
-            timeQueue.push(make_pair(-iter->second,computers.size()-1));
+            timeQueue.push(make_pair(-iter->second,-computers.size()+1));
         }
         else{
             timeQueue.pop();
-            ++computers[time.second];
-            timeQueue.push(make_pair(-iter->second,time.second));
+            ++computers[-time.second];
+            timeQueue.push(make_pair(-iter->second,-time.second));
         }
     }
     
