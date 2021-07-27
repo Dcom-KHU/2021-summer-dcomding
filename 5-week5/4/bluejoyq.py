@@ -75,6 +75,9 @@ def solution():
                 target.bef = bef
                 pass
     deleted.sort()
-    print(*deleted)
+    result = ""
+    for i in deleted:
+        result += str(i) + "\n"
+    print(result)
             
 solution()
