@@ -1,33 +1,32 @@
-class Tree:
-    def __init__(self):
-        self.nxt = {}
-    
+import sys
+input = sys.stdin.readline
 def solution():
     n = int(input())
     words = [0] * n
-    root = Tree()
-    root.nxt[""] = Tree()
+    root = {}
+    root[""] = 0
     for i in range(n):
         words[i] = input().rstrip()
         cur = root
         for char in words[i]:
             try:
-                cur =  cur.nxt[char]
+                cur =  cur[char]
             except:
-                cur.nxt[char] = Tree()
-                cur = cur.nxt[char]
-        cur.nxt[""] = Tree()
+                cur[char] = {}
+                cur = cur[char]
+        cur[""] = 0
     
     result = ""
     for i in range(n):
         count = 0
         cur = root
         for char in words[i]:
-            if len(cur.nxt) != 1:
+            if len(cur) != 1:
                 count += 1
-            cur =  cur.nxt[char]
+            cur =  cur[char]
         
         result += str(count) + "\n"
     
     print(result)
+
 solution()
