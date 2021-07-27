@@ -33,7 +33,7 @@ int main()
         else{
             timeQueue.pop();
             ++computers[-time.second];
-            timeQueue.push(make_pair(-iter->second,-time.second));
+            timeQueue.push(make_pair(-iter->second,time.second));
         }
     }
     
