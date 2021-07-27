@@ -37,6 +37,7 @@ int main()
         }
     }
     
+    printf("%d\n",computers.size());
     for(auto iter = computers.begin(); iter != computers.end(); ++iter)
         printf("%d ", *iter);
     
