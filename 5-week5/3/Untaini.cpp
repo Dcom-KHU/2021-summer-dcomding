@@ -7,7 +7,7 @@ using namespace std;
 
 #define pii pair<int,int>
 
-int n, st, ed, segTree[1<<22], ptr=1<<21;
+int n, st, ed, segTree[1<<21], ptr=1<<20;
 vector<pii> timetable;
 vector<int> computers, endTimes;
 map<int,priority_queue<int>> timeComputer;
@@ -45,6 +45,7 @@ int main()
         if(!timeComputer.count(iter->second))
             timeComputer.insert(make_pair(iter->second, priority_queue<int>()));
         
+        
         if(minPos == 1000001){
             timeComputer[iter->second].push(-computers.size());
             if(timeComputer[iter->second].top() == -computers.size())
@@ -57,8 +58,8 @@ int main()
             ++computers[minPos];
             timeComputer[endTimes[minPos]].pop();
             
-            if(timeComputer[endTimes[minPos]].size())
-                update(endTimes[minPos], timeComputer[endTimes[minPos]].top());
+            if(!timeComputer[endTimes[minPos]].empty())
+                update(endTimes[minPos], -timeComputer[endTimes[minPos]].top());
             else
                 update(endTimes[minPos], 1000001);
             
