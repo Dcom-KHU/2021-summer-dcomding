@@ -1,22 +1,20 @@
 #include <cstdio>
 #include <cstring>
-#include <vector>
-using namespace std;
 
 class Trie{
 private:
     char ch;
-    int abtCnt, endStringPtr;
+    int abtCnt, endStringPtr, listPtr;
     Trie* abt[26];
-    vector<int> abtVec;
+    int abtList[26];
     
 public:
     Trie(char ch){
         this->ch = ch;
-        abtCnt = 0;
+        abtCnt = listPtr = 0;
         endStringPtr = -1;
         memset(abt, 0, sizeof(abt));
-        abtVec = vector<int>();
+        memset(abtList, 0, sizeof(abtList));
     }
     
     ~Trie(){
@@ -35,7 +33,7 @@ public:
         
         if(!abt[ch-='a']){
             abt[ch] = new Trie(ch+'a');
-            abtVec.push_back(ch);
+            abtList[listPtr++] = ch;
         }
         else
             --abtCnt;
@@ -48,8 +46,8 @@ public:
             arr[endStringPtr] = tCnt;
         tCnt += abtCnt>1;
         
-        for(int cnt=0; cnt<abtVec.size(); ++cnt)
-            abt[abtVec[cnt]]->inOrder(arr, tCnt);
+        for(int cnt=0; cnt<listPtr; ++cnt)
+            abt[abtList[cnt]]->inOrder(arr, tCnt);
     }
 };
 
