@@ -3,59 +3,54 @@
 #include<algorithm>
 using namespace std;
 
-typedef pair<int, int> time;
+typedef pair<int, int> Time;
 
 class computers {
 private:
 	int ea;
-	vector<vector<time>> timetable;
+	vector<vector<Time>> timetable;
 public:
 	computers() {
 		ea = 0;
-		vector<time>input; 
+		vector<Time>input; 
 		input.push_back(make_pair(0, 1000001));
 		timetable.push_back(input);
 	}
 
 	//입력: 컴퓨터 번호, 시작/끝 시간
 	//출력: 빈 컴퓨터를 찾았는지 여부
-	int getEmpty(int computer, time _t) {
+	int getEmpty(int computer, Time _t) {
 		int found = 0;
 		int temp;
 		//cout << timetable[computer].size()<<;
 		
-		for (int i = 0; i < timetable[computer].size();i++) {
-			time cur = timetable[computer][i];
-			if (cur.first > _t.second) break;
+		
+			Time cur = timetable[computer][timetable[computer].size()-1];
 			if (_t.first >= cur.first && _t.second <= cur.second) { //찾았을 시
-				time cur = timetable[computer][i];
 				temp = cur.second;
-				timetable[computer][i].second = _t.first;
+				timetable[computer][timetable[computer].size() - 1].second = _t.first;
 				timetable[computer].push_back(make_pair(_t.second, temp));
 				
 
-				if (i != timetable[computer].size() - 2) {
-					swap(timetable[computer][i + 1], timetable[computer][timetable[computer].size() - 1]);
-				}
 
 				found = 1;
 
 			}
-		}
+		
 		//printTimeTable();
 		return found;
 	}
 
 	//입력: 유저의 사용시간
 	//출력: 유저가 사용하는 컴퓨터
-	int addUser(time _t) {
+	int addUser(Time _t) {
 		int computer= 0;
 		while (!getEmpty(computer,_t)) {
 			
 			computer++;
 			if (computer > ea) {
 				ea++;
-				vector<time> input;
+				vector<Time> input;
 				input.push_back(make_pair(0, _t.first));
 				input.push_back(make_pair(_t.second, 1000001));
 				timetable.push_back(input);
@@ -65,8 +60,8 @@ public:
 
 		return computer;
 	}
-	void swap(time& a, time& b) {
-		time temp;
+	void swap(Time& a, Time& b) {
+		Time temp;
 		temp = a;
 		a = b;
 		b = temp;
@@ -90,7 +85,7 @@ int main() {
 
 	
 	int n, start, end, cp;
-	vector<time> Users;
+	vector<Time> Users;
 	computers XZ_Room;
 	
 	cin >> n;
