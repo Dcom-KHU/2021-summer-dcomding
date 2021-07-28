@@ -7,7 +7,7 @@ using namespace std;
 
 #define pii pair<int,int>
 
-int n, st, ed, segTree[1<<21], ptr=1<<20;
+int n, st, ed, segTree[1<<22], ptr=1<<21;
 vector<pii> timetable;
 vector<int> computers, endTimes;
 map<int,priority_queue<int>> timeComputer;
