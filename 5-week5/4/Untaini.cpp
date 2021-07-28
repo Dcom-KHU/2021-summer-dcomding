@@ -50,9 +50,12 @@ int main()
         
         case 'C':
             getchar();
-            update(delName[delPtr++] = f, -1);
-            if(f==bs(n-delPtr-1)) f = bs(getSum(f)-1);
-            else f = bs(getSum(f));
+            delName[delPtr] = f;
+            
+            if(f==bs(n-delPtr-1)) f = bs(getSum(f)-2);
+            else f = bs(getSum(f)-1);
+            
+            update(delName[delPtr++], -1);
         break;
         
         case 'Z':
