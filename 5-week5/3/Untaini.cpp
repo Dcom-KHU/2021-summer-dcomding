@@ -9,7 +9,7 @@ using namespace std;
 int n, st, ed, segTree[1<<22], ptr=1<<20;
 vector<pii> timetable;
 vector<int> computers, endTimes;
-priority_queue<int> timeComputer[1000001];
+priority_queue<int> timeComputer[2000001];
 
 void update(int num, int val){
     segTree[num+=ptr] = val;
