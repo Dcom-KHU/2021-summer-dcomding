@@ -31,8 +31,8 @@ int bs(int val){
 
 int main()
 {
-    scanf("%d%d%d",&n,&f,&k); ++n, ++f; getchar();
-    for(int cnt=1; cnt<n; ++cnt)
+    scanf("%d%d%d",&n,&f,&k); ++f; getchar();
+    for(int cnt=1; cnt<=n; ++cnt)
         update(cnt, 1);
     
     for(int cnt=0; cnt<k; ++cnt){
@@ -50,9 +50,8 @@ int main()
         
         case 'C':
             getchar();
-            delName[delPtr++] = f;
-            update(f, -1);
-            if(f==n-1) f = bs(getSum(f)-1);
+            update(delName[delPtr++] = f, -1);
+            if(f==bs(n-delPtr)) f = bs(getSum(f)-1);
             else f = bs(getSum(f));
         break;
         
