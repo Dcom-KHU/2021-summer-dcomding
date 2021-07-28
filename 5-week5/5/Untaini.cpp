@@ -44,6 +44,7 @@ public:
     void inOrder(int arr[], int tCnt){
         if(endStringPtr>=0)
             arr[endStringPtr] = tCnt;
+        
         tCnt += abtCnt>1;
         
         for(int cnt=0; cnt<listPtr; ++cnt)
