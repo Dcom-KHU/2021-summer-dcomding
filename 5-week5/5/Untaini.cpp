@@ -1,63 +1,73 @@
 #include <cstdio>
-#include <algorithm>
-#include <vector>
-using namespace std;
+#include <cstring>
 
-class Tree{
+class Trie{
 private:
-    int ch;
-    vector<Tree> treeVec;
+    char ch;
+    int abtCnt, endStringPtr;
+    Trie* abt[26];
     
 public:
-    Tree(int ch){
+    Trie(char ch){
         this->ch = ch;
-        treeVec = vector<Tree>();
+        abtCnt = 0;
+        endStringPtr = -1;
+        memset(abt, 0, sizeof(abt));
     }
     
-    int getChar() {
-        return this->ch;
+    ~Trie(){
+        for(int cnt=0; cnt<26; ++cnt)
+            if(abt[cnt])
+                delete abt[cnt];
     }
     
-    Tree* insert(int ch){
-        for(auto iter = treeVec.begin(); iter != treeVec.end(); ++iter)
-            if(iter->ch == ch) return &treeVec[iter-treeVec.begin()];
-        treeVec.push_back(Tree(ch));
-        return &treeVec[treeVec.size()-1];
+    Trie* insert(int ch){
+        ++abtCnt;
+        
+        if(ch>=1000 || !ch){
+            endStringPtr = ch-1000;
+            return this;
+        }
+        
+        if(!abt[ch-='a'])
+            abt[ch] = new Trie(ch+'a');
+        else
+            --abtCnt;
+        
+        return abt[ch];
     }
     
-    void inOrder(int arr[], int cnt){
-        bool needTyping = treeVec.size()>1;
-        cnt += needTyping;
-        for(auto iter = treeVec.begin(); iter != treeVec.end(); ++iter)
-            if(iter->ch>=1000)
-                arr[iter->ch-1000] = cnt - needTyping;
-            else
-                iter->inOrder(arr, cnt);
+    void inOrder(int arr[], int tCnt){
+        if(endStringPtr>=0)
+            arr[endStringPtr] = tCnt;
+        tCnt += abtCnt>1;
+        
+        for(int cnt=0; cnt<26; ++cnt)
+            if(abt[cnt])
+                abt[cnt]->inOrder(arr, tCnt);
     }
 };
 
 int n, typingCnt[100000];
 char word[100];
-Tree oriTree = Tree(0);
+Trie oriTrie = Trie(0);
 
 int main()
-{
-    
+{   
     scanf("%d",&n); getchar();
     for(int cnt=0; cnt<n; ++cnt){
         scanf("%s",word);
         
-        Tree* treePtr = &oriTree;
+        Trie* triePtr = &oriTrie;
         for(int wordCnt=0; word[wordCnt]; ++wordCnt)
-            treePtr = treePtr->insert(word[wordCnt]);
-            
-        treePtr->insert(cnt+1000);
+            triePtr = triePtr->insert(word[wordCnt]);
+        triePtr->insert(cnt+1000);
     }
     
-    oriTree.insert(0);
-    oriTree.inOrder(typingCnt, 0);
+    oriTrie.insert(0)->inOrder(typingCnt, 0);
     
     for(int cnt=0; cnt<n; ++cnt)
         printf("%d\n",typingCnt[cnt]);
+        
     return 0;
 }
