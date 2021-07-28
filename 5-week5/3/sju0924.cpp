@@ -1,92 +1,34 @@
 #include <iostream>
-#include <vector>
+#include <queue>
 #include<algorithm>
+#include<vector>
 using namespace std;
 
-typedef pair<int, int> Time;
+typedef pair<int, int> tme; // 종료 시간, 컴퓨터 번호
 
-class computers {
-private:
-	int ea;
-	vector<vector<Time>> timetable;
-public:
-	computers() {
-		ea = 0;
-		vector<Time>input; 
-		input.push_back(make_pair(0, 1000001));
-		timetable.push_back(input);
-	}
-
-	//입력: 컴퓨터 번호, 시작/끝 시간
-	//출력: 빈 컴퓨터를 찾았는지 여부
-	int getEmpty(int computer, Time _t) {
-		int found = 0;
-		int temp;
-		//cout << timetable[computer].size()<<;
-		
-		
-			Time cur = timetable[computer][timetable[computer].size()-1];
-			if (_t.first >= cur.first && _t.second <= cur.second) { //찾았을 시
-				temp = cur.second;
-				timetable[computer][timetable[computer].size() - 1].second = _t.first;
-				timetable[computer].push_back(make_pair(_t.second, temp));
-				
-
-
-				found = 1;
-
-			}
-		
-		//printTimeTable();
-		return found;
-	}
-
-	//입력: 유저의 사용시간
-	//출력: 유저가 사용하는 컴퓨터
-	int addUser(Time _t) {
-		int computer= 0;
-		while (!getEmpty(computer,_t)) {
-			
-			computer++;
-			if (computer > ea) {
-				ea++;
-				vector<Time> input;
-				input.push_back(make_pair(0, _t.first));
-				input.push_back(make_pair(_t.second, 1000001));
-				timetable.push_back(input);
-				break;
-			}
-		}
-
-		return computer;
-	}
-	void swap(Time& a, Time& b) {
-		Time temp;
-		temp = a;
-		a = b;
-		b = temp;
-	}
-	int getEA() {
-		return ea+1;
-	}
-
-	void printTimeTable() {
-		for (int i = 0; i < timetable.size();i++) {
-			for (int j = 0; j < timetable[i].size();j++) {
-				cout << "("<<timetable[i][j].first << " " << timetable[i][j].second << "), ";
-			}
-			cout << "\n";
-		}
-	}
-};
 int res[100001];
+void printpq(priority_queue<tme, vector<tme>, greater<tme>> pq) {
+	priority_queue<tme,vector<tme>, greater<tme>> tmp = pq;
+	vector<tme> vtmp;
+	for (int i = 0; i < pq.size();i++) {
+		vtmp.push_back(tmp.top());
+		tmp.pop();
+	}
+	for (int i = vtmp.size() - 1; i >= 0;i--) {
+		cout << "(" << vtmp[i].first << " " << vtmp[i].second << ") ,";
+	}
+	cout << "\n";
+}
 
 int main() {
 
 	
-	int n, start, end, cp;
-	vector<Time> Users;
-	computers XZ_Room;
+	priority_queue< int, vector<int>, greater<int>> freeCom;
+	priority_queue<tme, vector<tme>, greater<tme>> OccupiedCom;
+	vector<tme>Users;
+	int comNum = 0;
+
+	int n,start,end;
 	
 	cin >> n;
 	for (int i = 0; i < n; i++) {
@@ -98,15 +40,40 @@ int main() {
 	sort(Users.begin(), Users.end());
 		
 	
+	int newlyUsedCom;
+	tme User;
 	for (int i = 0; i < n; i++) {
-		start = Users[i].first;
-		end = Users[i].second;
-		cp = XZ_Room.addUser(make_pair(start, end));
-		res[cp]++;
+		User = Users[i];
+		
+		//printpq(OccupiedCom);
+		if(OccupiedCom.size())
+			//cout << "next available Computer: " << OccupiedCom.top().first << ", next User start time " << User.first << "\n";
+		while (!OccupiedCom.empty() && OccupiedCom.top().first<=User.first) {
+			//cout << "freed " << OccupiedCom.top().second << "\n";
+			freeCom.push(OccupiedCom.top().second);
+			OccupiedCom.pop();
+		}
+
+		if (!freeCom.size()) {
+			freeCom.push(comNum);
+			comNum++;
+		}
+
+		newlyUsedCom = freeCom.top();
+		res[newlyUsedCom]++;
+		freeCom.pop();
+
+		
+		//cout << "User end time: " << User.second << ", his computer: " << newlyUsedCom << "\n";
+		OccupiedCom.push(make_pair(User.second, newlyUsedCom));
+
+		//cout << i << " " << freeCom.size() << "\n";
+
+
 	}
 
-	cout << XZ_Room.getEA()  << "\n";
-	for (int i = 0; i < XZ_Room.getEA();i++) {
+	cout << comNum << "\n";
+	for (int i = 0; i < comNum;i++) {
 		cout << res[i] << " ";
 	}
 }
