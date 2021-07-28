@@ -2,14 +2,15 @@
 #include <vector>
 #include <algorithm>
 #include <queue>
+#include <map>
 using namespace std;
 
 #define pii pair<int,int>
 
-int n, st, ed, segTree[1<<22], ptr=1<<20;
+int n, st, ed, segTree[1<<21], ptr=1<<20;
 vector<pii> timetable;
 vector<int> computers, endTimes;
-priority_queue<int> timeComputer[2000001];
+map<int,priority_queue<int>> timeComputer;
 
 void update(int num, int val){
     segTree[num+=ptr] = val;
@@ -41,6 +42,8 @@ int main()
     
     for(auto iter = timetable.begin(); iter != timetable.end(); ++iter){
         int minPos = getMin(0, iter->first);
+        if(!timeComputer.count(iter->second))
+            timeComputer.insert(make_pair(iter->second, priority_queue<int>()));
         
         if(minPos == 1000001){
             timeComputer[iter->second].push(-computers.size());
