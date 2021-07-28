@@ -6,11 +6,28 @@ using namespace std;
 
 #define pii pair<int,int>
 
-int n, st, ed;
+int n, st, ed, segTree[1<<22], ptr=1<<20;
 vector<pii> timetable;
-vector<int> computers;
-priority_queue<pii> timeQueue;
-queue<pii> reserveTimes;
+vector<int> computers, endTimes;
+priority_queue<int> timeComputer[1000001];
+
+void update(int num, int val){
+    segTree[num+=ptr] = val;
+    while(num>>=1)
+        segTree[num] = min(segTree[num*2], segTree[num*2+1]);
+}
+
+int getMin(int st, int ed){
+    st+=ptr, ed+=ptr;
+    int res = 1000001;
+    while(st<=ed){
+        if(st%2==1) res = min(res, segTree[st]), ++st;
+        if(ed%2==0) res = min(res, segTree[ed]), --ed;
+        st>>=1, ed>>=1;
+    }
+    return res;
+}
+
 int main()
 {
     scanf("%d",&n);
@@ -20,37 +37,37 @@ int main()
     }
     
     sort(timetable.begin(), timetable.end());
-    computers.push_back(0);
-    timeQueue.push(make_pair(0,0));
+    fill(segTree, segTree+ptr*2, 1000001);
     
     for(auto iter = timetable.begin(); iter != timetable.end(); ++iter){
-        int minComputer = computers.size();
-        pii time;
-        while(!timeQueue.empty() && -iter->first <= (time = timeQueue.top()).first){
-            reserveTimes.push(time);
-            minComputer = min(minComputer, -time.second);
-            timeQueue.pop();
-        }
+        int minPos = getMin(0, iter->first);
         
-        if(!reserveTimes.size()){
+        if(minPos == 1000001){
+            timeComputer[iter->second].push(-computers.size());
+            if(timeComputer[iter->second].top() == -computers.size())
+                update(iter->second, computers.size());
+            
             computers.push_back(1);
-            timeQueue.push(make_pair(-iter->second,-computers.size()+1));
+            endTimes.push_back(iter->second);
         }
-        else{        
-            ++computers[minComputer];
-            while(!reserveTimes.empty()){
-                time = reserveTimes.front(); reserveTimes.pop();
-                if(minComputer == -time.second)
-                    timeQueue.push(make_pair(-iter->second,time.second));
-                else 
-                    timeQueue.push(time);
-            }
+        else{
+            ++computers[minPos];
+            timeComputer[endTimes[minPos]].pop();
+            
+            if(timeComputer[endTimes[minPos]].size())
+                update(endTimes[minPos], timeComputer[endTimes[minPos]].top());
+            else
+                update(endTimes[minPos], 1000001);
+            
+            timeComputer[endTimes[minPos]=iter->second].push(-minPos);
+            if(timeComputer[iter->second].top() == -minPos)
+                update(iter->second, minPos);
         }
     }
     
-    printf("%d\n",computers.size());
+    printf("%d\n", computers.size());
     for(auto iter = computers.begin(); iter != computers.end(); ++iter)
         printf("%d ", *iter);
-    
+        
     return 0;
 }
