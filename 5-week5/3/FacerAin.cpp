@@ -11,17 +11,18 @@ O(N^2)으로는 풀 수 없다
 
 using namespace std;
 
-priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>> > pq;
 
-bool compare(pair<int,int> a, pair<int,int> b){
+
+
+bool compare(pair<int, int> a, pair<int, int> b){
 	if(a.first == b.first){
 		return a.second < b.second;
 	}
 	return a.first < b.first;
 }
-
+priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+priority_queue<int, vector<int>, greater<int>> s_pq;
 vector<pair<int,int>> timetable;
-vector<int> seats;
 int ans[100005];
 
 int main(){
@@ -42,20 +43,25 @@ int main(){
 	
 	for(int i = 1; i < n; i++){
 		bool flag = false;
-		//가능한 시간이 있는지 체크;
-		if(pq.top().first <= timetable[i].first){
-			int seat_num = pq.top().second;
-			pq.pop();
-			ans[seat_num] += 1;
-			pq.push({timetable[i].second, seat_num});
+		while(!pq.empty()){
+			if(pq.top().first <= timetable[i].first){
+				s_pq.push(pq.top().second);
+				pq.pop();
+			}else{
+				break;
+			}
 
-		}else{
-			//cout << timetable[i].first << " " << timetable[i].second << endl;
-			seat_cnt += 1;
-			ans[seat_cnt-1] = 1;
-			pq.push({timetable[i].second, seat_cnt - 1});
 		}
-
+		if(s_pq.empty()){
+			ans[seat_cnt] = 1;
+			pq.push({timetable[i].second, seat_cnt});
+			seat_cnt++;
+		}else{
+			pq.push({timetable[i].second, s_pq.top()});
+			ans[s_pq.top()] += 1;
+			s_pq.pop();
+		}
+		
 	}
 	cout << seat_cnt << endl;
 	for(int i = 0; i < seat_cnt; i++){
