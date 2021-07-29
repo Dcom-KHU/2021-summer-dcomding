@@ -36,11 +36,14 @@ int main(){
 	}
 	
 	sort(timetable.begin(), timetable.end(), compare);
-	int seat_cnt = 0;
-	for(int i = 0; i < n; i++){
+	int seat_cnt = 1;
+	pq.push({timetable[0].second, 0});
+	ans[0] = 1;
+	
+	for(int i = 1; i < n; i++){
 		bool flag = false;
 		//가능한 시간이 있는지 체크;
-		if(!pq.empty() && pq.top().first <= timetable[i].first){
+		if(pq.top().first <= timetable[i].first){
 			int seat_num = pq.top().second;
 			pq.pop();
 			ans[seat_num] += 1;
