@@ -19,7 +19,7 @@ bool compare(pair<int,int> a, pair<int,int> b){
 
 vector<pair<int,int>> timetable;
 vector<int> seats;
-int ans[1005];
+int ans[100005];
 
 int main(){
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
