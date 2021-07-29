@@ -1,14 +1,17 @@
 /*
 시뮬레이션 문제
-n의 크기가 10만이라 특별한 알고리즘 안써도 될듯
+O(N^2)으로는 풀 수 없다
 */
 
 #include <iostream>
 #include <algorithm>
 #include <utility>
 #include <vector>
+#include <queue>
 
 using namespace std;
+
+priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>> > pq;
 
 bool compare(pair<int,int> a, pair<int,int> b){
 	if(a.first == b.first){
@@ -33,26 +36,24 @@ int main(){
 	}
 	
 	sort(timetable.begin(), timetable.end(), compare);
-
+	int seat_cnt = 0;
 	for(int i = 0; i < n; i++){
 		bool flag = false;
 		//가능한 시간이 있는지 체크;
-		for(int j = 0; j < seats.size(); j++){
-			if(seats[j] <= timetable[i].first){
-				flag = true;
-				seats[j] = timetable[i].second;
-				ans[j] += 1;
-				break;
-			}
+		if(!pq.empty() && pq.top().first <= timetable[i].first){
+			ans[pq.top().second] += 1;
+			pq.push({timetable[i].second, pq.top().second});
+			pq.pop();
+		}else{
+			//cout << timetable[i].first << " " << timetable[i].second << endl;
+			seat_cnt += 1;
+			ans[seat_cnt-1] = 1;
+			pq.push({timetable[i].second, seat_cnt - 1});
 		}
-		
-		if(!flag){
-			seats.push_back(timetable[i].second);
-			ans[seats.size() - 1] = 1;
-		}
+
 	}
-	cout << seats.size() << endl;
-	for(int i = 0; i < seats.size(); i++){
+	cout << seat_cnt << endl;
+	for(int i = 0; i < seat_cnt; i++){
 		cout << ans[i] << " ";
 	}
 	return 0;
