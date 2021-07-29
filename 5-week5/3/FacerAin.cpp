@@ -41,9 +41,11 @@ int main(){
 		bool flag = false;
 		//가능한 시간이 있는지 체크;
 		if(!pq.empty() && pq.top().first <= timetable[i].first){
-			ans[pq.top().second] += 1;
-			pq.push({timetable[i].second, pq.top().second});
+			int seat_num = pq.top().second;
 			pq.pop();
+			ans[seat_num] += 1;
+			pq.push({timetable[i].second, seat_num});
+
 		}else{
 			//cout << timetable[i].first << " " << timetable[i].second << endl;
 			seat_cnt += 1;
