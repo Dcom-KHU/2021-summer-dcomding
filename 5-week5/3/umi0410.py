@@ -1,37 +1,47 @@
-# 어딜 폐업할지는 결국 다 해봐야 알 수 있을 듯.
-# 근데 그걸 다 해볼 때 마다 치킨 거리를 매번 구하는 것 보다는
-# 각 치킨가게에 대한 거리를 모두 구해놓고 매번 그 값들 중 최솟값을 치킨거리로 하는 게 좋을 듯?
+# 컴퓨터는 최대 10만대가 필요할 수도 있는데
+# 이걸 어느 세월에 하나 하나 확인할까? 이진탐색을 써야할 듯
+import sys
+input = sys.stdin.readline
+from heapq import *
 
-from itertools import combinations
+N = int(input())
+table = []
+for _ in range(N):
+    start, finish = map(int, input().split())
+    # 일찍 시작할 수록 우선순위가 높고, 빨리 끝날 수록 우선순위가 높음
+    table.append((start, finish))
+table.sort()
+# index와 finish time
+# 사용 중인 컴퓨터. (finish_time, idx)
+# 사용중인 컴퓨터를 끝내기 위한 정렬에는 finish_time이 중요하고 idx는 실제 끝낼 정보를 담음
+using_computers = []
+# 놀고있는 컴퓨터. 놀고 있는 컴퓨터 중 사용할 컴퓨터를 찾기 위해선 idx가 중요함.
+idle_computers = [0]
+# 각 컴퓨터의 사용자 수를 기록
+user_numbers = [0]
+for start, finish in table:
+    # 가장 일찍 사용이 끝난 computer을 사용할 것임
+    # 끝낼 컴퓨터를 선형적으로 앞에서부터 찾는 것은 O(N)
+    # heap은 O(log N)
+    while using_computers:
+        _finish, computer = heappop(using_computers)
+        # 끝낼 컴퓨터가 없는 거임
+        if start < _finish:
+            heappush(using_computers, [_finish, computer])
+            break
+        else:
+            heappush(idle_computers, computer)
+    # 어떤 컴퓨터를 사용할 지 노는 컴퓨터 중 앞에서부터 찾는 선형적인 방식은
+    # O(N)
+    # 하지만 heappop은 O(logN)
+    if idle_computers:
+        computer = heappop(idle_computers)
+        user_numbers[computer] += 1
+        heappush(using_computers, [finish, computer])
+    else:
+        user_numbers.append(1)
+        heappush(using_computers, [finish, len(user_numbers) - 1])
 
-N, M = map(int, input().split())
-coords = []
-chickens = []
-houses = []
 
-for r in range(N):
-    coords.append([])
-    for c, val in enumerate(map(int, input().split())):
-        if val == 2:
-            chickens.append((r, c))
-        elif val == 1:
-            houses.append((r,c))
-        coords[-1].append(val)
-
-# 각 집들의 치킨집과의 거리들을 기록
-chicken_distances = [[101] * len(chickens) for _ in range(len(houses))]
-for house_idx, house in enumerate(houses):
-    for chicken_idx, chicken in enumerate(chickens):
-        chicken_distances[house_idx][chicken_idx] = abs(house[0] - chicken[0]) + abs(house[1] - chicken[1])
-
-answers = []
-for chicken_comb in combinations(range(len(chickens)), M):
-    sum_of_valid_chicken_dists = 0
-    for cd_for_house in chicken_distances:
-        min_tmp = 101
-        for chicken_idx, dist in enumerate(cd_for_house):
-            if chicken_idx in chicken_comb:
-                min_tmp = min(min_tmp, dist)
-        sum_of_valid_chicken_dists += min_tmp
-    answers.append(sum_of_valid_chicken_dists)
-print(min(answers))
+print(len(user_numbers))
+print(' '.join(map(str, user_numbers)))
