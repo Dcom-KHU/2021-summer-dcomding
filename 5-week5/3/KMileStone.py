@@ -17,7 +17,7 @@ for user in timetable:
             # if gap between adjacent user is big enough or after last user
             if computer[j][1] <= user[0]:
                 if (j+1 < len(computer) and computer[j+1][0] >= user[1]) or j+1 == len(computer):
-                    computer.append(user)
+                    computer.insert(j+1, user)
                     found = True
                     break
 
