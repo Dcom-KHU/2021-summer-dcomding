@@ -5,7 +5,7 @@ for i in range(n):
 
 
 # sort
-timetable.sort(key=lambda x: x[0])
+timetable.sort(key=lambda x: x[0]*1000000 + x[1])
 
 computers = []
 found = False
