@@ -16,4 +16,4 @@ for i in range(n):
     d[i] = max_d + 1
     max_d = 0
 
-print(d[n-1])
+print(max(d))
