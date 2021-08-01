@@ -1,52 +1,67 @@
 n, f, k = map(int, input().split())
 cmd = []
 for i in range(k):
-    c = input().split()
-    if c[0] == 'U' or c[0] == 'D':
-        cmd.append((c[0], int(c[1])))
-    else:
-        cmd.append((c[0],))
+    cmd.append(input())
 
 
-table = [True for i in range(n)]
-cursor = f
+# double linked list
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.prev = self
+        self.next = self
+
+    def add(self, node):
+        node.prev = self
+        node.next = self.next
+        self.next.prev = node
+        self.next = node
+
+    def delete(self):
+        self.prev.next = self.next
+        self.next.prev = self.prev
+        del self
+
+
+head = Node('head')
+cursor = head
+for i in range(n):
+    cursor.add(Node(i))
+    cursor = cursor.next
+
+cursor = head
+for i in range(f+1):
+    cursor = cursor.next
+
 undo = []
 
 for c in cmd:
     if c[0] == 'U':
-        for i in range(c[1]):
-            cursor -= 1
-            while not table[cursor]:
-                cursor -= 1
+        for i in range(int(c[2:])):
+            cursor = cursor.prev
 
     elif c[0] == 'D':
-        for i in range(c[1]):
-            cursor += 1
-            while not table[cursor]:
-                cursor += 1
+        for i in range(int(c[2:])):
+            cursor = cursor.next
 
     elif c[0] == 'C':
-        table[cursor] = False
-        undo.append(cursor)
+        temp = cursor
 
-        # if last row, select prev row
-        if cursor == n-1:
-            cursor -= 1
-            while not table[cursor]:
-                cursor -= 1
-
-        # else select next row
+        # if tail
+        if cursor.next == head:
+            cursor = cursor.prev
         else:
-            cursor += 1
-            while not table[cursor]:
-                cursor += 1
+            cursor = cursor.next
+
+        undo.append((temp.prev, temp.val))
+
+        temp.delete()
 
     elif c[0] == 'Z':
-        idx = undo.pop()
-        table[idx] = True
+        (node, val) = undo.pop()
+        node.add(Node(val))
 
 
-# print invalid index
-for i in range(n):
-    if not table[i]:
-        print(i)
+undo.sort(key=lambda x: x[1])
+for e in undo:
+    print(e[1])
