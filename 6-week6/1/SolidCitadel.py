@@ -1,7 +1,7 @@
 n = int(input())
 
-i = 0
-while 2**i <= n:
-    i += 1
+i = 1
+while i <= n:
+    i *= 2
 
-print(2**(i-1))
+print(i//2)
