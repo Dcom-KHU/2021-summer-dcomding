@@ -1,3 +1,5 @@
+import heapq
+
 n = int(input())
 timetable = []
 for i in range(n):
@@ -7,24 +9,24 @@ for i in range(n):
 # sort
 timetable.sort(key=lambda x: x[0]*1000000 + x[1])
 
-computers = []
-found = False
+computer = []
+
+# heap : [(end time, index of computer), (e, i), (e, i), ...]
+heap = []
 
 for user in timetable:
     # use existing computer
-    for computer in computers:
-        if computer[-1][1] <= user[0]:
-            computer.append(user)
-            found = True
-            break
+    if heap and heap[0][0] <= user[0]:
+        idx = heapq.heappop(heap)[1]
+        computer[idx] += 1
+        heapq.heappush(heap, (user[1], idx))
 
     # use new computer
-    if not found:
-        computers.append([user])
     else:
-        found = False
+        computer.append(1)
+        heapq.heappush(heap, (user[1], len(computer)-1))
 
 
-print(len(computers))
-for computer in computers:
-    print(len(computer), end=' ')
+print(len(computer))
+for com in computer:
+    print(com, end=' ')
