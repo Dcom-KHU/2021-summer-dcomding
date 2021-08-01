@@ -4,48 +4,65 @@ for i in range(n):
     words.append(input())
 
 
-# sort
-dictionary = sorted(words)
+# tree
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.child = []
 
-start = 0
-end = n-1
-count = 0
-skip = 0
 
+# tree : head - h - e - l - l - o - '\0'
+#                             - '\0'
+#                     - a - v - e - n - '\0'
+#             - g - o - o - d - b - y - e - '\0'
+head = Node('head')
+cursor = head
+found = False
+
+# make dictionary
 for word in words:
-    start = 0
-    end = n-1
-    i = 0
-    while i < len(word):
-        # update count
-        count += 1
+    cursor = head
 
-        # update scope
-        started = False
-        for j in range(start, end+1):
-            if dictionary[j][:i+1] == word[:i+1]:
-                if not started:
-                    start = j
-                    started = True
-                end = j
-
-        # get skip
-        valid = True
-        for j in range(i+1, len(word)):
-            for w in dictionary[start:end+1]:
-                if len(w) <= j or w[j] != word[j]:
-                    valid = False
-                    break
-
-            if valid:
-                skip += 1
-            else:
+    for c in word+'\0':
+        # find char from child
+        for node in cursor.child:
+            if node.val == c:
+                cursor = node
+                found = True
                 break
 
-        # update i
-        i += skip + 1
-        skip = 0
+        # if not found, make new node
+        if not found:
+            node = Node(c)
+            cursor.child.append(node)
+            cursor = node
+        else:
+            found = False
 
-    # print count
-    print(count)
-    count = 0
+# count input char
+if len(head.child) == 1:
+    count = [1 for i in range(n)]
+else:
+    count = [0 for i in range(n)]
+
+for i in range(n):
+    cursor = head
+
+    for c in words[i]:
+        # if more than 1 child exist, you should choose char
+        if len(cursor.child) > 1:
+            count[i] += 1
+
+            # find char from child
+            for node in cursor.child:
+                if node.val == c:
+                    cursor = node
+                    break
+
+        # else, auto
+        else:
+            cursor = cursor.child[0]
+
+
+for e in count:
+    print(e)
