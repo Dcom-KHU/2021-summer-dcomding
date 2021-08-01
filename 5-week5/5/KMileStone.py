@@ -4,16 +4,16 @@ for i in range(n):
     words.append(input())
 
 
-# tree : head - h - e - l - l - o - '\0'
+# tree : root - h - e - l - l - o - '\0'
 #                             - '\0'
 #                     - a - v - e - n - '\0'
 #             - g - o - o - d - b - y - e - '\0'
-head = {}
-cursor = head
+root = {}
+cursor = root
 
 # make dictionary
 for word in words:
-    cursor = head
+    cursor = root
 
     for c in word+'\0':
         node = cursor.get(c)
@@ -27,13 +27,13 @@ for word in words:
 
 
 # count input char
-if len(head) == 1:
+if len(root) == 1:
     count = [1 for i in range(n)]
 else:
     count = [0 for i in range(n)]
 
 for i in range(n):
-    cursor = head
+    cursor = root
 
     for c in words[i]:
         # if more than 1 child exist, you should choose char
