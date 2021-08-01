@@ -13,26 +13,9 @@ found = False
 for user in timetable:
     # use existing computer
     for computer in computers:
-        if len(computer):
-            # binary search
-            left = 0
-            right = len(computer)-1
-
-            while left <= right:
-                mid = (left + right) // 2
-
-                if computer[mid][1] <= user[0]:
-                    # if gap between adjacent user is big enough or after last user, found
-                    if (mid+1 < len(computer) and computer[mid+1][0] >= user[1]) or mid+1 == len(computer):
-                        computer.insert(mid+1, user)
-                        found = True
-                        break
-                    else:
-                        left = mid+1
-                else:
-                    right = mid-1
-
-        if found:
+        if computer[-1][1] <= user[0]:
+            computer.append(user)
+            found = True
             break
 
     # use new computer
