@@ -20,9 +20,9 @@ class Node:
     def delete(self):
         self.prev.next = self.next
         self.next.prev = self.prev
-        del self
 
 
+# list : head <=> 0 <=> 1 <=> ...
 head = Node('head')
 cursor = head
 for i in range(n):
@@ -53,15 +53,16 @@ for c in cmd:
         else:
             cursor = cursor.next
 
-        undo.append((temp.prev, temp.val))
-
+        undo.append(temp)
         temp.delete()
 
     elif c[0] == 'Z':
-        (node, val) = undo.pop()
-        node.add(Node(val))
+        node = undo.pop()
+
+        # node contains its previous node just before delete
+        node.prev.add(node)
 
 
-undo.sort(key=lambda x: x[1])
-for e in undo:
-    print(e[1])
+undo.sort(key=lambda x: x.val)
+for node in undo:
+    print(node.val)
