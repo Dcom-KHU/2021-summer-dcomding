@@ -1,15 +1,11 @@
 n=int(input())
-arr=[]
-for i in range(n):
-    arr.append(i+1)
+arr=[i+1 for i in range(n)]
 
-while True:
-    if len(arr)==1:
-        print(arr[0])
-        return
+while len(arr)!=1:
     temp=[]
-    for i in range(1,len(arr)+1):
-        if i%2==0:
-            temp.append(arr[i-1])
+    for i in range(len(arr)):
+        if (i+1)%2==0:
+            temp.append(arr[i])
+     
     arr=temp
-    
+print(arr[0])
