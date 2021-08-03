@@ -1,9 +1,9 @@
 #include <cstdio>
 
-int a,b,aList[1000000],x,sameElementCnt;
+int a,b,aList[100000],x,sameElementCnt;
 
 bool bs(int val){
-    int l=0, r=a, m;
+    int l=0, r=a-1, m;
     while(l<=r){
         m = (l+r)/2;
         if(aList[m] == val) return 1;
