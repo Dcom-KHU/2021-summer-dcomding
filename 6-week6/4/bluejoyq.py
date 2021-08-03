@@ -1,6 +1,6 @@
 import sys
 input = sys.stdin.readline
-sys.setrecursionlimit(200000)
+sys.setrecursionlimit(2000000)
 def solution():
     N = int(input())
     values = list(map(int, input().split()))
