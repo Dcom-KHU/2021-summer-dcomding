@@ -33,7 +33,8 @@ def solution():
             visited[nxt] = 1
             stk.append((nxt, cur))
     
-    for cur, parent in stk[::-1]:
+    while stk:
+        cur, parent = stk.pop()
         values[parent] += values[cur]
         result += abs(values[cur])
     
