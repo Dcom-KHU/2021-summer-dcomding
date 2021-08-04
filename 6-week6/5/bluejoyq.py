@@ -36,4 +36,4 @@ def solution():
         rest_values.extend(tmp)
     rest_values.sort()
     return(rest_values[k])
-solution()
+print(solution())
