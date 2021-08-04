@@ -27,15 +27,14 @@ long long int searchCount(int n) {
 
 	return node[n];
 }
-long long solution() {
-	long long answer = -2;
+long long int solution() {
+	long long int answer = -2;
+	long long int res;
 
-
-	int res;
 	res = searchCount(0);
+
 	if (!res) answer = totalCount;
 	else answer = -1;
-
 
 	return answer;
 }
