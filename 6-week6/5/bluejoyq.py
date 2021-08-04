@@ -27,5 +27,6 @@ def solution():
     # 다시 idx순으로 정렬. val은 중요하지 않음 이제.
     rest_values = sorted([idx for val, idx in sorted_values])
     return(rest_values[k])
-        
+
+
 print(solution())
