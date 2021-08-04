@@ -1,10 +1,11 @@
 #include <cstdio>
 
-long long n, e=1;
+int n;
+
 int main()
 {
-    scanf("%lld", &n);
-    while(e<=n) e<<=1;
-    printf("%lld",e>>1);
+    scanf("%d",&n);
+    while(n != (n & -n)) n -= (n & -n);
+    printf("%d",n);
     return 0;
 }
