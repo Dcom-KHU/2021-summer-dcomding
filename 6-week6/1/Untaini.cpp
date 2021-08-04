@@ -1,11 +1,11 @@
 #include <cstdio>
 
-int n;
+int n,alive;
 
 int main()
 {
     scanf("%d",&n);
-    while(n != (n & -n)) n -= (n & -n);
-    printf("%d",n);
+    while(n) n ^= (alive = n & -n);
+    printf("%d",alive);
     return 0;
 }
