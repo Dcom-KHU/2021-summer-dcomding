@@ -5,28 +5,35 @@ def solution():
     
     if k >= sum(values):
         return -1
+    idx_by_val = {}    
+    for idx in range(n):
+        try:
+            idx_by_val[values[idx]].append(idx)
+        except:
+            idx_by_val[values[idx]] = [idx]
+    # key를 value 순으로 정렬한다.
+    sorted_key_idx_by_val = deque(sorted(idx_by_val.keys()))
     
-    # value 순으로 정렬한다.
-    sorted_values = deque(sorted([(values[idx],idx) for idx in range(len(values))]))
-    
-    # (min_value의 증가치 * 남은 sorted_values의 길이)를 k보다 클때까지. 계속 빼준다.
+    # (min_value의 증가치 * 남은 values의 길이)를 k보다 클때까지. 계속 빼준다.
     lst_min_val = 0
-    while sorted_values:
-        min_val, min_idx = sorted_values[0]
-        cur_minus = (min_val - lst_min_val) * len(sorted_values)
+    while sorted_key_idx_by_val:
+        min_val = sorted_key_idx_by_val[0]
+        cur_minus = (min_val - lst_min_val) * n
         if k > cur_minus:
             k -= cur_minus
-            sorted_values.popleft()
+            delete_key = sorted_key_idx_by_val.popleft()
+            n -= len(idx_by_val[delete_key])
+            del idx_by_val[delete_key]
         else:
             break
     
-    # 더이상 sorted_values의 길이가 줄어들 일은 없다.
-    rest_value_len = len(sorted_values)
-    k %= rest_value_len
-    
+    # 더이상 남은 value의 길이가 줄어들 일은 없다.
+    k %= n
     # 다시 idx순으로 정렬. val은 중요하지 않음 이제.
-    rest_values = sorted([idx for val, idx in sorted_values])
+    rest_values = []
+    for tmp in idx_by_val.values():
+        rest_values.extend(tmp)
+    rest_values.sort()
     return(rest_values[k])
-
-
+        
 print(solution())
