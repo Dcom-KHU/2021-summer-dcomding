@@ -14,7 +14,7 @@ def dfs(index):
     answer += abs(weight)
 
     return weight
-    
+
 for _ in range(n-1):
     i, j = map(int, input().split())
     if edges.get(i) is None:
@@ -32,6 +32,8 @@ for i in range(n):
 if sum(weights.values()) != 0: # 모두 0으로 만들 수 없을 때
     print(-1)
 else:
+    for key in edges.keys():
+        edges[key].sort()
     dfs(0)
     print(answer)
 
