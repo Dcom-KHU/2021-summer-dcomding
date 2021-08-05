@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include<iostream>
+#include<algorithm>
 #include<queue>
 using namespace std;
 
@@ -28,30 +29,6 @@ private:
 
 public:
 
-	int getSerial(int n) { //n이 실행 중인 몇 번째 프로세스인지 찾음
-		int res = -1;
-		int front=0, rear=len-1,mid;	
-
-		while (front <= rear) {
-			
-			mid = (front + rear) / 2;
-			//cout << front << " " << rear << "\n";
-			//cout << "run[mid] = " << run[mid] << "\n";
-			if (run[mid] < n) {
-				front = mid + 1;
-			}
-			else if (run[mid] > n) {
-				rear = mid - 1;
-			}
-			else if (run[mid] == n) {
-				res = mid;
-				break;
-			}
-
-		}
-
-		return res;
-	}
 	long long int getPID(long long k) {
 		Process curP;
 		bool found = false;
@@ -79,7 +56,6 @@ public:
 		}
 
 		sort(remain.begin(), remain.end());
-		//cout<< remain.size()<<"\n";
 		res = remain[(k - curTime) % remain.size()];
 		return res;
 
@@ -107,30 +83,6 @@ public:
 		}
 		else
 			cout << getPID(k);
-	}
-
-	long long int getTimes_vec(vector<int> food_times, long long k) {
-		len = food_times.size();
-		totallen = len;
-		for (int i = 0; i < food_times.size(); i++) {
-			Process pInput;
-
-	
-			pInput.PID = i;
-			pInput.ExecTime = food_times[i-1];
-
-			Table.push(pInput);
-			run.push_back(i);
-			remainTime.push_back(food_times[i-1]);
-		}
-		return getPID(k);
-	}
-
-	int setTime(long long int time,int PID) {
-		for (auto elem: run) {
-			remainTime[elem] -= time;
-			if (elem < PID) remainTime[elem]++;
-		}
 	}
 
 };
