@@ -6,7 +6,7 @@ using namespace std;
 
 struct Process {
 	int PID;
-	int ExecTime;
+	long long int ExecTime;
 
 	bool operator<(Process _other) const {
 
@@ -52,53 +52,41 @@ public:
 
 		return res;
 	}
-	int getPID(long long k) {
+	long long int getPID(long long k) {
 		Process curP;
 		bool found = false;
 		long long res;
-		int clear_iter,clear_PID , prev_iter=1,prev_PID = 0;
-
-		
-
-		while (!found) {
-			if (Table.empty()) break;
+		long long int clear_iter, prev_iter = 0;
+		while (true) {
 			curP = Table.top();
 			clear_iter = curP.ExecTime;
-			clear_PID = curP.PID;
-			
-			curTime += (clear_iter - prev_iter) * len + (clear_PID - prev_PID);
-			//cout << "iter: " << clear_iter << ", PID: " << clear_PID << ", curtime: "<<curTime<<"\n";
 
-			
-			if (curTime>= k) { //아무 프로세스도 끝나지 않았을 때
-				int idx = (prev_PID + (clear_iter - prev_PID) * len + (getSerial(clear_PID) - getSerial(prev_PID))) % len;
-				//cout << "idx = " << idx <<", len: "<<run.size()<<"\n";
-				res = run[idx];
-				found = true;
-			}
-			else {
-				Table.pop();
-				
-				run.erase(run.begin()+getSerial(clear_PID));
-				len--;
-				if (Table.empty()) { break; }
-				prev_PID = (clear_PID)%len;
-				prev_iter = clear_iter;
-			}
-			
+			if (curTime + (clear_iter - prev_iter) * len > k)
+				break;
+			else curTime += (clear_iter - prev_iter) * len;
+			Table.pop();
+			len--;
+
+			prev_iter = clear_iter;
+
+		}
+		vector<int>remain;
+		while (!Table.empty()) {
+			curP = Table.top();
+			Table.pop();
+			remain.push_back(curP.PID);
 
 		}
 
-		if (found) {
-			return res;
-		}
-		else {
-			return -1;
-		}
+		sort(remain.begin(), remain.end());
+		//cout<< remain.size()<<"\n";
+		res = remain[(k - curTime) % remain.size()];
+		return res;
+
 	}
 	void getTimes_io() {
 		int n,  timeInput;
-		long long k;
+		long long k,sum = 0;
 		cin >> n >> k;
 		len = n;
 		totallen = n;
@@ -108,16 +96,20 @@ public:
 			cin >> timeInput;
 			pInput.PID = i;
 			pInput.ExecTime = timeInput;
+			sum += timeInput;
 
 			Table.push(pInput);
 			run.push_back(i);
 			remainTime.push_back(timeInput);
 		}
-
-		cout << getPID(k);
+		if (sum <= k) {
+			cout << -1;
+		}
+		else
+			cout << getPID(k);
 	}
 
-	int getTimes_vec(vector<int> food_times, long long k) {
+	long long int getTimes_vec(vector<int> food_times, long long k) {
 		len = food_times.size();
 		totallen = len;
 		for (int i = 0; i < food_times.size(); i++) {
@@ -134,9 +126,10 @@ public:
 		return getPID(k);
 	}
 
-	int setTime(long long int time) {
+	int setTime(long long int time,int PID) {
 		for (auto elem: run) {
 			remainTime[elem] -= time;
+			if (elem < PID) remainTime[elem]++;
 		}
 	}
 
