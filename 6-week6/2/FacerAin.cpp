@@ -1,29 +1,25 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
+#include <set>
 using namespace std;
-vector<int> v;
+set<int> s;
 int main(){
-	int a, b;
+	int a,b;
 	int num;
+	int ans;
 	cin >> a >> b;
-	for(int i = 0; i < a+b; i++){
+	for(int i = 0; i < a; i++){
 		cin >> num;
-		v.push_back(num);
+		s.insert(num);
 	}
-	sort(v.begin(), v.end());
-	int result = 0;
-	for(int i = 0; i < v.size() - 1; i++){
-		if(v[i] == v[i+1]){
-			i++;
+	ans = s.size();
+	for(int i = 0; i < b; i++){
+		cin >> num;
+		if(s.count(num) == 0){
+			ans++;
 		}else{
-			result++;
+			ans--;
 		}
 	}
-	
-	cout << result + 1;
+	cout << ans;
 	return 0;
 }
-
-//1 2 3 4 5 6 7 8
-//1 2 3 4 5 6 7 8 8
