@@ -12,6 +12,7 @@ for y in [0, n+1]:
     for x in range(1, m+1):
         board[x, y] = float('inf')
 
+#DFS
 stack = [[(1, 1)]]
 while stack:
     route = stack.pop()
