@@ -13,10 +13,6 @@ def solve():
     cur = root
     # 커서왼쪽이 현재
     for value in values:
-        if cur.left != None:
-            print(cur.left.value, value)
-        else:
-            print(None, value)
         if value == "<":
             if cur.left == None:
                 continue
