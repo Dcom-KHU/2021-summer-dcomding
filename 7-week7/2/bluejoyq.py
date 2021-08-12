@@ -9,28 +9,32 @@ def solve():
     values = input()
     
     # data, left, right
-    root = Node(None)
-    cur = root
+    start = Node(None)
+    end = Node(None)
+    start.right = end
+    end.left = start
+    
+    cur = start
     # 커서왼쪽이 현재
     for value in values:
         if value == "<":
-            if cur.left == None:
+            if cur == start:
                 continue
             cur = cur.left
         elif value == ">":
-            if cur.right == None:
+            if cur == end:
                 continue
             cur = cur.right
         elif value == "-":
-            if cur.value == None:
+            if cur == start:
                 continue
-            if cur.left != None:
-                cur.left.right = cur.right
+            cur.left.right = cur.right
             if cur.right != None:
                 cur.right.left = cur.left
             tmp = cur
             cur = cur.left
-            del tmp
+            if tmp != end:
+                del tmp
 
         else:
             node = Node(value)
@@ -40,8 +44,8 @@ def solve():
             cur = node
     result = ""
     try:
-        cur = root.right
-        while cur.value != None:
+        cur = start.right
+        while cur != end:
             result += cur.value
             cur = cur.right
     except:
