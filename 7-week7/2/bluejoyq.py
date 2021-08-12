@@ -22,7 +22,7 @@ def solve():
                 continue
             cur = cur.left
         elif value == ">":
-            if cur == end:
+            if cur == end.left:
                 continue
             cur = cur.right
         elif value == "-":
@@ -33,13 +33,13 @@ def solve():
                 cur.right.left = cur.left
             tmp = cur
             cur = cur.left
-            if tmp != end:
-                del tmp
+            del tmp
 
         else:
             node = Node(value)
             node.left = cur
             node.right = cur.right
+            cur.right.left = node
             cur.right = node
             cur = node
     result = ""
