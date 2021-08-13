@@ -30,12 +30,10 @@ int main()
 	int n;
 	string input;
 	char c;
-	
-	cin >> n;
-	for (int i = 0; i < n; i++) {
-		cin >> input;
-		for (int cur = 0; cur < input.size();cur++) {
-			switch (input[cur]) {
+
+	cin >> input;
+	for (int cur = 0; cur < input.size();cur++) {
+		switch (input[cur]) {
 			case '-':
 				if (!front.empty()) {
 					front.pop();
@@ -64,6 +62,6 @@ int main()
 
 		printString(&front, &back);
 
-	}
+	
 
 }
