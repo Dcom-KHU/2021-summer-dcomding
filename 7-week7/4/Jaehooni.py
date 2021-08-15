@@ -44,7 +44,10 @@ def solve(start, end, index):
             solve(start, end, index + 1)
 
         else:
-            if (matches[start][ne]):
+            if (matches[start][ne] == 1):
+                pass
+
+            elif (matches[start][ne] > 1):
                 matches[start][ne] = min(matches[start][ne], matches[start][end] + 1)
 
             else:
