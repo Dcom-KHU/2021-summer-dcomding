@@ -9,10 +9,13 @@ base = 0
 
 # check from last block
 while blocks and base-m < center < base+m:
-    sum += base
+    sum += blocks.pop()
     count += 1
     center = sum / count
-    base = blocks.pop()
+    try:
+        base = blocks[-1]
+    except:
+        break
 
 
 if count == n:
