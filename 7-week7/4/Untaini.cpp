@@ -53,7 +53,7 @@ int main(){
 		Trie* trie = &root; cur=len;
 		
 		//만약 트라이에 str[cur]에 해당하는 알파벳이 있다면 반복문 시작
-		while(trie->abt[str[cur]-'a']){
+		while(str[cur] && trie->abt[str[cur]-'a']){
 			trie = trie->abt[str[cur++]-'a'];
 			
 			//단어가 끝났다면 DP값을 갱신함
