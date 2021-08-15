@@ -54,7 +54,7 @@ int main(){
 		trie = &root, cur=len;
 		
 		//문자열이 끝나지 않았고 트라이에 str[cur]에 해당하는 알파벳이 없을 때까지 반복
-		while(str[cur] && trie = trie->abt[str[cur++]-'a']){
+		while(str[cur] && (trie = trie->abt[str[cur++]-'a'])){
 			
 			//단어가 끝났다면 DP값을 갱신함
 			if(trie->isEnd) wordDp[cur] = min(wordDp[cur], wordDp[len]+1);
