@@ -8,8 +8,8 @@
 using namespace std;
 
 int cost[300001][2];
-
 int is_searched[300001][2];
+
 vector<int> sales;
 vector<vector<int>> links;
 vector<vector<int>> teams(300001,vector<int>(0));
@@ -94,8 +94,9 @@ int main() {
 					result += cost[teams[leader][i]][1];
 					found = 1;
 				}
-				else if (!found && next_ede <= next_ide) {
-					if (next_ide - next_ede < min_cost) {
+				else if (next_ede <= next_ide) {
+					result += cost[teams[leader][i]][0];
+					if (next_ide - next_ede < min_cost && !found) {
 						min_cost = next_ide - next_ede;
 						min_node = teams[leader][i];
 					}
@@ -103,12 +104,8 @@ int main() {
 			}
 			if (!found && min_node != -1) {
 				for (int i = 0; i < teams[leader].size();i++) {
-					if (teams[leader][i] == min_node) {
-						result += cost[teams[leader][i]][1];
-					}
-					else {
-						result += cost[teams[leader][i]][0];
-					}
+					result -= cost[teams[leader][i]][0];
+					result += cost[teams[leader][i]][1];
 				}
 			}
 		}
