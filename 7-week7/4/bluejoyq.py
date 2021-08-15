@@ -1,51 +1,52 @@
 import sys 
+from heapq import *
 input = sys.stdin.readline
-MAX_VAL = 120120
+
+class Trie:
+    def __init__(self):
+        self.root = {}
+
+    def add(self, word):
+        cur = self.root
+        for i in range(len(word)):
+            char = word[i]
+            try:
+                cur = cur[char]
+            except:
+                cur[char] = {}
+                cur = cur[char]
+        cur[0] = 0
+     
+    def find(self, target):
+        # 0개 골랐고, 0번째 글자부터
+        findings = []
+        heappush(findings, (0,0))
+        while findings:
+            selected, start = heappop(findings)
+            if start == len(target):
+                return selected
+
+            cur = self.root
+            try:
+                for i in range(start, len(target)):
+                    char = target[i]
+                    cur = cur[char]
+                    try:
+                        # 여기서 끝나는 애가 있으면.
+                        cur[0]
+                        heappush(findings, (selected + 1, i + 1))
+                    except:
+                        pass
+            except:
+                pass
+        return -1
+
 def solve():
     N = int(input())
     target = input().rstrip() 
-    words_by_first_char = {}
-    words = [0] * N
+    trie = Trie()
     for i in range(N):
-        tmp = input().rstrip()
-        words[i] = tmp
-        try:
-            words_by_first_char[tmp[0]].append(i)
-        except:
-            words_by_first_char[tmp[0]] = [i]
-    M = len(target)
-    
-    cache = [[MAX_VAL] * (N) for i in range(M)]
-    
-    for nxt in words_by_first_char[target[0]]:
-        cache[0][nxt] = [1,1]
-    for i in range(1, M):
-        cur_char = target[i]
-        no_home = MAX_VAL
-        for j in range(N):
-            if cache[i - 1][j] == MAX_VAL:
-                continue
-            cur_idx, score = cache[i - 1][j]
-            try:
-                if cur_char != words[j][cur_idx]:
-                    continue
-                cache[i][j] = [cur_idx + 1, score]
-            except:
-                no_home = min(no_home, score)
-        # 새로 단어를 찾아야하면.
-        if no_home != MAX_VAL:
-            for nxt in words_by_first_char[cur_char]:
-                if cache[i][nxt] == MAX_VAL or cache[i][nxt][1] > no_home + 1:
-                    cache[i][nxt] = [1,no_home + 1]
-                
-    result = MAX_VAL
-    for i in range(N):
-        lst = cache[M-1][i]
-        if lst == MAX_VAL or lst[0] != len(words[i]):
-            continue
-        result = min(result, lst[1])
+        trie.add(input().rstrip())
 
-    if result == MAX_VAL:
-        return -1
-    return result
+    return trie.find(target)
 print(solve())
