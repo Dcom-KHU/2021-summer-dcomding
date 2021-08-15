@@ -36,7 +36,6 @@ public:
 			is_leader[_leader] = 1;
 
 			Team = length;
-
 			length++;
 
 		}
