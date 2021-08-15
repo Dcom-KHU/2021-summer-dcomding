@@ -31,8 +31,10 @@ int main() {
 	vector<int> t;
 	int leader, is_attend;
 	st.push(inp);
+	st2.push(inp);
 	inp[1] = 1;
 	st.push(inp);
+	st2.push(inp);
 	while (!st.empty()) {
 		t = st.top();
 		leader = t[0];
@@ -43,9 +45,12 @@ int main() {
 			inp[0] = teams[leader][i];
 			inp[1] = 0;
 			st2.push(inp);
+			st.push(inp);
 
-			inp[1] = 0;
+			inp[1] = 1;
 			st2.push(inp);
+			st.push(inp);
+			//cout << "input " << inp[0] << "\n";
 			
 		}
 
@@ -57,6 +62,7 @@ int main() {
 		leader = t[0];
 		is_attend = t[1];
 		st2.pop();
+
 
 		int result = 0;
 		if (is_attend) {
@@ -98,6 +104,7 @@ int main() {
 			}
 		}
 
+		//cout << "leader : " << leader << " , attend : " << is_attend << " , cost : " << result << "\n";
 		cost[leader][is_attend] = result;
 	}
 	cout << Min(cost[0][0],cost[0][1]);
