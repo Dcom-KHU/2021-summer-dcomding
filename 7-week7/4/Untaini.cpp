@@ -29,13 +29,14 @@ public:
 int n, wordDp[20010], cnt, len, cur;
 char str[20010], word[6];
 Trie root;
+Trie* trie;
 
 int main(){
 	scanf("%d",&n); getchar();
 	scanf("%s", str);
 	for(cnt=0; cnt<n; ++cnt){
 		scanf("%s",word);
-		Trie* trie = &root;
+		trie = &root;
 		
 		//단어를 트라이 자료구조에 넣음
 		for(cur=0; word[cur]; ++cur)
@@ -50,11 +51,10 @@ int main(){
 		wordDp[cnt] = 1<<30;
 	
 	for(len=0; str[len]; ++len){
-		Trie* trie = &root; cur=len;
+		trie = &root, cur=len;
 		
-		//만약 트라이에 str[cur]에 해당하는 알파벳이 있다면 반복문 시작
-		while(str[cur] && trie->abt[str[cur]-'a']){
-			trie = trie->abt[str[cur++]-'a'];
+		//문자열이 끝나지 않았고 트라이에 str[cur]에 해당하는 알파벳이 없을 때까지 반복
+		while(str[cur] && trie = trie->abt[str[cur++]-'a']){
 			
 			//단어가 끝났다면 DP값을 갱신함
 			if(trie->isEnd) wordDp[cur] = min(wordDp[cur], wordDp[len]+1);
