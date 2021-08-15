@@ -6,102 +6,14 @@
 
 using namespace std;
 
-int is_leader[300001];
-int memory_cost[300001];
+int cost[300001][2];
 vector<int> sales;
 vector<vector<int>> links;
+vector<vector<int>> teams(300001,vector<int>(0));
 const int INF = 2147483647;
 
-struct team {
-	int leader;
-	int leaders_cost;
-	vector<pair<int,int>> members;
-};
-class teams {
-private:
-	vector<team> info;
-	map<int, int> leaders;
-	int length;
-public:
-	void insert(int _leader, int member, int leaderCost,int memberCost) {
-		int Team = getTeamByLeader(_leader);
-		if (Team == -1) {
-			leaders.insert(make_pair(_leader, length));
-
-			team NewTeam;
-			NewTeam.leader = _leader;
-			NewTeam.leaders_cost = leaderCost;
-			info.push_back(NewTeam);
-
-			is_leader[_leader] = 1;
-
-			Team = length;
-			length++;
-
-		}
-		info[Team].members.push_back(make_pair(memberCost,member));
-	}
-	teams() {
-		length = 0;
-	}
-	teams(vector<vector<int>>  _links, vector<int> sales) {
-		length = 0;
-		for (auto item : _links) {
-			this->insert(item[0], item[1], sales[item[0]], sales[item[1]]);
-		}
-		for (int i = 0; i < info.size();i++) {
-			sort(info[i].members.begin(), info[i].members.end());
-		}
-	}
-	int getTeamByLeader(int leader){
-		if (leaders.find(leader) != leaders.end()) {
-			return leaders[leader];
-		}
-		return -1;
-	}
-	int getNumberOfTeam() {
-		return length;
-	}
-
-	int getMinCostWithoutLeader(int _team) {
-		team curTeam = info[_team];
-		pair<int, int>mem = curTeam.members[0];
-		int res = 0;
-		bool find=0;
-		for (auto item : curTeam.members) {
-			if (!is_leader[item.second]) {
-				res = item.second;
-				find = 1;
-				break;
-			}
-		}
-
-		if (!find) return -1;
-		else return res;
-	}
-
-	team getTeamInfo(int tn) {
-		return info[tn];
-	}
-	
-	void print() {
-		for (auto item : info) {
-			cout << "leader : " << item.leader << ", members: ";
-			for (int i = 0; i < item.members.size();i++) {
-				cout << item.members[i].second << "("<<item.members[i].first<<")";
-			}
-		}
-		cout << "\n";
-	}
-	
-
-};
-
-
-teams T;
-
+int getCost(int leader, int is_attend);
 int setInfo();
-int getCost(vector<int> res, int curTeam);
 int Min(int a, int b);
 int main() {
 	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
@@ -109,12 +21,11 @@ int main() {
 	int n = setInfo();
 	//T.print();
 
-	vector<int> v(n);
-	for (int i = 0; i < n; i++) {
-		v[i] = -1;
+	for (int i = 0; i < 300001;i++) {
+		cost[i][1] = -1;
+		cost[i][0] = -1;
 	}
-	
-	int res = getCost(v, 0);
+	int res = Min(getCost(0, 0),getCost(0,1));
 	cout << res;
 
 
@@ -136,60 +47,61 @@ int setInfo() {
 	for (int i = 0; i < n - 1; i++) {
 		cin >> inputvec[0] >> inputvec[1];
 		links.push_back(inputvec);
+		teams[inputvec[0]].push_back(inputvec[1]);
 	}
 
-	T = teams(links,sales);
-	return T.getNumberOfTeam();
+	return 0;
 }
 
-int getCost(vector<int> res, int curTeam) {
-	int result = INF;
-	
-	/*
-	int sum = 0;
-	for (int i = 0; i < res.size();i++) {
-		cout << res[i] << " ";
-		if(res[i] != -1)
-			sum += sales[res[i]];
+int getCost(int leader, int is_attend){ //is_attend는 leader가 참여하는지 여부
+	//cout << "cost[" << leader << "][" << is_attend << "] 구하는중 : ";
+	int result = 0;
+	int cur_result;
+	if (cost[leader][is_attend] != -1) {
+		return cost[leader][is_attend];
 	}
-	cout <<"sum : "<<sum<<", curteam : "<<curTeam<< "\n";
-	*/
-	
-	if (curTeam == T.getNumberOfTeam()) {
-		return 0;
+	if (is_attend) {
+		for (int i = 0; i < teams[leader].size();i++) {
+			result += Min(getCost(teams[leader][i], 0), getCost(teams[leader][i], 1));
+		}
+		result += sales[leader];
 	}
-	int MinWithoutLeader = T.getMinCostWithoutLeader(curTeam);
-	int TeamOfLeader;
-	team Team = T.getTeamInfo(curTeam);
-	
+	else if (!is_attend) {
+		int next_ide;
+		int next_ede;
+		int min_cost=INF;
+		int min_node = -1;
+		bool found = false;
 
-	for (int i = 0; i < Team.members.size();i++) {
-		vector<int> newres = res;
-		if (find(newres.begin(), newres.end(), Team.members[i].second) != newres.end()) {
-			result = Min(getCost(newres, curTeam + 1), result);
+		for (int i = 0; i < teams[leader].size();i++) {
+			next_ide = getCost(teams[leader][i], 1);
+			next_ede = getCost(teams[leader][i], 0);
+			if (next_ide < next_ede) {
+				result += getCost(teams[leader][i],1);
+				found = 1;
+			}
+			else if (!found && next_ede <= next_ide) {
+				if (next_ide-next_ede < min_cost) {
+					min_cost = next_ide-next_ede;
+					min_node = teams[leader][i];
+				}
+			}
 		}
-		
-		if (is_leader[Team.members[i].second]) {
-			//TeamOfLeader = T.getTeamByLeader(Team.members[i].second);
-			//newres[TeamOfLeader] = Team.members[i].second;
-			newres[curTeam] = Team.members[i].second;			
-			result = Min(getCost(newres, curTeam + 1) + Team.members[i].first, result);	
-			//newres[TeamOfLeader] = -1;
-			newres[curTeam] = -1;
-		}
+		if (!found&& min_node != -1) {
+			for (int i = 0; i < teams[leader].size();i++) {
+				if (teams[leader][i] == min_node) {
+					result += getCost(teams[leader][i], 1);
+				}
+				else {
+					result += getCost(teams[leader][i], 0);
+				}
+			}
+		}	
+	}
 
-		if (Team.members[i].second == MinWithoutLeader) {
-			newres[curTeam] = Team.members[i].second;
-			result = Min(getCost(newres, curTeam + 1) + Team.members[i].first, result);
-			newres[curTeam] = -1;
-		}
-	}
+
+	cost[leader][is_attend] = result;
 	
-	vector<int> newres = res;
-	if (find(res.begin(), res.end(), Team.leader) == res.end()) {
-		newres[curTeam] = Team.leader;
-		result = Min(getCost(newres, curTeam + 1) + Team.leaders_cost, result);
-		newres[curTeam] = -1;
-	}
+	//cout << "cost["<<leader<<"]["<<is_attend<<"] result : " << result << "\n";
 	return result;
 }
