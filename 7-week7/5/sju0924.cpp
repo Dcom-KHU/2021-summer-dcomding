@@ -103,10 +103,9 @@ int main() {
 				}
 			}
 			if (!found && min_node != -1) {
-				for (int i = 0; i < teams[leader].size();i++) {
-					result -= cost[teams[leader][i]][0];
-					result += cost[teams[leader][i]][1];
-				}
+				result -= cost[min_node][0];
+				result += cost[min_node][1];
+				
 			}
 		}
 
