@@ -8,6 +8,8 @@
 using namespace std;
 
 int cost[300001][2];
+
+int is_searched[300001][2];
 vector<int> sales;
 vector<vector<int>> links;
 vector<vector<int>> teams(300001,vector<int>(0));
@@ -44,12 +46,19 @@ int main() {
 		for (int i = 0; i < teams[leader].size();i++) {
 			inp[0] = teams[leader][i];
 			inp[1] = 0;
-			st2.push(inp);
-			st.push(inp);
+			if (!is_searched[inp[0]][0]) {
+				st2.push(inp);
+				st.push(inp);
+				is_searched[inp[0]][inp[1]] = 1;
+			}
 
 			inp[1] = 1;
-			st2.push(inp);
-			st.push(inp);
+			if (!is_searched[inp[0]][1]) {
+				st2.push(inp);
+				st.push(inp);
+				is_searched[inp[0]][inp[1]] = 1;
+			}
+
 			//cout << "input " << inp[0] << "\n";
 			
 		}
