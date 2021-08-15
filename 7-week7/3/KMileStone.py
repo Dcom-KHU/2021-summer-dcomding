@@ -2,55 +2,45 @@ n = int(input())
 cookies = list(map(int, input().split()))
 
 
-a = 0
-b = 0
-c = 1
-brother = cookies[a]
-sister = cookies[c]
 max_cookie = 0
 
-while c < n:
-    # if brother == sister, update max and c++
-    if brother == sister:
-        max_cookie = brother
-        c += 1
-        if c < n:
-            sister += cookies[c]
-        else:
-            break
+# if n == 1, you cannot distribute cookie
+if n > 1:
+    for b in range(n-1):
+        a = b
+        c = b+1
+        brother = cookies[a]
+        sister = cookies[c]
 
-    # if brother > sister, a++
-    elif brother > sister:
-        brother -= cookies[a]
-        a += 1
+        while c < n:
+            # if brother == sister, update max and a-- c++
+            if brother == sister:
+                if brother > max_cookie:
+                    max_cookie = brother
 
-        # if a > b, shift b together
-        if a > b:
-            b += 1
-            brother += cookies[b]
-            sister -= cookies[b]
-
-            # if b == c, shift c together
-            if b == c:
-                c += 1
-                if c < n:
+                if a > 0 and c < n-1:
+                    a -= 1
+                    brother += cookies[a]
+                    c += 1
                     sister += cookies[c]
                 else:
                     break
 
-    # if brother < sister, b++
-    elif brother < sister:
-        b += 1
-        brother += cookies[b]
-        sister -= cookies[b]
+            # if brother > sister, c++
+            elif brother > sister:
+                if c < n-1:
+                    c += 1
+                    sister += cookies[c]
+                else:
+                    break
 
-        # if b == c, shift c together
-        if b == c:
-            c += 1
-            if c < n:
-                sister += cookies[c]
-            else:
-                break
+            # if brother < sister, a--
+            elif brother < sister:
+                if a > 0:
+                    a -= 1
+                    brother += cookies[a]
+                else:
+                    break
 
 
 print(max_cookie)
