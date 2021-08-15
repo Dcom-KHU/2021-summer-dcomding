@@ -12,7 +12,7 @@ def solution():
             nodes[a].append(b)
         except:
             nodes[a] = [b]
-    cache = [0 for i in range(N)]
+    cache = [0 for i in range(N )]
     def recur_find_min(cur, selected):
         try:
             
@@ -26,16 +26,14 @@ def solution():
                 result += values[cur]
             else:
                 tmp = 0
-                result = 0
+                result = MAX
                 for nxt in nodes[cur]:
                     if not cache[nxt]:
                         cache[nxt] = recur_find_min(nxt, 0) 
                     tmp += cache[nxt]
                 for nxt in nodes[cur]:
-                    if nodes.get(nxt) == None:
-                        result += min(values[nxt], values[cur])
-                    else:
-                        result +=tmp - cache[nxt] + recur_find_min(nxt, 1)
+                    result = min(result, tmp - cache[nxt] + recur_find_min(nxt, 1))
+                result = min(result, tmp + values[cur])
             return result 
         except:
             if selected == 1:
