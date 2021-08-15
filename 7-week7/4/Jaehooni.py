@@ -57,7 +57,8 @@ def solve(start, end, index):
             solve(start, ne, index + 1)
 
 
-solve(-1, -1, 0)
+if (word_tuple[0][0] == 0):
+    solve(-1, -1, 0)
 
 #print(word_tuple)
 print(matches[0][str_len-1] if matches[0][str_len-1] else -1)
