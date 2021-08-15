@@ -1,10 +1,12 @@
-left, right = list(), list()
+from collections import deque
+
+left, right = deque(), deque() #stack
 for key in input():
     try:
         if key == '<':
-            right.append(left.pop())
+            right.appendleft(left.pop())
         elif key == '>':
-            left.append(right.pop())
+            left.append(right.popleft())
         elif key == '-':
             left.pop()
         else:
