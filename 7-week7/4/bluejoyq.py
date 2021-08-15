@@ -1,7 +1,6 @@
 import sys 
-from heapq import *
 input = sys.stdin.readline
-
+MAX = sys.maxsize
 class Trie:
     def __init__(self):
         self.root = {}
@@ -18,28 +17,29 @@ class Trie:
         cur[0] = 0
      
     def find(self, target):
-        # 0개 골랐고, 0번째 글자부터
-        findings = []
-        heappush(findings, (0,0))
-        while findings:
-            selected, start = heappop(findings)
-            if start == len(target):
-                return selected
+        T =  len(target)
+        cache = [MAX] * (T + 1)
+        cache[0] = 0
 
+        for i in range(T):
+            if cache[i] == MAX:
+                continue
             cur = self.root
-            try:
-                for i in range(start, len(target)):
-                    char = target[i]
+            for j in range(i, T):
+                char = target[j]
+                try:
                     cur = cur[char]
-                    try:
-                        # 여기서 끝나는 애가 있으면.
-                        cur[0]
-                        heappush(findings, (selected + 1, i + 1))
-                    except:
-                        pass
-            except:
-                pass
-        return -1
+                except:
+                    break
+                try:
+                    # 여기서 끝나는 애가 있으면.
+                    tmp = cur[0]
+                    cache[j + 1] = min(cache[j + 1], cache[i] + 1)
+                except:
+                    continue
+        if cache[-1] == MAX:
+            return -1
+        return cache[-1]
 
 def solve():
     N = int(input())
