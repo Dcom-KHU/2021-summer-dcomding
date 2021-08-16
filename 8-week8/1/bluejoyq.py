@@ -27,7 +27,7 @@ def solve(word ):
     return 0
 word = input()
 print(solve(word))
-
+'''
 assert(solve("abba") == 0)
 assert(solve("summuus") == 1)
 assert(solve("xabba") == 1)
@@ -35,7 +35,7 @@ assert(solve("xabbay") == 2)
 assert(solve("comcom") == 2)
 assert(solve("comwwmoc") == 0)
 assert(solve("comwwtmoc") == 1)
-
+'''
 
 
  
