@@ -1,6 +1,6 @@
 #include <cstdio>
 
-int paperCnt[6], paper[10][10], usedPaper[10][10], res;
+int paper[10][10], usedPaper[10][10], res;
 bool allCanPost=true;
 int main() {
 	for(int nCnt=0;nCnt<10;++nCnt)
@@ -9,6 +9,8 @@ int main() {
 	
 	
 	for(int paperSize=5; paperSize>0; --paperSize){
+		int paperCnt=0;
+		
 		for(int nCnt=0;nCnt<10;++nCnt)
 			for(int mCnt=0;mCnt<10;++mCnt)
 				if(paper[nCnt][mCnt]){
@@ -21,14 +23,14 @@ int main() {
 							canPost &= paper[iCnt][jCnt] && !usedPaper[iCnt][jCnt];
 					
 					if(canPost){
-						++res, ++paperCnt[paperSize];
+						++res, ++paperCnt;
 						for(int iCnt=nCnt; iCnt<nCnt+paperSize; ++iCnt)
 							for(int jCnt=mCnt; jCnt<mCnt+paperSize; ++jCnt)
 								++usedPaper[iCnt][jCnt];
 					}
 				}
 		
-		allCanPost = paperCnt[paperSize]<=5;
+		allCanPost &= paperCnt<=5;
 	}
 	printf("%d",allCanPost?res:-1);
 	return 0;
