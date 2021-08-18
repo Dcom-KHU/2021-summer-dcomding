@@ -11,7 +11,7 @@ def check(s, diff_cnt):
                            check(s[:len(s)-i-1] + s[len(s)-i:], diff_cnt + 1))
         return diff_cnt
 
-for _ in range(int(input())):
-    s = input().strip()
-    print(check(s, 0))
+# for _ in range(int(input())):
+s = input().strip()
+print(check(s, 0))
 
