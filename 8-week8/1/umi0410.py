@@ -13,7 +13,7 @@ else:
         has_diff = False
         # 하나라도 다른지 체크
         for j in range(len(_s)//2):
-            print(_s[j], _s[-j - 1])
+            # print(_s[j], _s[-j - 1])
             if _s[j] != _s[-j - 1]:
                 has_diff = True
                 break
