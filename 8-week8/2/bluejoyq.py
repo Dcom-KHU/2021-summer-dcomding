@@ -31,6 +31,12 @@ def solve(datas = None):
         except:
             return 0
         '''
+    def check_range(r,c):
+        for i in range(4):
+            if check(r,c,i):
+                continue
+            return i - 1
+
     def toggle(r,c,i):
         for plus in range(i):
             visited[r + plus][c + i] = 1 - visited[r + plus][c + i]
@@ -80,15 +86,21 @@ def solve(datas = None):
                 return do_something(r,c)
         return sum(used)
 
-    # dfs로 가지치기를 해야함.   
+    # dfs로 가지치기를 해야함. 더크면 바로 중단하게 
     # 쭉 돌면서 1인 곳을 메모부터 할까? 
     # 그리고 가능한 range도 ㅋㅋ
     # 오 이거 아이디어 좋은듯.  
-    findings = []
+    selects = []
     for r in range(N):
         for c in range(N):
             if not paper[r][c]:
                 continue
+            idx = check_range(r,c)
+            selects.append(([r,c], idx))
+    
+    for select in selects:
+
+
 
     print("##############",real_result)
     if real_result == MAX:
