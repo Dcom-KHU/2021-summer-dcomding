@@ -1,6 +1,7 @@
 from heapq import heappop, heappush
 import sys
 input = sys.stdin.readline
+MAX = sys.maxsize
 def solution():
     def sperate_input():
         return map(int,input().split())
@@ -8,10 +9,11 @@ def solution():
     traps = list(sperate_input())
     for i in range(k):
         traps[i] -= 1
-    roads = [[0] * n for i in range(n)]
+    roads = [[MAX] * n for i in range(n)]
     for i in range(m):
         p,q,t = sperate_input()
-        roads[p - 1][q - 1] = t
+        roads[p - 1][q - 1] = min(t, roads[p - 1][q - 1] )
+
     start -= 1
     end -= 1
     
@@ -53,7 +55,7 @@ def solution():
         cur_road = roads_by_trap[bit_idx][cur_pos]
         for nxt_pos in range(n):
             cost = cur_road[nxt_pos]
-            if not cost:
+            if cost == MAX:
                 continue
             
             if nxt_pos in traps:
