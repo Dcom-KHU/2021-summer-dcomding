@@ -21,7 +21,7 @@ int search(int front, int rear, int value) {
 	if (word[front] == word[rear]) {
 		res = Min(search(front + 1, rear - 1,value), res);
 	}
-	if (!value) {
+	if (!value && res) {
 		res = Min(search(front + 1, rear, 1), res);
 		res = Min(search(front, rear - 1, 1), res);
 	}
