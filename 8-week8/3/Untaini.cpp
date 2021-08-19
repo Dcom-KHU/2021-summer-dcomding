@@ -56,10 +56,6 @@ int main() {
 			else{
 				if(traps[nextNode%1000])
 					roads[nextNode].push_back(make_pair(node+1000,roadWeight));
-				
-				else if(node<1000 && dp[nextNode]!=1e9)
-					pq.push(make_pair(weight-roadWeight,nextNode+1000));
-				
 				pq.push(make_pair(weight-roadWeight,nextNode));
 			}
 		}
