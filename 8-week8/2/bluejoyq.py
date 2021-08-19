@@ -30,20 +30,19 @@ def solve(datas = None):
         return 1  
 
     def check_range(r,c):
-        for i in range(4):
+        for i in range(5):
             if check(r,c,i):
                 continue
             return i - 1
-
+        return i
     def toggle(r,c,i):
+        a = 1
         for plus in range(i):
             visited[r + plus][c + i] = 1 - visited[r + plus][c + i]
             visited[r + i][c + plus] = 1 - visited[r + i][c + plus]
         
         visited[r + i ][c + i] = 1 - visited[r + i ][c + i]
-
-
-    
+        pass
     # bfs로 해야하나? -> 아냐 그러면 최소 100 * 100이 수두룩
     # dfs로 가지치기를 해야함. 더크면 바로 중단하게 
     # 쭉 돌면서 1인 곳을 메모부터 할까? 
@@ -59,8 +58,13 @@ def solve(datas = None):
             selects.append(([r,c], possible))
 
     goal = len(selects)
-    # 인자 하나 더주고 가지치기 하는게 더 나음
+
     def recur_find_best(idx):
+        #print("=============",idx)
+        #for v in visited:
+        #    print(*v)
+        #print(*used)
+        #print("=============")
         global best_result
         if idx == goal:
             best_result = min(best_result, sum(used))
@@ -72,13 +76,19 @@ def solve(datas = None):
 
         if visited[r][c]:
             recur_find_best(idx + 1)
-        
-        for tmp in range(possible):
-            toggle(r,c,tmp)
+            return 
+        # 해당하는 범위를 visit 처리하고
         for p in range(possible, -1, -1):
-            if used[p] == 4:
+            toggle(r,c,p)
+        
+        # 재귀를 보낸 후 빠지는 범위만큼만 visit 해제한다.
+        for p in range(possible, -1, -1):
+            if used[p] == 5:
+                toggle(r,c,p)
                 continue
-            recur_find_best(idx)
+            used[p] += 1
+            recur_find_best(idx + 1)
+            used[p] -= 1
             toggle(r,c,p)
 
     recur_find_best(0)
