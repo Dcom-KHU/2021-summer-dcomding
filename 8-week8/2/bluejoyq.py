@@ -66,17 +66,12 @@ def solve(datas = None):
     for plus in range(10):
         for tmp in range(plus):
             if paper[tmp][plus]:
-                possible = check_range(tmp,plus)
-                # 위치, 가능한 사각형 범위 0~4
-                selects.append(([tmp,plus], possible))
+                selects.append(([tmp,plus]))
             if paper[plus][tmp]:
-                possible = check_range(plus,tmp)
-                # 위치, 가능한 사각형 범위 0~4
-                selects.append(([plus,tmp], possible))
+                selects.append(([plus,tmp]))
         if paper[plus][plus]:
-            possible = check_range(plus,plus)
-            # 위치, 가능한 사각형 범위 0~4
-            selects.append(([plus,plus], possible))
+
+            selects.append(([plus,plus]))
             
 
     goal = len(selects)
@@ -94,12 +89,15 @@ def solve(datas = None):
         elif sum(used) > best_result:
             return
 
-        [r,c], possible = selects[idx]
+        [r,c] = selects[idx]
 
         if visited[r][c]:
             recur_find_best(idx + 1)
             return 
         # 해당하는 범위를 visit 처리하고
+
+        possible = check_range(r,c)
+
         for p in range(possible, -1, -1):
             toggle(r,c,p)
         
@@ -117,11 +115,11 @@ def solve(datas = None):
         
 
 
-    print("##############",best_result)
+    #print("##############",best_result)
     if best_result == MAX:
         return -1
     return best_result
-#print(solve())
+print(solve())
 
 # assert(solve('''0 0 0 0 0 0 0 0 0 0
 # 0 0 0 0 0 0 0 0 0 0
