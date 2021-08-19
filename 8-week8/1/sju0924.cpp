@@ -29,7 +29,7 @@ int search(int front, int rear, int value) {
 	return res;
 }
 int main() {
-
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 	cin >> word;
 
 	cout << search(0, word.size() - 1, 0) <<"\n";
