@@ -7,21 +7,21 @@ def solution():
         return map(int,input().split())
     n,m,k,start,end = sperate_input()
     traps = list(sperate_input())
+    trap_checker = [-1] * (n + 1)
     for i in range(k):
-        traps[i] -= 1
-    roads = [[MAX] * n for i in range(n)]
+        trap_checker[traps[i]] = i
+
+    roads = [[MAX] * (n + 1) for i in range(n + 1)]
     for i in range(m):
         p,q,t = sperate_input()
-        roads[p - 1][q - 1] = min(t, roads[p - 1][q - 1] )
+        roads[p][q] = min(t, roads[p][q] )
 
-    start -= 1
-    end -= 1
     
 
     def exchange(target, idx):
         # 함정방을 위한 교환
         tmp = target[idx][:]
-        for i in range(n):
+        for i in range(n + 1):
             target[idx][i] = target[i][idx]
             target[i][idx] = tmp[i]
     # 함정방의 최대 개수가 10개이므로 비트마스크를 써야함.
@@ -39,7 +39,7 @@ def solution():
                 continue
             idx = traps[j]
             exchange(roads_by_trap[i], idx)
-    visited = [[0] * n for i in range(bit_max)]
+    visited = [[0] * (n + 1) for i in range(bit_max)]
     findings = []
     # cost, cur_pos, bit_idx
     heappush(findings, (0, start, 0))
@@ -53,13 +53,13 @@ def solution():
             return cur_cost
         visited[bit_idx][cur_pos] = 1
         cur_road = roads_by_trap[bit_idx][cur_pos]
-        for nxt_pos in range(n):
+        for nxt_pos in range(1, n + 1):
             cost = cur_road[nxt_pos]
             if cost == MAX:
                 continue
             
-            if nxt_pos in traps:
-                new_bit_idx = bit_idx ^ (1 << traps.index(nxt_pos))
+            if trap_checker[nxt_pos] != -1:
+                new_bit_idx = bit_idx ^ (1 << trap_checker[nxt_pos])
                 if visited[new_bit_idx][nxt_pos]:
                     continue
                 heappush(findings, (cur_cost + cost, nxt_pos, new_bit_idx))
