@@ -1,4 +1,6 @@
 from heapq import heappop, heappush
+import sys
+input = sys.stdin.readline
 def solution():
     def sperate_input():
         return map(int,input().split())
@@ -35,17 +37,19 @@ def solution():
                 continue
             idx = traps[j]
             exchange(roads_by_trap[i], idx)
-
+    visited = [[0] * n for i in range(bit_max)]
     findings = []
     # cost, cur_pos, bit_idx
     heappush(findings, (0, start, 0))
 
     while findings:
         cur_cost, cur_pos, bit_idx = heappop(findings)
+        if visited[bit_idx][cur_pos]:
+            continue
         # 종결 조건
         if cur_pos == end:
             return cur_cost
-
+        visited[bit_idx][cur_pos] = 1
         cur_road = roads_by_trap[bit_idx][cur_pos]
         for nxt_pos in range(n):
             cost = cur_road[nxt_pos]
@@ -54,8 +58,12 @@ def solution():
             
             if nxt_pos in traps:
                 new_bit_idx = bit_idx ^ (1 << traps.index(nxt_pos))
+                if visited[new_bit_idx][nxt_pos]:
+                    continue
                 heappush(findings, (cur_cost + cost, nxt_pos, new_bit_idx))
             else:
+                if visited[bit_idx][nxt_pos]:
+                    continue
                 heappush(findings, (cur_cost + cost, nxt_pos, bit_idx))
     
 print(solution())
