@@ -12,6 +12,8 @@ vector<vector<pii>> roads(2000, vector<pii>());
 priority_queue<pii> pq; //<-weight, node>
 
 bool tracking(int st, int ed, int we){
+    //printf("t. %d %d\n", st+1, ed+1);
+
     if(dp[st] < we) return false;
     else if(st == ed) return true;
 
@@ -42,6 +44,8 @@ int main() {
 	함정O -> 함정X
 	L1 -> R0
 	R0 -> L1 추가
+	R1 -> L1 추가
+	L1 -> R1 추가
 
 	함정X -> 함정O
 	L0 -> R0
@@ -59,13 +63,15 @@ int main() {
         int x,y,w; scanf("%d%d%d",&x,&y,&w); --x,--y;
         if(traps[x]){
             roads[x+1000].push_back(make_pair(y,w));
+            roads[y+1000].push_back(make_pair(x+1000,w));
             if(traps[y]){
                 roads[y].push_back(make_pair(x,w));
                 roads[x].push_back(make_pair(y+1000,w));
-                roads[y+1000].push_back(make_pair(x+1000,w));
             }
-            else
+            else{
                 roads[y].push_back(make_pair(x+1000,w));
+                roads[x+1000].push_back(make_pair(y+1000,w));
+            }
         }
         else{
             roads[x].push_back(make_pair(y,w));
@@ -92,7 +98,7 @@ int main() {
         if(dp[node]!=1e9) continue;
         dp[node] = weight;
         
-        //printf("%d %d\n", node, -weight);
+        //printf("%d %d\n", node+1, -weight);
         
         for(int cnt=0; cnt<roads[node].size(); ++cnt){
             int roadWeight = roads[node][cnt].second, nextNode = roads[node][cnt].first;
