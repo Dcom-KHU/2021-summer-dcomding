@@ -31,8 +31,8 @@ bool tracking(int st, int ed, int we){
 int main() {
     scanf("%d%d%d%d%d",&n,&m,&k,&st,&ed); --st,--ed;
     for(int cnt=0;cnt<k;++cnt){
-		       int x; scanf("%d",&x);
-		       traps[x-1]=1;
+	int x; scanf("%d",&x);
+	traps[x-1]=1;
     }
 	
 	/*
