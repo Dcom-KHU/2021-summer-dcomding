@@ -17,7 +17,5 @@ def twopointer(s,left,right):
                 return 1
             return 2
     return 0
-T = int(input()) 
-for _ in range(T): 
-    s = input() 
-    print(twopointer(s,0, len(s)-1))
+s = input() 
+print(twopointer(s,0, len(s)-1))
