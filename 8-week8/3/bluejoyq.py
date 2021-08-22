@@ -29,13 +29,9 @@ def solution():
     # cost, cur_pos, bit_idx
     heappush(findings, (0, start, 0))
 
-    def visit(bit_idx, cur_cost,cur_pos,nxt_pos, cost):
-        if cost == MAX:
-            return
+    def visit(bit_idx, cur_cost,nxt_pos, cost):
         # 다음 길이 트랩이라면
         if trap_checker[nxt_pos] != -1:
-            if bit_idx & bit_check[trap_checker[nxt_pos]] and roads[nxt_pos][cur_pos] == MAX:
-                return
             new_bit_idx = bit_idx ^ bit_check[trap_checker[nxt_pos]]
             if visited[new_bit_idx][nxt_pos]:
                 return
@@ -44,9 +40,13 @@ def solution():
             if visited[bit_idx][nxt_pos]:
                 return
             heappush(findings, (cur_cost + cost, nxt_pos, bit_idx))
+    
+    def is_reversed(bit_idx,pos):
+        if trap_checker[pos] != -1 and bit_idx & bit_check[trap_checker[pos]]:
+            return True
+        return False
     while findings:
-        #print(findings)
-        #print(findings)
+
         cur_cost, cur_pos, bit_idx = heappop(findings)
         if visited[bit_idx][cur_pos]:
             continue
@@ -54,40 +54,27 @@ def solution():
         if cur_pos == end:
             return cur_cost
         visited[bit_idx][cur_pos] = 1
-        #print(cur_pos,trap_checker[cur_pos], bit_check[trap_checker[cur_pos]], bit_idx)
+
         # 이번이 거꾸로 되있다면.
         if trap_checker[cur_pos] != -1 and bit_idx & bit_check[trap_checker[cur_pos]]:
+            # 역방향 간선들에 대해
             for nxt_pos in range(1, n + 1):
                 cost = roads[nxt_pos][cur_pos]
-                if cost == MAX:
+                if cost == MAX or is_reversed(bit_idx,nxt_pos):
                     continue
-                # 다음 길이 트랩이라면
-                if trap_checker[nxt_pos] != -1:
-                    if bit_idx & bit_check[trap_checker[nxt_pos]] and roads[nxt_pos][cur_pos] == MAX:
-                        continue
-                    new_bit_idx = bit_idx ^ bit_check[trap_checker[nxt_pos]]
-                    if visited[new_bit_idx][nxt_pos]:
-                        continue
-                    heappush(findings, (cur_cost + cost, nxt_pos, new_bit_idx))
-                else:
-                    if visited[bit_idx][nxt_pos]:
-                        continue
-                    heappush(findings, (cur_cost + cost, nxt_pos, bit_idx))
+                visit(bit_idx, cur_cost,nxt_pos, cost)
             for nxt_pos in range(1, n + 1):
                 cost = roads[cur_pos][nxt_pos]
-                if cost == MAX:
-                    continue
-                if trap_checker[nxt_pos] != -1 and bit_idx & bit_check[trap_checker[nxt_pos]]:
-                    new_bit_idx = bit_idx ^ bit_check[trap_checker[nxt_pos]]
-                    if visited[new_bit_idx][nxt_pos]:
-                        continue
-                    heappush(findings, (cur_cost + cost, nxt_pos, new_bit_idx))
-        else:
+                if cost != MAX and is_reversed(bit_idx,nxt_pos):
+                    visit(bit_idx, cur_cost,nxt_pos, cost)
+        else: # 여기가 정방향이면
             for nxt_pos in range(1, n + 1):
                 cost = roads[cur_pos][nxt_pos]
-                visit(bit_idx, cur_cost,cur_pos,nxt_pos, cost)
+                if cost == MAX or is_reversed(bit_idx,nxt_pos):
+                    continue
+                visit(bit_idx, cur_cost,nxt_pos, cost)
             for nxt_pos in range(1, n + 1):
                 cost = roads[nxt_pos][cur_pos]
-                if cost != MAX and trap_checker[nxt_pos] != -1 and bit_idx & bit_check[trap_checker[nxt_pos]]:
-                    visit(bit_idx, cur_cost,cur_pos,nxt_pos, cost)
+                if cost != MAX and is_reversed(bit_idx,nxt_pos):
+                    visit(bit_idx, cur_cost,nxt_pos, cost)
 print(solution())
