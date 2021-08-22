@@ -25,6 +25,7 @@ def solution():
 
     visited = [[0] * (n + 1) for i in range(bit_max)]
     findings = []
+
     # cost, cur_pos, bit_idx
     heappush(findings, (0, start, 0))
 
@@ -58,7 +59,29 @@ def solution():
         if trap_checker[cur_pos] != -1 and bit_idx & bit_check[trap_checker[cur_pos]]:
             for nxt_pos in range(1, n + 1):
                 cost = roads[nxt_pos][cur_pos]
-                visit(bit_idx, cur_cost,cur_pos,nxt_pos, cost)
+                if cost == MAX:
+                    continue
+                # 다음 길이 트랩이라면
+                if trap_checker[nxt_pos] != -1:
+                    if bit_idx & bit_check[trap_checker[nxt_pos]] and roads[nxt_pos][cur_pos] == MAX:
+                        continue
+                    new_bit_idx = bit_idx ^ bit_check[trap_checker[nxt_pos]]
+                    if visited[new_bit_idx][nxt_pos]:
+                        continue
+                    heappush(findings, (cur_cost + cost, nxt_pos, new_bit_idx))
+                else:
+                    if visited[bit_idx][nxt_pos]:
+                        continue
+                    heappush(findings, (cur_cost + cost, nxt_pos, bit_idx))
+            for nxt_pos in range(1, n + 1):
+                cost = roads[cur_pos][nxt_pos]
+                if cost == MAX:
+                    continue
+                if trap_checker[nxt_pos] != -1 and bit_idx & bit_check[trap_checker[nxt_pos]]:
+                    new_bit_idx = bit_idx ^ bit_check[trap_checker[nxt_pos]]
+                    if visited[new_bit_idx][nxt_pos]:
+                        continue
+                    heappush(findings, (cur_cost + cost, nxt_pos, new_bit_idx))
         else:
             for nxt_pos in range(1, n + 1):
                 cost = roads[cur_pos][nxt_pos]
