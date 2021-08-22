@@ -11,7 +11,7 @@ for i in range(m):
     roads[v].append((u, cost, 1))
 
 
-d = [[float('inf') for i in range(2 * max(len(p) for p in roads.values()) + 1)] for j in range(n+1)]
+d = [[float('inf') for i in range(4 * max(len(p) for p in roads.values()) + 1)] for j in range(n+1)]
 d[start] = [0 for i in range(len(d[0]))]
 heap = [(0, start)]
 visit = [0 for i in range(n+1)]
