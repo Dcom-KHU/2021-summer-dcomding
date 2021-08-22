@@ -62,7 +62,10 @@ def solution():
                 if cost == MAX or is_reversed(bit_idx,nxt_pos):
                     continue
                 visit(bit_idx, cur_cost,nxt_pos, cost)
-            for nxt_pos in range(1, n + 1):
+            
+            # 역방항에서 정방향 간선으로 갈 수 있는 경우는 얘네가 함정인 경우 뿐
+
+            for nxt_pos in traps:
                 cost = roads[cur_pos][nxt_pos]
                 if cost != MAX and is_reversed(bit_idx,nxt_pos):
                     visit(bit_idx, cur_cost,nxt_pos, cost)
@@ -72,7 +75,7 @@ def solution():
                 if cost == MAX or is_reversed(bit_idx,nxt_pos):
                     continue
                 visit(bit_idx, cur_cost,nxt_pos, cost)
-            for nxt_pos in range(1, n + 1):
+            for nxt_pos in traps:
                 cost = roads[nxt_pos][cur_pos]
                 if cost != MAX and is_reversed(bit_idx,nxt_pos):
                     visit(bit_idx, cur_cost,nxt_pos, cost)
