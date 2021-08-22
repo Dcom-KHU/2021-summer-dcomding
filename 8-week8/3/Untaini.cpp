@@ -6,13 +6,12 @@ using namespace std;
 
 #define pii pair<int,int>
 
-int n,m,k,st,ed,dp[2000];
+int n,m,k,st,ed,dp[3000];
 bool traps[1000];
-vector<vector<pii>> roads(2000, vector<pii>());
+vector<vector<pii>> roads(3000, vector<pii>());
 priority_queue<pii> pq; //<-weight, node>
 
 bool tracking(int st, int ed, int we){
-    //printf("t. %d %d\n", st+1, ed+1);
 
     if(dp[st] < we) return false;
     else if(st == ed) return true;
@@ -31,34 +30,35 @@ bool tracking(int st, int ed, int we){
 int main() {
     scanf("%d%d%d%d%d",&n,&m,&k,&st,&ed); --st,--ed;
     for(int cnt=0;cnt<k;++cnt){
-	int x; scanf("%d",&x);
-	traps[x-1]=1;
+		       int x; scanf("%d",&x);
+		       traps[x-1]=1;
     }
 	
-	/*
-	함정X -> 함정X
-	L0 -> R0
-	L0 -> R1 추가
-	L1 -> R1
+/*
+함정X -> 함정X
+L0 -> R0
+L0 -> R1 추가
+L1 -> R1
 
-	함정O -> 함정X
-	L1 -> R0
-	R0 -> L1 추가
-	R1 -> L1 추가
-	L1 -> R1 추가
+함정O -> 함정X
+L1 -> R0
+R0 -> L1 추가
+R1 -> L1 추가
+L1 -> R1 추가
 
 	함정X -> 함정O
-	L0 -> R0
-	R0 -> L1 추가
-	R0 -> L0
+L0 -> R0
+R0 -> L1 추가
+R0 -> L0
 
-	함정O -> 함정O
-	L1 -> R0
-	R0 -> L0
-	L0 -> R1 추가
-	R1 -> L1 추가
+함정O -> 함정O
+L1 -> R0
+R0 -> L2 추가
+L2 -> R1 추가
+R0 -> L0
+L0 -> R1 추가
+R1 -> L1 추가
 	*/
-	
     for(int cnt=0;cnt<m;++cnt){
         int x,y,w; scanf("%d%d%d",&x,&y,&w); --x,--y;
         if(traps[x]){
@@ -67,6 +67,8 @@ int main() {
             if(traps[y]){
                 roads[y].push_back(make_pair(x,w));
                 roads[x].push_back(make_pair(y+1000,w));
+                roads[y].push_back(make_pair(x+2000,w));
+                roads[x+2000].push_back(make_pair(y+1000,w));
             }
             else{
                 roads[y].push_back(make_pair(x+1000,w));
@@ -86,7 +88,7 @@ int main() {
         }
     }
 	
-    for(int cnt=0;cnt<2000;++cnt)
+    for(int cnt=0;cnt<3000;++cnt)
         dp[cnt]=1e9;
 	
     pq.push(make_pair(0,st));
@@ -98,13 +100,11 @@ int main() {
         if(dp[node]!=1e9) continue;
         dp[node] = weight;
         
-        //printf("%d %d\n", node+1, -weight);
-        
         for(int cnt=0; cnt<roads[node].size(); ++cnt){
             int roadWeight = roads[node][cnt].second, nextNode = roads[node][cnt].first;
             
             if(nextNode>=1000){
-                if(node>=1000 && !traps[node-1000] && !traps[nextNode-1000])
+                if(node>=1000 && !traps[node%1000] && !traps[nextNode%1000])
                     pq.push(make_pair(weight-roadWeight,nextNode));
                 else if(tracking(nextNode-1000,node,weight))
                     pq.push(make_pair(weight-roadWeight,nextNode));
