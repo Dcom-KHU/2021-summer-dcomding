@@ -67,7 +67,7 @@ def solution():
 
             for nxt_pos in traps:
                 cost = roads[cur_pos][nxt_pos]
-                if cost != MAX and is_reversed(bit_idx,nxt_pos):
+                if cost != MAX and bit_idx & bit_check[trap_checker[nxt_pos]]:
                     visit(bit_idx, cur_cost,nxt_pos, cost)
         else: # 여기가 정방향이면
             for nxt_pos in range(1, n + 1):
@@ -77,7 +77,7 @@ def solution():
                 visit(bit_idx, cur_cost,nxt_pos, cost)
             for nxt_pos in traps:
                 cost = roads[nxt_pos][cur_pos]
-                if cost != MAX and is_reversed(bit_idx,nxt_pos):
+                if cost != MAX and bit_idx & bit_check[trap_checker[nxt_pos]]:
                     visit(bit_idx, cur_cost,nxt_pos, cost)
     return -1
 print(solution())
