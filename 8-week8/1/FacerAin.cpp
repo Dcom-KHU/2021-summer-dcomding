@@ -21,10 +21,12 @@ int main(){
 		}else if(word[L_idx+1] == word[R_idx] && flag == 0){
 			flag++;
 			word.erase(L_idx, L_idx+1);
+			i--;
 			R_idx--;
 		}else if(word[L_idx] == word[R_idx-1] && flag == 0){
 			flag++;
 			word.erase(R_idx, R_idx+1);
+			i--;
 			R_idx--;
 		}else{
 			flag = 2;
