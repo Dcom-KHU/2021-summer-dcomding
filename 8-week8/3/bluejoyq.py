@@ -76,4 +76,5 @@ def solution():
                 cost = roads[nxt_pos][cur_pos]
                 if cost != MAX and is_reversed(bit_idx,nxt_pos):
                     visit(bit_idx, cur_cost,nxt_pos, cost)
+    return -1
 print(solution())
