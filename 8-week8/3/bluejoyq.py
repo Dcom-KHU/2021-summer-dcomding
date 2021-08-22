@@ -5,8 +5,9 @@ input = sys.stdin.readline
 def solution():
     n,m,k,start,end = map(int,input().split())
     edge = [[] for _ in range(n + 1)]
-    mask_idx = {t : n for n, t in enumerate(traps)}
     traps = tuple(map(int,input().split()))
+    mask_idx = {t : n for n, t in enumerate(traps)}
+    
 
     for i in range(m):
         a, b, d = map(int,input().split())
