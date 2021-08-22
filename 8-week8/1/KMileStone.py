@@ -20,6 +20,10 @@ while left < right:
         elif left < right-1 and word[left] == word[right-1]:
             right -= 1
 
+        # if mid of even word
+        elif right != len(word) // 2:
+            break
+
         # if different at all
         else:
             count = 2
