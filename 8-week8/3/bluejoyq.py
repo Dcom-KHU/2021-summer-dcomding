@@ -1,24 +1,23 @@
-from heapq import heappop, heappush
-import sys
 
-input = sys.stdin.readline
-MAX = sys.maxsize
 def solution():
-    def sperate_input():
-        return map(int,input().split())
-    n,m,k,start,end = sperate_input()
-    traps = list(sperate_input())
+    from heapq import heappop, heappush
+    import sys
+
+    input = sys.stdin.readline
+    MAX = sys.maxsize
+    n,m,k,start,end = map(int,input().split())
+    traps = list(map(int,input().split()))
     trap_checker = [-1] * (n + 1)
     for i in range(k):
         trap_checker[traps[i]] = i
 
     roads = [[MAX] * (n + 1) for i in range(n + 1)]
     for i in range(m):
-        p,q,t = sperate_input()
+        p,q,t = map(int,input().split())
         roads[p][q] = min(t, roads[p][q] )
     
     # 함정방의 최대 개수가 10개이므로 비트마스크를 써야함.
-    # road를 각 함정방의 경우에 수의 따라 다 만들어 놓자. -> 시간 초과의 원인이 이거네 ㅅㅂ
+    # road를 각 함정방의 경우에 수의 따라 다 만들어 놓자. -> 시간 초과의 원인이 이거네
     # 최대가 3000 * 1000 = 3백만
     bit_max = pow(2,k)
     bit_check = [pow(2, i) for i in range(k)]
