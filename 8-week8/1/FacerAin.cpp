@@ -1,7 +1,6 @@
 /*
 유사 회문을 검출하는 방법은?
 
-
 */
 
 #include <iostream>
